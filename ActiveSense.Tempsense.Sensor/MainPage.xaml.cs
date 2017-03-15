@@ -123,7 +123,7 @@ namespace ActiveSense.Tempsense.Sensor
         }
 
         /// <summary>
-        /// Inicializacion del sensor
+        /// Sensor initialization
         /// </summary>
         private async void InitializeSensors()
         {
