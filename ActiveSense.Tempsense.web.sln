@@ -3,30 +3,133 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C1370419-EB0D-45F0-A69F-5E183A6E6820}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiveSense.Tempsense.model", "ActiveSense.Tempsense.model\ActiveSense.Tempsense.model.csproj", "{DA51728A-0411-4779-BB41-7543C9DD2FF7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{78BEA04C-E75A-4560-A7CD-ECDEE7EEB96C}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiveSense.Tempsense.ReceptorWebJob", "ActiveSense.Tempsense.ReceptorWebJob\ActiveSense.Tempsense.ReceptorWebJob.csproj", "{8AC1F04B-6961-4071-9EAC-8AB9520CD48E}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ActiveSense.Tempsense.web", "src\ActiveSense.Tempsense.web\ActiveSense.Tempsense.web.xproj", "{9E5CFEAE-2ADE-4D8C-AE8B-32F9A6FA9D75}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiveSense.Tempsense.web", "ActiveSense.Tempsense.web\ActiveSense.Tempsense.web.csproj", "{EA4C8620-B5A5-4EDF-8FE8-698EFCAA87B0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ActiveSense.TempsenseSensors.Dht", "Sensors.Dht\Sensors.Dht.vcxproj", "{2CD70A4F-9EED-4CDA-9E07-1A2BD33B4976}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiveSense.Tempsense.Sensor", "ActiveSense.Tempsense.Sensor\ActiveSense.Tempsense.Sensor.csproj", "{9A15451D-2758-44B4-9869-BA8226280E2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|ARM = Debug|ARM
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|ARM = Release|ARM
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9E5CFEAE-2ADE-4D8C-AE8B-32F9A6FA9D75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9E5CFEAE-2ADE-4D8C-AE8B-32F9A6FA9D75}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9E5CFEAE-2ADE-4D8C-AE8B-32F9A6FA9D75}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9E5CFEAE-2ADE-4D8C-AE8B-32F9A6FA9D75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA51728A-0411-4779-BB41-7543C9DD2FF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA51728A-0411-4779-BB41-7543C9DD2FF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA51728A-0411-4779-BB41-7543C9DD2FF7}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{DA51728A-0411-4779-BB41-7543C9DD2FF7}.Debug|ARM.Build.0 = Debug|Any CPU
+		{DA51728A-0411-4779-BB41-7543C9DD2FF7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DA51728A-0411-4779-BB41-7543C9DD2FF7}.Debug|x64.Build.0 = Debug|Any CPU
+		{DA51728A-0411-4779-BB41-7543C9DD2FF7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DA51728A-0411-4779-BB41-7543C9DD2FF7}.Debug|x86.Build.0 = Debug|Any CPU
+		{DA51728A-0411-4779-BB41-7543C9DD2FF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA51728A-0411-4779-BB41-7543C9DD2FF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA51728A-0411-4779-BB41-7543C9DD2FF7}.Release|ARM.ActiveCfg = Release|Any CPU
+		{DA51728A-0411-4779-BB41-7543C9DD2FF7}.Release|ARM.Build.0 = Release|Any CPU
+		{DA51728A-0411-4779-BB41-7543C9DD2FF7}.Release|x64.ActiveCfg = Release|Any CPU
+		{DA51728A-0411-4779-BB41-7543C9DD2FF7}.Release|x64.Build.0 = Release|Any CPU
+		{DA51728A-0411-4779-BB41-7543C9DD2FF7}.Release|x86.ActiveCfg = Release|Any CPU
+		{DA51728A-0411-4779-BB41-7543C9DD2FF7}.Release|x86.Build.0 = Release|Any CPU
+		{8AC1F04B-6961-4071-9EAC-8AB9520CD48E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AC1F04B-6961-4071-9EAC-8AB9520CD48E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AC1F04B-6961-4071-9EAC-8AB9520CD48E}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{8AC1F04B-6961-4071-9EAC-8AB9520CD48E}.Debug|ARM.Build.0 = Debug|Any CPU
+		{8AC1F04B-6961-4071-9EAC-8AB9520CD48E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8AC1F04B-6961-4071-9EAC-8AB9520CD48E}.Debug|x64.Build.0 = Debug|Any CPU
+		{8AC1F04B-6961-4071-9EAC-8AB9520CD48E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8AC1F04B-6961-4071-9EAC-8AB9520CD48E}.Debug|x86.Build.0 = Debug|Any CPU
+		{8AC1F04B-6961-4071-9EAC-8AB9520CD48E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AC1F04B-6961-4071-9EAC-8AB9520CD48E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AC1F04B-6961-4071-9EAC-8AB9520CD48E}.Release|ARM.ActiveCfg = Release|Any CPU
+		{8AC1F04B-6961-4071-9EAC-8AB9520CD48E}.Release|ARM.Build.0 = Release|Any CPU
+		{8AC1F04B-6961-4071-9EAC-8AB9520CD48E}.Release|x64.ActiveCfg = Release|Any CPU
+		{8AC1F04B-6961-4071-9EAC-8AB9520CD48E}.Release|x64.Build.0 = Release|Any CPU
+		{8AC1F04B-6961-4071-9EAC-8AB9520CD48E}.Release|x86.ActiveCfg = Release|Any CPU
+		{8AC1F04B-6961-4071-9EAC-8AB9520CD48E}.Release|x86.Build.0 = Release|Any CPU
+		{EA4C8620-B5A5-4EDF-8FE8-698EFCAA87B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA4C8620-B5A5-4EDF-8FE8-698EFCAA87B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA4C8620-B5A5-4EDF-8FE8-698EFCAA87B0}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{EA4C8620-B5A5-4EDF-8FE8-698EFCAA87B0}.Debug|ARM.Build.0 = Debug|Any CPU
+		{EA4C8620-B5A5-4EDF-8FE8-698EFCAA87B0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EA4C8620-B5A5-4EDF-8FE8-698EFCAA87B0}.Debug|x64.Build.0 = Debug|Any CPU
+		{EA4C8620-B5A5-4EDF-8FE8-698EFCAA87B0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EA4C8620-B5A5-4EDF-8FE8-698EFCAA87B0}.Debug|x86.Build.0 = Debug|Any CPU
+		{EA4C8620-B5A5-4EDF-8FE8-698EFCAA87B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA4C8620-B5A5-4EDF-8FE8-698EFCAA87B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA4C8620-B5A5-4EDF-8FE8-698EFCAA87B0}.Release|ARM.ActiveCfg = Release|Any CPU
+		{EA4C8620-B5A5-4EDF-8FE8-698EFCAA87B0}.Release|ARM.Build.0 = Release|Any CPU
+		{EA4C8620-B5A5-4EDF-8FE8-698EFCAA87B0}.Release|x64.ActiveCfg = Release|Any CPU
+		{EA4C8620-B5A5-4EDF-8FE8-698EFCAA87B0}.Release|x64.Build.0 = Release|Any CPU
+		{EA4C8620-B5A5-4EDF-8FE8-698EFCAA87B0}.Release|x86.ActiveCfg = Release|Any CPU
+		{EA4C8620-B5A5-4EDF-8FE8-698EFCAA87B0}.Release|x86.Build.0 = Release|Any CPU
+		{2CD70A4F-9EED-4CDA-9E07-1A2BD33B4976}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{2CD70A4F-9EED-4CDA-9E07-1A2BD33B4976}.Debug|ARM.ActiveCfg = Debug|ARM
+		{2CD70A4F-9EED-4CDA-9E07-1A2BD33B4976}.Debug|ARM.Build.0 = Debug|ARM
+		{2CD70A4F-9EED-4CDA-9E07-1A2BD33B4976}.Debug|x64.ActiveCfg = Debug|x64
+		{2CD70A4F-9EED-4CDA-9E07-1A2BD33B4976}.Debug|x64.Build.0 = Debug|x64
+		{2CD70A4F-9EED-4CDA-9E07-1A2BD33B4976}.Debug|x86.ActiveCfg = Debug|Win32
+		{2CD70A4F-9EED-4CDA-9E07-1A2BD33B4976}.Debug|x86.Build.0 = Debug|Win32
+		{2CD70A4F-9EED-4CDA-9E07-1A2BD33B4976}.Release|Any CPU.ActiveCfg = Release|Win32
+		{2CD70A4F-9EED-4CDA-9E07-1A2BD33B4976}.Release|ARM.ActiveCfg = Release|ARM
+		{2CD70A4F-9EED-4CDA-9E07-1A2BD33B4976}.Release|ARM.Build.0 = Release|ARM
+		{2CD70A4F-9EED-4CDA-9E07-1A2BD33B4976}.Release|x64.ActiveCfg = Release|x64
+		{2CD70A4F-9EED-4CDA-9E07-1A2BD33B4976}.Release|x64.Build.0 = Release|x64
+		{2CD70A4F-9EED-4CDA-9E07-1A2BD33B4976}.Release|x86.ActiveCfg = Release|Win32
+		{2CD70A4F-9EED-4CDA-9E07-1A2BD33B4976}.Release|x86.Build.0 = Release|Win32
+		{9A15451D-2758-44B4-9869-BA8226280E2C}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{9A15451D-2758-44B4-9869-BA8226280E2C}.Debug|ARM.ActiveCfg = Debug|ARM
+		{9A15451D-2758-44B4-9869-BA8226280E2C}.Debug|ARM.Build.0 = Debug|ARM
+		{9A15451D-2758-44B4-9869-BA8226280E2C}.Debug|ARM.Deploy.0 = Debug|ARM
+		{9A15451D-2758-44B4-9869-BA8226280E2C}.Debug|x64.ActiveCfg = Debug|x64
+		{9A15451D-2758-44B4-9869-BA8226280E2C}.Debug|x64.Build.0 = Debug|x64
+		{9A15451D-2758-44B4-9869-BA8226280E2C}.Debug|x64.Deploy.0 = Debug|x64
+		{9A15451D-2758-44B4-9869-BA8226280E2C}.Debug|x86.ActiveCfg = Debug|x86
+		{9A15451D-2758-44B4-9869-BA8226280E2C}.Debug|x86.Build.0 = Debug|x86
+		{9A15451D-2758-44B4-9869-BA8226280E2C}.Debug|x86.Deploy.0 = Debug|x86
+		{9A15451D-2758-44B4-9869-BA8226280E2C}.Release|Any CPU.ActiveCfg = Release|x86
+		{9A15451D-2758-44B4-9869-BA8226280E2C}.Release|ARM.ActiveCfg = Release|ARM
+		{9A15451D-2758-44B4-9869-BA8226280E2C}.Release|ARM.Build.0 = Release|ARM
+		{9A15451D-2758-44B4-9869-BA8226280E2C}.Release|ARM.Deploy.0 = Release|ARM
+		{9A15451D-2758-44B4-9869-BA8226280E2C}.Release|x64.ActiveCfg = Release|x64
+		{9A15451D-2758-44B4-9869-BA8226280E2C}.Release|x64.Build.0 = Release|x64
+		{9A15451D-2758-44B4-9869-BA8226280E2C}.Release|x64.Deploy.0 = Release|x64
+		{9A15451D-2758-44B4-9869-BA8226280E2C}.Release|x86.ActiveCfg = Release|x86
+		{9A15451D-2758-44B4-9869-BA8226280E2C}.Release|x86.Build.0 = Release|x86
+		{9A15451D-2758-44B4-9869-BA8226280E2C}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{9E5CFEAE-2ADE-4D8C-AE8B-32F9A6FA9D75} = {C1370419-EB0D-45F0-A69F-5E183A6E6820}
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 6
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://tokio:8080/tfs/se_direcciondetecnologia_imasd
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ActiveSense.Tempsense.model\\ActiveSense.Tempsense.model.csproj
+		SccProjectName1 = ActiveSense.Tempsense.model
+		SccLocalPath1 = ActiveSense.Tempsense.model
+		SccProjectUniqueName2 = ActiveSense.Tempsense.ReceptorWebJob\\ActiveSense.Tempsense.ReceptorWebJob.csproj
+		SccProjectName2 = ActiveSense.Tempsense.ReceptorWebJob
+		SccLocalPath2 = ActiveSense.Tempsense.ReceptorWebJob
+		SccProjectUniqueName3 = ActiveSense.Tempsense.web\\ActiveSense.Tempsense.web.csproj
+		SccProjectName3 = ActiveSense.Tempsense.web
+		SccLocalPath3 = ActiveSense.Tempsense.web
+		SccProjectUniqueName4 = Sensors.Dht\\Sensors.Dht.vcxproj
+		SccProjectName4 = Sensors.Dht
+		SccLocalPath4 = Sensors.Dht
+		SccProjectUniqueName5 = ActiveSense.Tempsense.Sensor\\ActiveSense.Tempsense.Sensor.csproj
+		SccProjectName5 = ActiveSense.Tempsense.Sensor
+		SccLocalPath5 = ActiveSense.Tempsense.Sensor
 	EndGlobalSection
 EndGlobal

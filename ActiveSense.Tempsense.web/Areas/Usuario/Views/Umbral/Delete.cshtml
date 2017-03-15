@@ -1,0 +1,84 @@
+﻿@model ActiveSense.Tempsense.model.Modelo.Umbral
+
+@{
+    ViewBag.Title = "Borrar";
+}
+
+<h2>
+    <font color="#999">ELIMINAR UMBRAL</font>
+</h2>
+
+<h4>¿Esta seguro que desea eliminar el umbral?</h4>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            <a><font color="#333"> <b>Valor Mínimo</b></font></a>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Temperatura_min)
+        </dd>
+
+        <dt>
+            <a><font color="#333"> <b>Valor Máximo</b></font></a>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Temperatura_max)
+        </dd>
+
+        <dt>
+            <a><font color="#333"> <b>Tolerancia Mínima</b></font></a>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tolerancia_min)
+        </dd>
+
+        <dt>
+            <a><font color="#333"> <b>Tolerancia Máxima</b></font></a>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tolerancia_max)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Activo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Activo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha_inicio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha_inicio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DispositivoID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DispositivoID)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Eliminar" class="btn btn-primary" />
+                @Html.ActionLink("Cancelar", "Index", new { }, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    }
+</div>

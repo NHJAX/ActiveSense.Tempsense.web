@@ -1,0 +1,18 @@
+﻿<Page
+    x:Class="ActiveSense.Tempsense.Sensor1.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ActiveSense.Tempsense.Sensor1"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <TextBox x:Name="temperatura" HorizontalAlignment="Left" Margin="127,88,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" TextChanged="temperatura_TextChanged" Width="104" Height="28"/>
+        <TextBox x:Name="Humedad" HorizontalAlignment="Left" Margin="37,241,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" TextChanged="textBox_TextChanged" Width="86"/>
+        <TextBox x:Name="Temperatura_Ambiente" HorizontalAlignment="Left" Margin="160,241,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" RenderTransformOrigin="0.638,3.719"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Margin="127,51,0,0" TextWrapping="Wrap" Text="Temperatura" VerticalAlignment="Top" Width="104" Height="32"/>
+        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Margin="37,191,0,0" TextWrapping="Wrap" Text="Humedad" VerticalAlignment="Top" TextChanged="textBox1_TextChanged"/>
+        <TextBox x:Name="textBox2" HorizontalAlignment="Left" Margin="160,191,0,0" TextWrapping="Wrap" Text="Temperatura Ambiente" VerticalAlignment="Top"/>
+    </Grid>
+</Page>

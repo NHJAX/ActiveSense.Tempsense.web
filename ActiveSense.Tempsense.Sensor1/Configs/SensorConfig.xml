@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<!--Configuraciòn dispositivos-->
+<Devices>
+  <Device>
+    <DeviceKey>CH0iLTAQXsOxKRplB+4qONapWiEFwIqeYdlYH6Cwx/I=</DeviceKey>
+    <DeviceName>Cava</DeviceName>
+    <IotHubUri>tempSense.azure-devices.net</IotHubUri>
+    <ReadingInterval>30000</ReadingInterval>
+    <Ambiente>produccion</Ambiente>
+  </Device>
+</Devices>

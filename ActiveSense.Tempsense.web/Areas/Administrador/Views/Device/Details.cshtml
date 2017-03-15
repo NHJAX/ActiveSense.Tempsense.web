@@ -1,0 +1,45 @@
+﻿@model ActiveSense.Tempsense.model.Modelo.Dispositivos
+
+
+    <div>
+        <h4>Dispositivos</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Empresa.Nombre)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Empresa.Nombre)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Nombre)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ClaveDispositivo)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ClaveDispositivo)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Activo)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Activo)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Editar", "Edit", new { id = Model.DispositivoID }) |
+        @Html.ActionLink("Volver a la lista", "Index")
+    </p>

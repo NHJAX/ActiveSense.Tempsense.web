@@ -1,0 +1,38 @@
+﻿html, body, div, iframe {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body {
+    background-color: #fff;
+    background: #fff;
+    /*background: url('images/cargando.gif') #fff;
+    background-size: 20%;
+    background-repeat: no-repeat;
+    background-position: center center !important;*/
+}
+
+iframe {
+    display: block;
+    height: 100%;
+    width: 100%;
+    border: none;
+}
+
+.headerindex {
+    z-index: 90;
+    background-color: #F7BF0C;
+    height: 55px;
+    -webkit-box-shadow: 0px 2px 3px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 2px 3px 1px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.ucoapp {
+    margin-top: 0px;
+}
+
+.headerindex img {
+    margin-top: -5px;
+}

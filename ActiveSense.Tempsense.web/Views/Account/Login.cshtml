@@ -1,0 +1,72 @@
+﻿@using ActiveSense.Tempsense.web.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Autenticación";
+}
+
+<div class="error_page">
+    <div class="error-top">
+        <div class="container"><img class="inner-tittle page" src="~/Content/images/Tempsense-logo.png" alt="Alternate Text" /></div>
+    
+    @*<h2 class="inner-tittle page">Temp sense</h2>*@
+    <div class="container-fluid">
+        <div class="col-sm-12 ">
+
+            <div class="row">
+                <div class="col-sm-12 ">
+                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { autocomplete = "off", @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <hr />
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.UserName, new { @class = "control-label" })
+                                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", id = "usr" })
+                                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+
+                                        @Html.LabelFor(m => m.Password, new { @class = " control-label" })
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", id = "pass" })
+                                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+
+                                        <div class="col-sm-12">
+                                            @Html.CheckBoxFor(m => m.RememberMe)
+                                            @Html.LabelFor(m => m.RememberMe)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" value="Ingresar" id="btn" class="btn btn-default" />
+                                </div>
+                                <p> @Html.ActionLink("Recuperar contraseña", "ForgotPassword") </p>
+                                <p> @Html.ActionLink("Registrate!!", "Register") </p>
+                                
+
+                                @* Enable this once you have account confirmation enabled for password reset functionality
+                                    <p>
+                                        @Html.ActionLink("Forgot your password?", "ForgotPassword")
+                                    </p>
+                                *@
+                    }
+                    @*</div>*@
+                </div>
+            </div>
+
+        </div><!-- /.row this actually does not appear to be needed with the form-horizontal -->
+
+    </div><!-- /.container -->
+
+                </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

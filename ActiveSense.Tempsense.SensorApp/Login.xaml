@@ -1,0 +1,15 @@
+﻿<Window x:Class="ActiveSense.Tempsense.SensorApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ActiveSense.Tempsense.SensorApp"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="139.234" Width="280.226">
+    <Grid>
+        <Button x:Name="button" Content="Ingresar" HorizontalAlignment="Left" Margin="32,59,0,0" Width="75" Height="20" VerticalAlignment="Top" Click="button_Click"/>
+        <Label x:Name="label" Content="Contraseña" HorizontalAlignment="Left" Margin="32,10,0,0" VerticalAlignment="Top"/>
+        <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Margin="32,36,0,0" VerticalAlignment="Top" Width="185"/>
+
+    </Grid>
+</Window>

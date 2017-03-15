@@ -1,0 +1,20 @@
+﻿<Window x:Class="ActiveSense.Tempsense.SensorApp.View.MainPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ActiveSense.Tempsense.SensorApp.View"
+        mc:Ignorable="d"
+        Title="MainPage" Height="260" Width="259">
+    <Grid Margin="0,0,0,4">
+        <Button x:Name="Btn_Enviar" Content="Enviar" HorizontalAlignment="Left" Margin="32,194,0,0" Width="75" Height="20" VerticalAlignment="Top" Click="Btn_Enviar_Click"/>
+        <Label x:Name="label" Content="Temperatura" HorizontalAlignment="Left" Margin="32,10,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_Copy" Content="Temperatura ambiete" HorizontalAlignment="Left" Margin="32,59,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_Copy2" Content="Humedad" HorizontalAlignment="Left" Margin="32,108,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_Copy1" Content="Intervalo" HorizontalAlignment="Left" Margin="32,163,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="Txt_Intervalo" HorizontalAlignment="Left" Height="23" Margin="88,166,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
+        <TextBox x:Name="Txt_Temperatura" HorizontalAlignment="Left" Height="23" Margin="35,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="166" TextChanged="Txt_Temperatura_TextChanged" />
+        <TextBox x:Name="Txt_TempAmbiente" HorizontalAlignment="Left" Height="23" Margin="35,85,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="166" TextChanged="Txt_TempAmbiente_TextChanged"/>
+        <TextBox x:Name="Txt_Humedad" HorizontalAlignment="Left" Height="23" Margin="35,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="166" />
+    </Grid>
+</Window>

@@ -1,0 +1,72 @@
+﻿@model IEnumerable<ActiveSense.Tempsense.model.Modelo.Bitacoras>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>
+    <font color="#999">
+        BITACORAS
+    </font>
+</h2>
+<hr />
+<p>
+    @Html.ActionLink("Crear", "Create", new { }, new {@class = "btn btn-primary active" })
+</p>
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr class="active">
+                <th>
+                    @Html.DisplayNameFor(model => model.Fecha)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HoraInicio)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HoraFin)
+                </th>
+                <th>
+                    <a><font color="#d00b0b">Dispositivos</font></a>
+                </th>
+                @*<th>
+                    @Html.DisplayNameFor(model => model.Problema)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Solucion)
+                </th>*@
+                <th>
+                    <a><font color="#d00b0b">Detalles</font></a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fecha)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HoraInicio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HoraFin)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Dispositivos.Nombre)
+                    </td>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.Problema)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Solucion)
+                    </td>*@
+                    <td>
+                        @Html.ActionLink("Detalles", "Details", new { id = item.BitacorasID }, new { @class = "btn btn-primary btn-xs active" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

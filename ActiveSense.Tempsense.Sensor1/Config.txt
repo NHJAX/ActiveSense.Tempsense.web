@@ -1,0 +1,5 @@
+﻿CH0iLTAQXsOxKRplB+4qONapWiEFwIqeYdlYH6Cwx/I=
+Cava
+tempSense.azure-devices.net
+30000
+produccion

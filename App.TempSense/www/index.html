@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <!--
+        Customize the content security policy in the meta tag below as needed. Add 'unsafe-inline' to default-src to enable inline JavaScript.
+        For details, see http://go.microsoft.com/fwlink/?LinkID=617521
+    -->
+        <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">-->
+        
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width">
+        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <title>TempSense</title>
+    </head>
+    <body>
+
+        <div>
+            <!--<div class="headerindex">
+                <img src="images/uco-logo-1.png" width="165" alt="img">
+            </div>-->
+            <iframe class="ucoapp" src="http://app.tempsense.co/"></iframe>
+        </div>
+        <p id="status"></p>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="scripts/platformOverrides.js"></script>
+        <script type="text/javascript" src="scripts/index.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/TempSense.css">
+    </body>
+</html>
