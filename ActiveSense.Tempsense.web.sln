@@ -73,7 +73,8 @@ Global
 		{EA4C8620-B5A5-4EDF-8FE8-698EFCAA87B0}.Release|x64.Build.0 = Release|Any CPU
 		{EA4C8620-B5A5-4EDF-8FE8-698EFCAA87B0}.Release|x86.ActiveCfg = Release|Any CPU
 		{EA4C8620-B5A5-4EDF-8FE8-698EFCAA87B0}.Release|x86.Build.0 = Release|Any CPU
-		{2CD70A4F-9EED-4CDA-9E07-1A2BD33B4976}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{2CD70A4F-9EED-4CDA-9E07-1A2BD33B4976}.Debug|Any CPU.ActiveCfg = Debug|ARM
+		{2CD70A4F-9EED-4CDA-9E07-1A2BD33B4976}.Debug|Any CPU.Build.0 = Debug|ARM
 		{2CD70A4F-9EED-4CDA-9E07-1A2BD33B4976}.Debug|ARM.ActiveCfg = Debug|ARM
 		{2CD70A4F-9EED-4CDA-9E07-1A2BD33B4976}.Debug|ARM.Build.0 = Debug|ARM
 		{2CD70A4F-9EED-4CDA-9E07-1A2BD33B4976}.Debug|x64.ActiveCfg = Debug|x64
@@ -87,7 +88,9 @@ Global
 		{2CD70A4F-9EED-4CDA-9E07-1A2BD33B4976}.Release|x64.Build.0 = Release|x64
 		{2CD70A4F-9EED-4CDA-9E07-1A2BD33B4976}.Release|x86.ActiveCfg = Release|Win32
 		{2CD70A4F-9EED-4CDA-9E07-1A2BD33B4976}.Release|x86.Build.0 = Release|Win32
-		{9A15451D-2758-44B4-9869-BA8226280E2C}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{9A15451D-2758-44B4-9869-BA8226280E2C}.Debug|Any CPU.ActiveCfg = Debug|ARM
+		{9A15451D-2758-44B4-9869-BA8226280E2C}.Debug|Any CPU.Build.0 = Debug|ARM
+		{9A15451D-2758-44B4-9869-BA8226280E2C}.Debug|Any CPU.Deploy.0 = Debug|ARM
 		{9A15451D-2758-44B4-9869-BA8226280E2C}.Debug|ARM.ActiveCfg = Debug|ARM
 		{9A15451D-2758-44B4-9869-BA8226280E2C}.Debug|ARM.Build.0 = Debug|ARM
 		{9A15451D-2758-44B4-9869-BA8226280E2C}.Debug|ARM.Deploy.0 = Debug|ARM
@@ -110,26 +113,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 6
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://tokio:8080/tfs/se_direcciondetecnologia_imasd
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = ActiveSense.Tempsense.model\\ActiveSense.Tempsense.model.csproj
-		SccProjectName1 = ActiveSense.Tempsense.model
-		SccLocalPath1 = ActiveSense.Tempsense.model
-		SccProjectUniqueName2 = ActiveSense.Tempsense.ReceptorWebJob\\ActiveSense.Tempsense.ReceptorWebJob.csproj
-		SccProjectName2 = ActiveSense.Tempsense.ReceptorWebJob
-		SccLocalPath2 = ActiveSense.Tempsense.ReceptorWebJob
-		SccProjectUniqueName3 = ActiveSense.Tempsense.web\\ActiveSense.Tempsense.web.csproj
-		SccProjectName3 = ActiveSense.Tempsense.web
-		SccLocalPath3 = ActiveSense.Tempsense.web
-		SccProjectUniqueName4 = Sensors.Dht\\Sensors.Dht.vcxproj
-		SccProjectName4 = Sensors.Dht
-		SccLocalPath4 = Sensors.Dht
-		SccProjectUniqueName5 = ActiveSense.Tempsense.Sensor\\ActiveSense.Tempsense.Sensor.csproj
-		SccProjectName5 = ActiveSense.Tempsense.Sensor
-		SccLocalPath5 = ActiveSense.Tempsense.Sensor
 	EndGlobalSection
 EndGlobal

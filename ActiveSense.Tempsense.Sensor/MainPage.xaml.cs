@@ -62,7 +62,7 @@ namespace ActiveSense.Tempsense.Sensor
         //    // set interval of timer to 1 second
             _dispatchTimer.Interval = TimeSpan.FromSeconds(1);
         //    // invoke a method at each tick (as per interval of your timer)
-           _dispatchTimer.Tick += _dispatchTimer_Tick;
+//           _dispatchTimer.Tick += _dispatchTimer_Tick;
         //    // initialize pin (GPIO pin on which you have set your temperature sensor)
            _temperaturePin = GpioController.GetDefault().OpenPin(4, GpioSharingMode.Exclusive);
         //    // create instance of a DHT11 
@@ -132,7 +132,7 @@ namespace ActiveSense.Tempsense.Sensor
             {
                 _bmp180 = new Bmp180Sensor();
                 await _bmp180.InitializeAsync();
-                calibrationData = _bmp180.CalibrationData.ToString();   //Retorna una cadena que representa al objeto actual.
+                calibrationData = _bmp180.CalibrationData.ToString();   //Returns a string that represents the current object.
                 if (_periodicTimer == null)
                 {
                     _periodicTimer = new Timer(this.TimerCallback, null, 0, readingInterval);
@@ -140,12 +140,12 @@ namespace ActiveSense.Tempsense.Sensor
             }
             catch (Exception ex)
             {
-                calibrationData = "Error de dispositivo! " + ex.Message;
+                calibrationData = "Device error! " + ex.Message;
             }
         }
 
         /// <summary>
-        /// Este metodo se ejecuta segun el tiempo definido en el archivo de configuracion para leer datos del sensor
+        /// This method is executed according to the time defined in the configuration file to read sensor data
         /// </summary>
         /// <param name="state"></param>
         public async void TimerCallback(object state)
@@ -154,26 +154,29 @@ namespace ActiveSense.Tempsense.Sensor
             try
             {
                 var sensorData = await _bmp180.GetSensorDataAsync(Bmp180AccuracyMode.UltraHighResolution);
+                //Switch to Fahrenheit
+                sensorData.Temperature = Math.Round(((9.0 / 5.0) * sensorData.Temperature) + 32, 2);
                 temperatureText = sensorData.Temperature.ToString("");
-                temperatureText += "°C";
+                temperatureText += "°F";
+                //temperatureText += "°C";
 
 
                 var temperatureDataPoint = new
                 {
                     deviceKey = deviceKey,
                     deviceName = deviceName,
-                    temperatura = sensorData.Temperature,
-                    fecha = DateTime.Now
+                    Temperature = sensorData.Temperature,
+                    Date = DateTime.Now
                 };
-                //// actualizaciones de la interfaz de usuario... deben ser invocados en el subproceso de interfaz de usuario
+                //// user interface updates... should be invoked on the UI thread
                 var task = this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     temperatura.Text = temperatureText;
                 });
                 var messageString = JsonConvert.SerializeObject(temperatureDataPoint);
                 var message = new Microsoft.Azure.Devices.Client.Message(Encoding.ASCII.GetBytes(messageString));
-                message.Properties["Ambiente"] = ambiente;
-                autoResetEvent.WaitOne();
+                message.Properties["Environment"] = ambiente;
+                //autoResetEvent.WaitOne();
                 await deviceClient.SendEventAsync(message);
                 autoResetEvent.Set();
             }
