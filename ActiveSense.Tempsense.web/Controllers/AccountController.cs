@@ -10,7 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using ActiveSense.Tempsense.web.Models;
 using ActiveSense.Tempsense.web.Helpers;
-using ActiveSense.Tempsense.model.Modelo;
+using ActiveSense.Tempsense.model.Model;
 using CaptchaMvc.HtmlHelpers;
 using System.Net.Mail;
 using System.Configuration;
@@ -26,13 +26,13 @@ namespace ActiveSense.Tempsense.web.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        //SE: roles del sistema
-        private const string PERFIL_USUARIO = "Usuario";
-        private const string PERFIL_ADMINISTRADOR = "Administrador";
-        private const string PERFIL_EXCLUIDO_EN_CREACION = "Item";
-        private const string ESTADO_USUARIO = "NO_HABILITADO";
+        //SE: roles of the system
+        private const string USER_PROFILE = "User";
+        private const string PROFILE_Administrator= "Administrator";
+        private const string PROFILE_EXCLUDED_IN_CREATION = "Item";
+        private const string STATE_USER = "NOT_ENABLED";
 
-        //SE:obtencion del context para realizar busquedas y operaciones EF
+        //SE:obtain the context to perform searches and operations EF
         ApplicationDbContext context;
         public AccountController()
         {
@@ -105,24 +105,24 @@ namespace ActiveSense.Tempsense.web.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    //SE: redireccion segun perfil
+                    //SE: redirect according to profile
                     ApplicationUser user = await UserManager.FindAsync(model.UserName, model.Password);
 
-                    //redireccionamiento el usuario no esta autenticado
-                    Empresa empresa = dbActiveContext.Empresas.Where(em => em.EmpresaID == user.EmpresaID).SingleOrDefault();
-                    if (empresa != null && empresa.Activo == false)
+                    //This unauthenticated user redirection
+                    company company = dbActiveContext.companies.Where(em => em.CompanyID == user.CompanyID).SingleOrDefault();
+                    if (company != null && company.Active == false)
                     {
                         return this.RedirectToAction("Inactive", "Account");
                     }
 
-                    //redireccion acuerdo al perfil
-                    if ((UserManager.IsInRole(user.Id, PERFIL_ADMINISTRADOR)))
+                    //redirect according to profile
+                    if ((UserManager.IsInRole(user.Id, PROFILE_Administrator)))
                     {
-                        return this.RedirectToAction("Index", "Home", new { area = PERFIL_ADMINISTRADOR });
+                        return this.RedirectToAction("Index", "Home", new { area = PROFILE_Administrator});
                     }
-                    if ((UserManager.IsInRole(user.Id, PERFIL_USUARIO)))
+                    if ((UserManager.IsInRole(user.Id, USER_PROFILE)))
                     {
-                        return this.RedirectToAction("Index", "Home", new { area = PERFIL_USUARIO });
+                        return this.RedirectToAction("Index", "Home", new { area = USER_PROFILE });
                     }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
@@ -131,7 +131,7 @@ namespace ActiveSense.Tempsense.web.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Intento Inválido.");
+                    ModelState.AddModelError("", "Attempt invalid.");
                     return View(model);
             }
         }
@@ -195,36 +195,36 @@ namespace ActiveSense.Tempsense.web.Controllers
         public async Task<ActionResult> Register(RegisterAnonymousViewModel model)
         {
 
-             if (ModelState.IsValid && this.IsCaptchaValid("Captcha no válido."))
+             if (ModelState.IsValid && this.IsCaptchaValid("Captcha not valid."))
             {
 
-                Empresa empresa = new Empresa();
-                empresa.Nombre = model.NombreEmpresa;
-                empresa.Codigo = model.Nit;
-                empresa.Correo = model.CorreoEmpresa;
-                empresa.Activo = true;
+                company company = new company();
+                company.Name = model.CompanyName;
+                company.Code = model.Nit;
+                company.Mail = model.Email;
+                company.Active = true;
 
 
-                var idEmpresa = 0;
+                var idCompany = 0;
                 try
                 {
-                    dbActiveContext.Empresas.Add(empresa);
+                    dbActiveContext.companies.Add(company);
                     dbActiveContext.SaveChanges();
-                    idEmpresa = empresa.EmpresaID;
+                    idCompany = company.CompanyID;
                 }
                 catch (Exception ex) {
-                    ModelState.AddModelError("Error crear empresa", new Exception("Error al crear empresa"));
+                    ModelState.AddModelError("Error create Captcha", new Exception("Error in create Captcha "));
                 }
 
 
-                //SE: agregar campos personalizados para creacion de usuario.
+                //SE: Add custom for creation of user fields.
                 var user = new ApplicationUser
                 {
                     UserName = model.UserName,
                     Email = model.Email,
-                    EmpresaID = idEmpresa,
+                    CompanyID = idCompany,
                     PhoneNumber = model.PhoneNumber,
-                    State = ESTADO_USUARIO,
+                    State = STATE_USER,
                 };
            
                 var result = await UserManager.CreateAsync(user, model.Password);
@@ -237,17 +237,17 @@ namespace ActiveSense.Tempsense.web.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     //SE: excluir roles
-                    user.EmpresaID = idEmpresa;
-                    await this.UserManager.AddToRoleAsync(user.Id, PERFIL_USUARIO);
+                    user.CompanyID = idCompany;
+                    await this.UserManager.AddToRoleAsync(user.Id, USER_PROFILE);
                     await this.UserManager.UpdateAsync(user);
 
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                    return RedirectToAction("Index", "Home", new { area = "Usuario" });
+                    return RedirectToAction("Index", "Home", new { area = "User" });
                 }
                 else {
-                    if (idEmpresa != 0) {
-                        dbActiveContext.Empresas.Remove(empresa);
+                    if (idCompany != 0) {
+                        dbActiveContext.companies.Remove(company);
                         dbActiveContext.SaveChanges();
                     } 
 
@@ -255,10 +255,10 @@ namespace ActiveSense.Tempsense.web.Controllers
                 AddErrors(result, model);
 
             }
-            //SE:agregar lista de roles
-            ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains(PERFIL_EXCLUIDO_EN_CREACION))
+            //SE:Add list of roles
+            ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains(PROFILE_EXCLUDED_IN_CREATION))
                                          .ToList(), "Name", "Name");
-            ViewBag.EmpresaID = new SelectList(dbActiveContext.Empresas, "EmpresaID", "Nombre");
+            ViewBag.CompanyID = new SelectList(dbActiveContext.companies, "CompanyID", "Name");
 
             // If we got this far, something failed, redisplay form
             return View(model);
@@ -297,7 +297,7 @@ namespace ActiveSense.Tempsense.web.Controllers
                 var user = await UserManager.FindByEmailAsync(model.Email);
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
-                    ModelState.AddModelError("","El Email no existe.");
+                    ModelState.AddModelError("", "The Email does not exist.");
                     return View();
                 }
                 
@@ -340,7 +340,7 @@ namespace ActiveSense.Tempsense.web.Controllers
             Body += "<p><span style='font - family:arial,helvetica,sans - serif; '><span style='font - size:14px; '><span style='color:#808080;'>Para iniciar el proceso de restablecimiento de contrase&ntilde;a de tu cuenta, haz clic&nbsp;en el siguiente enlace:</span></span></span></p>";
             Body += "<p><a href='{0}'>"+Url.Split('?')[0] +"</a></p>";
             Body += "<p><span style='font - family:arial,helvetica,sans - serif; '><span style='color:#808080;'><span style='font-size:14px;'><font style='background-color: rgb(255, 255, 255);'>Recuerde que&nbsp;</font><font style='background-color: rgb(255, 255, 255);'>su</font><font style='background-color: rgb(255, 255, 255);'>&nbsp;clave es personal e intransferible</font><font style='background-color: rgb(255, 255, 255);'>&nbsp;y que usted es el &uacute;nico responsable del buen uso que le d&eacute; a la informaci&oacute;n consignada</font><font style='background-color: rgb(255, 255, 255);'>.</font></span></span></span></p>";
-            Body += "<p><span style='font - family:comic sans ms,cursive; '><span style='font - size:11px; '><span style='font - family:arial,helvetica,sans - serif; '><span style='color:#808080;'><span style='background-color: rgb(255, 255, 255);'>Este mensaje es de car&aacute;cter informativo y autom&aacute;tico.&nbsp;</span><br style='color: rgb(52, 52, 52); font-family: wf_segoe-ui_normal, &quot;Segoe UI&quot;, &quot;Segoe WP&quot;, Tahoma, Arial, sans-serif; font-size: 10px; background-color: rgb(255, 255, 255);' />";
+            Body += "<p><span style='font - family:comic sans ms,cursive; '><span style='font - size:11px; '><span style='font - family:arial,helvetica,sans - serif; '><span style='color:#808080;'><span style='background-color: rgb(255, 255, 255);'>Este message es de car&aacute;cter informativo y autom&aacute;tico.&nbsp;</span><br style='color: rgb(52, 52, 52); font-family: wf_segoe-ui_normal, &quot;Segoe UI&quot;, &quot;Segoe WP&quot;, Tahoma, Arial, sans-serif; font-size: 10px; background-color: rgb(255, 255, 255);' />";
             Body += "<span style='background - color: rgb(255, 255, 255); '>Por favor NO respondas ni env&iacute;es solicitudes dirigidas a este correo.</span>&nbsp;</span></span></span></span></p>";
             return Body;
         }
@@ -375,7 +375,7 @@ namespace ActiveSense.Tempsense.web.Controllers
             var user = await UserManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
-                ModelState.AddModelError("", "El Email no existe.");
+                ModelState.AddModelError("", "The Email does not exist.");
                 return View();
                 // Don't reveal that the user does not exist
                 //return RedirectToAction("ResetPasswordConfirmation", "Account");
@@ -579,23 +579,23 @@ namespace ActiveSense.Tempsense.web.Controllers
               
         }
 
-        private string validateEspanish(string mensaje, RegisterAnonymousViewModel model = null) {
+        private string validateEspanish(string message, RegisterAnonymousViewModel model = null) {
             string sizeError = "";
-            if (mensaje == ("Name " + model.UserName + " is already taken."))
+            if (message == ("Name " + model.UserName + " is already taken."))
             {
                 sizeError += "1";
-                ModelState.AddModelError("", "El Usuario " + model.UserName + " ya existe.");
+                ModelState.AddModelError("", "The user "  + model. UserName + "already exists ");
             }
-            if (mensaje.Substring(0, mensaje.IndexOf(" ")) == "Email")
+            if (message.Substring(0, message.IndexOf(" ")) == "Email")
             {
                 sizeError += "2";
-                ModelState.AddModelError("", "El Email " + model.Email + " ya fue ingresado.");
+                ModelState.AddModelError("", "The Email  " + model.Email + " was already admitted.");
             }
 
-            if (mensaje == ("Passwords must have at least one lowercase ('a'-'z')."))
+            if (message == ("Passwords must have at least one lowercase ('a'-'z')."))
             {
                 sizeError += "3";
-                ModelState.AddModelError("", "La contraseña debe contener al menos un caracter en minúscula ('a'-'z').");
+                ModelState.AddModelError("", "The password must contain at least one character lowercase ('a'-'z').");
             }
 
             return sizeError;

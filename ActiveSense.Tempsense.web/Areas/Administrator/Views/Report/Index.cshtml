@@ -1,0 +1,585 @@
+﻿@model IEnumerable<ActiveSense.Tempsense.model.Model.Measure>
+@{
+    ViewBag.Title = "Reports";
+}
+<div style="padding: 0%; background-color: #babdc7;" class="panel panel">
+    <div class="panel-heading"><h2>Report</h2></div>
+    <div class="panel-body">
+        <div id="listMeasures" class="form-inline">
+            <div class="row">
+                <div class="col-xs-5 col-md-5">
+                    <div class="form-group">
+
+                        <div id="dateHome" class="input-append">
+                            <label for="dateHome"> date Home </label>
+                            <input class="form-control" data-format="yyyy-MM-dd" type="text" id="dateInicioData" />
+                            <span class="add-on">
+                                <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+                                    <img src="~/Content/images/img_calendar.png" />
+                                </i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-5 col-md-5">
+                    <div class="form-group">
+
+                        <div id="dateFin" class="input-append">
+                            <label for="dateFin"> Enddate Fin </label>
+                            <input data-format="yyyy-MM-dd" type="text" class="form-control" id="dateFinData" />
+                            <span class="add-on">
+                                <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+                                    <img src="~/Content/images/img_calendar.png" />
+                                </i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-2 col-md-2">
+                    <div class="form-group">
+                        <div>
+                            <button type="button" id="btnPrint" class="btn btn-primary">Imprimir</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div class="row">                
+                <div class="col-xs-5 col-md-5">
+                    <label for="DeviceID"> Company</label>
+                    <div class="form-group">
+                        @Html.DropDownList("Companies", null, htmlAttributes: new { @class = "form-control" })
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-xs-5 col-md-5" id="contentSelectDisp">
+                    <label for="DeviceID"> Sensor</label>
+                    <div class="form-group">
+                        @Html.DropDownList("DeviceID", null, htmlAttributes: new { @class = "form-control" })
+                        <img id="prelaodInner" src="~/Content/images/preloadInner.gif" />
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-xs-3 col-md-3">
+                    <label for="FilterTime"> Filter </label><br />
+                    <div class="form-group">
+                        @Html.DropDownList("FilterTime", null, htmlAttributes: new { @class = "form-control" })
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<br />
+
+<div id="ContenedorPreload">
+    <img src="~/Content/images/8.gif" />
+</div>
+
+<div id="printThis">
+    <h3 id="title_graphic"></h3>
+    <canvas id="graphicalMeasures" width="200" height="100"></canvas>
+</div>
+<br />
+<div id="printThis2">
+    <div id="Paginatedtable" class="table-responsive">
+        <table id="TableMeasures" class="display" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>Value</th>
+                    <th>device</th>
+                    <th>date Hora</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+@section scripts{
+
+    <script type="text/javascript">
+
+        var objTablePaged  = '';
+        var MESSAGE_ERROR_date_MORE  = ' Date initial must be less that the end date';
+        var MESSAGE_ERROR_date_EMPTY = 'You must enter the two dates';
+        var MESSAGE_ERROR_CONNECTION = "Has been an error in the system please try again";
+        var MESSAGE_ERROR_DEVICE = " Please select a device";
+        var FILTER_DAYS = 1440;
+        var MESSAGE_ERROR_DATE_FILTER = 'You must enter the two dates for this filter ';
+
+        $(document).ready(function () {
+
+            $('#TableMeasures').hide();
+            $("#ContainerPreload").hide();
+
+            $('#dateHome').datetimepicker({
+                pickTime: false,
+                autoclose: true
+            });
+
+            $('#EndDate').datetimepicker({
+                pickTime: false,
+                autoclose: true
+            });
+
+            // funcion que permite limpiar los calendarios si ha ocurrido un error
+            function limpiarCalendario() {
+                $("#dateInicioData").val('');
+                $("#dateFinData").val('');
+            }
+
+            // evento de cambio de device
+            $("#DeviceID").change(function () {
+                ToFindInformacion();
+            });
+
+            //evento de cambio de filtro tiempo
+            $('#FilterTime').change(function () {
+                var ValueFiltro = $(this).val();
+                if (ValueFiltro != 0 && ValueFiltro != "") {
+                    ToFindInformacion();
+                }
+            });
+
+            //evento de cambio de empresa
+            $('#Companies').change(function () {
+                var idCompany = $(this).val();
+                if (idCompany != 0 && idCompany != "") {
+
+                    $("#DeviceID").html("");
+                    $("#DeviceID").hide();
+                    $('#prelaodInner').show();
+                    $.ajax({
+                        url: '@Url.Action("ObtenerdeviceAsociado", "Report" )',
+                        type: 'POST',
+                        data: JSON.stringify({ idCompany: idCompany }),
+                        datatype: 'application/json',
+                        contentType: 'application/json',
+                        cache: false,
+                        success: function (result) {
+                            $.each($.parseJSON(result), function (i, device) {
+                                $("#DeviceID").append($('<option></option>').val(device.idDevice).html(device.NameDevice))
+                            })
+                            $('#prelaodInner').hide();
+                            $("#DeviceID").show();
+                            ToFindInformacion();
+
+                        },
+                        error: function (xhr, error) {
+                            $('#prelaodInner').hide();
+                            $("#DeviceID").show();
+                            Command: toastr["error"](MESSAGE_ERROR_CONNECTION, 'ERROR');
+                        },
+                    });
+                }
+            });
+
+            //funcion que permite realizar la busqueda cuando se cambia o seleciona el device
+            function ToFindInformacion() {
+                var idDevice = $("#DeviceID").val();
+                var dateInicio = $("#dateInicioData").val();
+                var dateFin = $("#dateFinData").val();
+
+                if (validarPeticion(dateInicio, dateFin)) {
+                    $('#TableMeasures').show();
+                    renderizarTabla(idDevice, dateInicio, dateFin);
+                    solicitarDatosEstadistica();
+                }
+            }
+
+            // funcion de proposito general que permite validar una peticion
+            function validarPeticion(dateInicio, dateFin) {
+                var validacionD = validardevice();;
+                var validacionF = validardates(dateInicio, dateFin);
+                var validacionFtr = validarFiltroDias(dateInicio, dateFin);
+                return (validacionD && validacionF && validacionFtr) ? true : false;
+            }
+
+            // funcion que permite validar si se han seleccionado los dias para
+            // para realizar el filtro por dias
+            function validarFiltroDias(dateInicio, dateFin) {
+                var esValido = true;
+                var filtro = $("#FilterTime").val();
+                if ( filtro == FILTER_DAYS ) {
+                    if (dateInicio == "" || dateFin == "") {
+                        Command: toastr["error"](MESSAGE_ERROR_DATE_FILTER, 'ERROR');
+                        esValido = false;
+                    }
+                }
+                return esValido;
+            }
+
+            // funcion de validacion de device
+            function validardevice() {
+                var idDevice = $("#DeviceID").val();
+                var validate = false;
+                if (idDevice != 0 && idDevice != undefined) {
+                    validate = true;
+                } else {
+                    Command: toastr["error"](MESSAGE_ERROR_DEVICE, 'ERROR');
+                }
+                return validate;
+            }
+
+            // funcion que permite validar que la date de inicio se mayor que la date final
+            function validardates(dateInicio, dateFin) {
+                if (dateInicio > dateFin) {
+                    Command: toastr["error"](MESSAGE_ERROR_date_MORE , 'ERROR');
+                    limpiarCalendario();
+                    return false;
+                }
+
+                if (dateInicio == "" && dateFin != "") {
+                    Command: toastr["error"](MESSAGE_ERROR_date_EMPTY, 'ERROR');
+                    limpiarCalendario();
+                    return false;
+                }
+                return true;
+            }
+
+            //funcion encargada construir la tabla de Measures recibe como parametro
+            //identificacion de device, date de inicio, date de fin
+            // ademas permite Register eventos cuando se presiona el selector de tamaño y se pagina
+            function renderizarTabla(idDevice, dateInicio, dateFin) {
+
+                //Mostrar contenedor de tabla
+                var objTableMeasuresVisual = $('#TableMeasures');
+                objTableMeasuresVisual.show();
+                //Obtener tabla
+                var objContenedorPaginatedtable = $('#Paginatedtable');
+                //Generar tabla
+                objTablePaged  = objTableMeasuresVisual.DataTable({
+                    "processing": true,
+                    "serverSide": true,
+                    "searching": false,
+                    "destroy": true,
+                    "lengthMenu": [10, 15, 20],
+                    language: {
+                        processing: "Procesando...",
+                        search: "ToFind:",
+                        lengthMenu: "Mostrar _MENU_ registros",
+                        info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        infoFiltered: "(filtrado de un total de _MAX_ registros)",
+                        infoPostFix: "",
+                        loadingRecords: "Cargando...",
+                        zeroRecords: "No se encontraron resultados",
+                        emptyTable: "Ningún dato disponible en esta tabla",
+                        paginate: {
+                            first: "Primero",
+                            previous: "Ant",
+                            next: "Sig",
+                            last: "Último",
+                        },
+                        aria: {
+                            sortAscending: ": Activar para ordenar la columna de manera ascendente",
+                            sortDescending: ": Activar para ordenar la columna de manera descendente"
+                        }
+                    },
+                    //Peticion de datos servicio
+                    "ajax": {
+                        "type": "POST",
+                        "url": '@Url.Action("ObtenerDatosTabla", "Report" )',
+                        //"data": {
+                        //    "idDevice": idDevice,
+                        //    "dateInicio": dateInicio,
+                        //    "dateFin": dateFin
+                        //},
+                        "data": function (d) {
+                            d.idDevice = idDevice,
+                            d.dateInicio = $("#dateInicioData").val(),
+                            d.dateFin = $("#dateFinData").val(),
+                            d.FilterTime = $("#FilterTime").val()
+                        },
+                        // Mostras toastr error si hay error
+                        "error": function () {
+                            objContenedorPaginatedtable.hide();
+                            Command: toastr["error"](MESSAGE_ERROR_CONNECTION, 'ERROR');
+                        }
+                    },
+                    "columns": [
+                        { "data": "temperature", "orderable": false },
+                        { "data": "NameDevice", "orderable": false },
+                        { "data": "date", "orderable": false }
+                    ]
+                });
+
+                var objdateInicio = $("#dateInicioData");
+                var objdateFinal = $("#dateFinData");
+
+                objTablePaged .on('length.dt', function (e, settings, len) {
+                    var dateInicio = objdateInicio.val();
+                    var dateFin = objdateFinal.val();
+                    if (validarPeticion(dateInicio, dateFin)) {
+                        solicitarDatosEstadistica();
+                    }
+                });
+
+                objTablePaged .on('page.dt', function () {
+                    var dateInicio = objdateInicio.val();
+                    var dateFin = objdateFinal.val()
+
+
+                    if (validarPeticion(dateInicio, dateFin)) {
+                        solicitarDatosEstadistica();
+                    }
+                });
+
+            }
+
+
+            // funcion que permite construir la tabla estadistico recibe como parametro
+            // un arreglo de dates y un arreglo de temperatures.
+            function renderizarGraficaEstadistica(dates, temperatures, ThresholdesSuperiores, ThresholdesInferiores, ToleranceInferiorList, ToleranceSuperiorList) {
+                var canvas = document.getElementById("graphicalMeasures");
+                var ctx = canvas.getContext("2d");
+
+
+                var horizonalLinePlugin = {
+                    afterDraw: function (chartInstance) {
+                        var yScale = chartInstance.scales["y-axis-0"];
+                        var canvas = chartInstance.chart;
+                        var ctx = canvas.ctx;
+                        var index;
+                        var line;
+                        var style;
+
+                        if (chartInstance.options.horizontalLine) {
+                            for (index = 0; index < chartInstance.options.horizontalLine.length; index++) {
+                                line = chartInstance.options.horizontalLine[index];
+
+                                if (!line.style) {
+                                    style = "rgba(169,169,169, .6)";
+                                } else {
+                                    style = line.style;
+                                }
+
+                                if (line.y) {
+                                    yValue = yScale.getPixelForValue(line.y);
+                                } else {
+                                    yValue = 0;
+                                }
+
+                                ctx.lineWidth = 3;
+
+                                if (yValue) {
+                                    ctx.beginPath();
+                                    ctx.moveTo(0, yValue);
+                                    ctx.lineTo(canvas.width, yValue);
+                                    ctx.strokeStyle = style;
+                                    ctx.stroke();
+                                }
+
+                                if (line.text) {
+                                    ctx.fillStyle = style;
+                                    ctx.fillText(line.text, 0, yValue + ctx.lineWidth);
+                                }
+                            }
+                            return;
+                        };
+                    }
+                };
+                Chart.pluginService.register(horizonalLinePlugin);
+
+                var data = {
+                    labels: dates,
+                    datasets: [
+                                {
+                                    label: "Value",
+                                    borderColor: "rgba(75,192,192,1)",
+                                    data: temperatures,
+                                    spanGaps: true,
+                                },
+                                {
+                                    label: "Tolerance Maximum",
+                                    lineTension: 0.1,
+                                    borderColor: "#ff0000",
+                                    borderDashOffset: 0.0,
+                                    pointBorderWidth: 0,
+                                    pointHoverRadius: 0,
+                                    pointHoverBorderWidth: 0,
+                                    pointRadius: 0,
+                                    pointHitRadius: 0,
+                                    backgroundColor: "rgba(0,0,0,0)",
+                                    data: ToleranceSuperiorList,
+                                },
+                                {
+
+                                    label: "Tolerance Minimum",
+                                    fill: false,
+                                    lineTension: 0.1,
+                                    borderColor: "#ff0000",
+                                    borderDashOffset: 0.0,
+                                    pointBorderWidth: 0,
+                                    pointHoverRadius: 0,
+                                    pointHoverBorderWidth: 0,
+                                    pointRadius: 0,
+                                    pointHitRadius: 0,
+                                    backgroundColor: "rgba(0,0,0,0)",
+                                    data: ToleranceInferiorList,
+                                },
+                                 {
+                                     label: "temperature Maximum",
+                                     lineTension: 0.1,
+                                     borderColor: "#000000",
+                                     borderDashOffset: 0.0,
+                                     pointBorderWidth: 0,
+                                     pointHoverRadius: 0,
+                                     pointHoverBorderWidth: 0,
+                                     pointRadius: 0,
+                                     pointHitRadius: 0,
+                                     backgroundColor: "rgba(0,0,0,0)",
+                                     data: ThresholdesSuperiores,
+                                 },
+                                   {
+                                       label: "temperature Minimum",
+                                       lineTension: 0.1,
+                                       borderColor: "#000000",
+                                       borderDashOffset: 0.0,
+                                       pointBorderWidth: 0,
+                                       pointHoverRadius: 0,
+                                       pointHoverBorderWidth: 0,
+                                       pointRadius: 0,
+                                       pointHitRadius: 0,
+                                       backgroundColor: "rgba(0,0,0,0)",
+                                       data: ThresholdesInferiores,
+                                   }
+
+                    ]
+                };
+
+                var tolMaximum = ToleranceSuperiorList[0] !== undefined ? ToleranceSuperiorList[0] : 0;
+                var tolMinimum = ToleranceInferiorList[0] !== undefined ? ToleranceInferiorList[0] : 0;
+
+                var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: data,
+                    options: {
+                        "horizontalLine":
+                            [
+                                {
+                                    "y": tolMaximum,
+                                    "style": "#ff0000",
+                                    "text": "Tol Max : " + tolMaximum
+                                },
+                                {
+                                    "y": tolMinimum,
+                                    "style": "#ff0000",
+                                    "text": "Tol Min : " + tolMinimum
+                                },
+                            ],
+                        scales: {
+                            xAxes: [{
+                                display: true,
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'dates'
+                                }
+                            }],
+                            yAxes: [{
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Value'
+                                }
+                            }]
+                        },
+                        responsive: true,
+                    }
+                });
+
+            }
+
+            // funcion que permite cargar los datos mediante peticiones ajax para mostrar en grafica
+            // luego llama a funcion para renderizar la grafica estadistica
+            function solicitarDatosEstadistica() {
+                var info = objTablePaged .page.info();
+                $("#graphicalMeasures").hide();
+                var objTituloGrafico = $("#title_graphic");
+                objTituloGrafico.text('');
+                $("#ContainerPreload").show();
+
+                $.ajax(
+               {
+                   url: '@Url.Action("ObtenerDatosGrafico", "Report")',
+                   data: {
+                       pageIndex: 1,
+                       start: info.start,
+                       length: info.length,
+                       idDevice: $("#DeviceID").val(),
+                       dateInicio: $("#dateInicioData").val(),
+                       dateFin: $("#dateFinData").val(),
+                       FilterTime: $("#FilterTime").val(),
+                   },
+                   type: "POST",
+                   success: function (msg) {
+                       $("#ContainerPreload").hide();
+
+                       if (msg.dates.length > 0) {
+                           $("#graphicalMeasures").show();
+                           renderizarGraficaEstadistica(msg.dates, msg.temperatures,
+                                                   msg.Thresholduperior, msg.ThresholdInferior,
+                                                   msg.ToleranceInferiorList, msg.ToleranceSuperiorList);
+                           objTituloGrafico.text("Gráfica " + $("#DeviceID option:selected").text());
+                       }
+
+
+                   },
+                   error: function (result) {
+                       objTituloGrafico.html('');
+                       $("#ContainerPreload").hide();
+                   }
+               });
+            }
+        });
+
+        //var canvas = document.getElementById('graphicalMeasures');
+        //printBtn.addEventListener('click', function () {
+        //    document.body.removeChild(canvas);
+        //    var img = new Image;
+        //    img.id = 'tempPrintImage';
+        //    img.onload = print;
+        //    img.src = canvas.toDataURL();
+        //    document.body.appendChild(img);
+        //}, false);
+
+        document.getElementById("btnPrint").onclick = function () {
+            printElement(document.getElementById("printThis"));
+            printElement(document.getElementById("printThis2"), true, "<hr />");
+            window.print();
+        }
+
+        function printElement(elem, append, delimiter) {
+            var domClone = elem.cloneNode(true);
+
+            var $printSection = document.getElementById("printSection");
+
+            if (!$printSection) {
+                var $printSection = document.createElement("div");
+                $printSection.id = "printSection";
+                document.body.appendChild($printSection);
+            }
+
+            if (append !== true) {
+                $printSection.innerHTML = "";
+            }
+
+            else if (append === true) {
+                if (typeof (delimiter) === "string") {
+                    $printSection.innerHTML += delimiter;
+                }
+                else if (typeof (delimiter) === "object") {
+                    $printSection.appendChlid(delimiter);
+                }
+            }
+
+            $printSection.appendChild(domClone);
+        }
+
+    </script>
+    <script src="~/Scripts/Chart.bundle.min.js" type="text/javascript"></script>
+}
+
+

@@ -1,0 +1,66 @@
+﻿@model IEnumerable<ActiveSense.Tempsense.model.Model.Blogs>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>
+    <font color="#999">
+        Blogs
+    </font>
+</h2>
+<hr />
+<p>
+    @Html.ActionLink("create", "Create", new { }, new {@class = "btn btn-primary active" })
+</p>
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr class="active">
+                <th>
+                    @Html.DisplayNameFor(model => model.date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.timeStart)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.timeend)
+                </th>
+                <th>
+                    <a><font color="#d00b0b">devices</font></a>
+                </th>
+                 <th>
+                    <a><font color="#d00b0b">Details</font></a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.timeStart)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.timeend)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.devices.name)
+                    </td>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.Problem)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Solution)
+                    </td>*@
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.BlogsID }, new { @class = "btn btn-primary btn-xs active" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

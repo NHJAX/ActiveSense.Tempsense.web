@@ -1,0 +1,50 @@
+﻿@model ActiveSense.Tempsense.model.Model.Threshold
+
+@{
+    ViewBag.Title = "Details";
+}
+<div>
+    <h2>Details</h2>
+    <h4>Threshold</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Temperature_min)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Temperature_min)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Temperature_max)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Temperature_max)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeviceID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeviceID)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Active)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Active)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ThresholdID }) |
+    @Html.ActionLink("Volver a la lista", "Index")
+</p>

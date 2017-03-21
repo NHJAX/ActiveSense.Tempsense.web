@@ -13,12 +13,12 @@ namespace ActiveSense.Tempsense.web.Helpers
 {
     public class ActiveSenseAutorize : AuthorizeAttribute, IActionFilter
     {
-        private const string PERFIL_USUARIO = "Usuario";
-        private const string PERFIL_ADMINISTRADOR = "Administrador";
+        private const string USER_PROFILE = "Usuario";
+        private const string PROFILE_Administrator= "Administrator";
         private readonly string[] userAssignedRoles;
 
-        private const string ESTADO_USUARIO_INHABILITADO = "NO_HABILITADO";
-        private const string ESTADO_USUARIO_HABILITADO = "HABILITADO";
+        private const string STATE_USER_INHABILITADO = "NO_HABILITADO";
+        private const string STATE_USER_HABILITADO = "HABILITADO";
 
 
         public ActiveSenseAutorize(params string[] roles)
@@ -35,7 +35,7 @@ namespace ActiveSense.Tempsense.web.Helpers
                 throw new ArgumentNullException("httpContext");
             }
 
-            //¿Esta el usuarios autenticado?
+            //¿Esta el Users autenticado?
             var user = httpContext.User;
             if (!user.Identity.IsAuthenticated)
                 return estadoAutorizacion;
@@ -59,19 +59,19 @@ namespace ActiveSense.Tempsense.web.Helpers
             // si el usuario esta autenticado se redirecciona al portal inicio de su area
             if (user.Identity.IsAuthenticated)
             {
-                //Redireccion a sitio inicio de perfil administrador
-                if (user.IsInRole(PERFIL_ADMINISTRADOR))
+                //Redireccion a sitio inicio de perfil Administrator
+                if (user.IsInRole(PROFILE_Administrator))
                 {
                     RouteValueDictionary routeValues = new RouteValueDictionary
                     {
                         {"controller" , "Home"},
                         {"action" , "Index"},
-                        {"area" , "Administrador"}
+                        {"area" , "Administrator"}
                      };
                     filterContext.Result = new RedirectToRouteResult(routeValues);
                 }
                 //Redireccion a sitio inicio de perfil usuario
-                if (user.IsInRole(PERFIL_USUARIO))
+                if (user.IsInRole(USER_PROFILE))
                 {
                     RouteValueDictionary routeValues = new RouteValueDictionary
                     {
@@ -95,7 +95,7 @@ namespace ActiveSense.Tempsense.web.Helpers
 
             if (user.Identity.IsAuthenticated)
             {
-                if (user.IsInRole(PERFIL_USUARIO))
+                if (user.IsInRole(USER_PROFILE))
                 {
                     var nameControl = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName;
                     var enableUser = isEnableUser(user.Identity.GetUserId());
@@ -122,12 +122,12 @@ namespace ActiveSense.Tempsense.web.Helpers
             //throw new NotImplementedException();
         }
 
-        private bool isEnableUser(string idusuario)
+        private bool isEnableUser(string idUser)
         {
             ApplicationDbContext context = new ApplicationDbContext();
             var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-            var perfil = UserManager.FindById(idusuario);
-            return (perfil.State == ESTADO_USUARIO_INHABILITADO) ? false : true;
+            var perfil = UserManager.FindById(idUser);
+            return (perfil.State == STATE_USER_INHABILITADO) ? false : true;
         }
 
     }

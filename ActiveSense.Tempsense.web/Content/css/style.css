@@ -8511,7 +8511,7 @@ footer  p a:hover ,.footer p a:hover{
 	}
 
 /*
-backgorund alerta temperatura
+backgorund alerta temperature
 */
 
 .alerta {
@@ -8532,32 +8532,32 @@ color: #fff;
     color: #fff;
 }
 
-#tabla-medida {
+#tabla-Measure {
     margin-top:20px;
     padding-top:20px;
 }
 
-#ContentDispositivo {
+#Contentdevice {
     padding-top:25px;
 }
 
-#listaMedidas input{
+#listaMeasures input{
     background:white;
     color: black;
     border:1px solid #cccccc;
     height:30px;
 }
 
-#listaMedidas .input-append .add-on {
+#listaMeasures .input-append .add-on {
     height: 30px; 
 }
 
-#ContenedorPreload{
+#ContainerPreload{
     text-align: center;
     visibility: none;
 }
 
-.warning_umbral {
+.warning_Threshold {
     clear:both;
     border: 1px solid yellow;
     background:#021F4E;
@@ -8566,7 +8566,7 @@ color: #fff;
     padding:5px;
 }
 
-#contenedorMedidasTablero {
+#contenedorMeasuresBoard {
     height: 400px;
     overflow: scroll;
     text-align: center;
@@ -8678,7 +8678,7 @@ color: #fff;
              display: none;
              
         }
-         #btnumbral{
+         #btnThreshold{
           height: 30px;
 
         }
@@ -8717,7 +8717,7 @@ color: #fff;
         #btngrafica2{
            display: initial;           
         }
-        #btnumbral{
+        #btnThreshold{
             float: right;
            margin: -5px;
 
@@ -8764,7 +8764,7 @@ color: #fff;
         #btngrafica2{
            display: initial;           
         }
-        #btnumbral{
+        #btnThreshold{
             float: right;
            margin: -5px;
 
@@ -8805,7 +8805,7 @@ color: #fff;
         #btngrafica2{
            display: initial;           
         }
-        #btnumbral{
+        #btnThreshold{
             float: right;
            margin: -5px;
 

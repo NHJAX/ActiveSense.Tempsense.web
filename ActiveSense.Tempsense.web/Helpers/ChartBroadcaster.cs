@@ -7,7 +7,7 @@ using Microsoft.AspNet.SignalR.Hubs;
 using Newtonsoft.Json;
 using static ActiveSense.Tempsense.web.Helpers.Chart_Broadcaster;
 using ActiveSense.Tempsense.web.Hubs;
-using ActiveSense.Tempsense.model.Modelo;
+using ActiveSense.Tempsense.model.Model;
 using System.Linq;
 using System.Data.Entity;
 using System.Diagnostics;
@@ -39,13 +39,13 @@ namespace ActiveSense.Tempsense.web.Helpers
                 using (ActiveSenseContext dbActiveContext = new ActiveSenseContext(ConfigurationManager.ConnectionStrings["TempsenseConnection"].ConnectionString))
                 {
 
-                    var lista = (from p in dbActiveContext.Medidas
-                                 orderby p.FechaHora descending
+                    var lista = (from p in dbActiveContext.Measure
+                                 orderby p.DateTime descending
                                  select p
                                  ).ToList();
 
-                    lineChartData = dbActiveContext.Medidas.Select(p => p.Valor).Cast<int>().ToArray();
-                    hora = dbActiveContext.Medidas.Select(p => p.FechaHora).Cast<string>().ToArray();
+                    lineChartData = dbActiveContext.Measure.Select(p => p.Value).Cast<int>().ToArray();
+                    hora = dbActiveContext.Measure.Select(p => p.DateTime).Cast<string>().ToArray();
 
                 }
 
@@ -57,14 +57,14 @@ namespace ActiveSense.Tempsense.web.Helpers
             [JsonProperty("DashboardTemperatureResult")]
             private List<DashboardTemperatureResult> temp;
       
-            private const string PERFIL_ADMINISTRADOR = "Administrador";
+            private const string PROFILE_Administrator= "Administrator";
             private UserHelper userHelper = null;
 
             public TemperatureUpdate() {
                 userHelper = new UserHelper();
             }
 
-            public void TakeLastTemp(string idUsuario)
+            public void TakeLastTemp(string idUser)
             {
 
                 List<DashboardTemperatureResult> lis = new List<DashboardTemperatureResult>();
@@ -73,20 +73,20 @@ namespace ActiveSense.Tempsense.web.Helpers
                 {
                     using (ActiveSenseContext context = new ActiveSenseContext(ConfigurationManager.ConnectionStrings["TempsenseConnection"].ConnectionString))
                     {
-                        
-                        // metodo que permite validar si un usuario es de perfil administrador  o no y buscar los datos segun esto.
-                        string perfil = userHelper.obtenerPerfil(idUsuario);
 
-                        int IdEmpresa = userHelper.obtenerEmpresasAsociadas(idUsuario, context);
-                        var result = context.Empresas.Where(u => u.EmpresaID == IdEmpresa).Include("Dispositivos.Medidas").ToList();
-                        if (PERFIL_ADMINISTRADOR == perfil)
+                        // a method that allows you to validate whether a user is Administrator profile and search the data according to this.
+                        string perfil = userHelper.GetProfile(idUser);
+
+                        int idCompany = userHelper.GetAssociatedCompanies(idUser, context);
+                        var result = context.companies.Where(u => u.CompanyID == idCompany).Include("devices.Measures").ToList();
+                        if (PROFILE_Administrator== perfil)
                         {
-                             result = context.Empresas.Include("Dispositivos.Medidas").ToList();
+                             result = context.companies.Include("devices.Measures").ToList();
                         }
 
-                        foreach (var item in result.SelectMany(x => x.Dispositivos))
+                        foreach (var item in result.SelectMany(x => x.device))
                         {
-                            if (item.Medidas.OrderBy(y => y.FechaHora).Any())
+                            if (item.Measures.OrderBy(y => y.DateTime).Any())
                             {
                                 decimal MaxTemp = 0;
                                 decimal MinTemp = 0;
@@ -94,35 +94,35 @@ namespace ActiveSense.Tempsense.web.Helpers
                                 decimal MinTol  = 0;
                                 try
                                 {
-                                    MaxTemp = context.Umbrals.ToList().Where(p => p.DispositivoID == item.DispositivoID).FirstOrDefault().Temperatura_max;
-                                    MinTemp = context.Umbrals.ToList().Where(p => p.DispositivoID == item.DispositivoID).FirstOrDefault().Temperatura_min;
+                                    MaxTemp = context.Threshold.ToList().Where(p => p.DeviceID == item.DeviceID).FirstOrDefault().Temperature_max;
+                                    MinTemp = context.Threshold.ToList().Where(p => p.DeviceID == item.DeviceID).FirstOrDefault().Temperature_min;
                                 }
                                 catch (Exception ex)
                                 {
-                                    Debug.WriteLine("ERROR chartBroadcaster.cs umbrales temperatura.");
+                                    Debug.WriteLine("ERROR chartBroadcaster.cs temperature thresholds.");
                                     Debug.WriteLine(ex.GetBaseException().ToString());
                                 }
                                 try {
-                                    MaxTol = context.Umbrals.ToList().Where(p => p.DispositivoID == item.DispositivoID).FirstOrDefault().Tolerancia_max;
-                                    MinTol = context.Umbrals.ToList().Where(p => p.DispositivoID == item.DispositivoID).FirstOrDefault().Tolerancia_min;
+                                    MaxTol = context.Threshold.ToList().Where(p => p.DeviceID == item.DeviceID).FirstOrDefault().Tolerance_max;
+                                    MinTol = context.Threshold.ToList().Where(p => p.DeviceID == item.DeviceID).FirstOrDefault().Tolerance_min;
                                 }
                                 catch (Exception ex) {
-                                    Debug.WriteLine("ERROR chartBroadcaster.cs umbrales tolerancia.");
+                                    Debug.WriteLine("ERROR chartBroadcaster.cs threshold tolerance.");
                                     Debug.WriteLine(ex.GetBaseException().ToString());
                                 }
                                 finally
                                 {
                                     lis.Add(new DashboardTemperatureResult
                                     {
-                                        DispositivoId = item.Medidas.OrderBy(y => y.FechaHora).LastOrDefault().DispositivoID,
-                                        Empresa = item.Medidas.OrderBy(y => y.FechaHora).LastOrDefault().Dispositivo.Empresa.AbrEmpresa,
-                                        Temperature = item.Medidas.OrderBy(y => y.FechaHora).LastOrDefault().Valor,
+                                        DeviceID = item.Measures.OrderBy(y => y.DateTime).LastOrDefault().DeviceID,
+                                        Company = item.Measures.OrderBy(y => y.DateTime).LastOrDefault().Device.company.Abrcompany,
+                                        Temperature = item.Measures.OrderBy(y => y.DateTime).LastOrDefault().Value,
                                         Max = MaxTemp,
                                         Min = MinTemp,
-                                        NombreDispositivo = context.Dispositivos.Where(p => p.DispositivoID == item.DispositivoID).FirstOrDefault().Nombre,
-                                        MaxTolerancia = MaxTol,
-                                        MinTolerancia = MinTol,
-                                        TipoMedida = item.TipoMedida.Nombre
+                                        NameDevice = context.devices.Where(p => p.DeviceID == item.DeviceID).FirstOrDefault().name,
+                                        MaxTolerance = MaxTol,
+                                        MinTolerance = MinTol,
+                                        TypeMeasure = item.TypeMeasure.Name
                                     });
                                 }
                             }
@@ -143,15 +143,15 @@ namespace ActiveSense.Tempsense.web.Helpers
 
         public class DashboardTemperatureResult
         {
-            public string Empresa { get; set; }
-            public int DispositivoId { get; set; }
+            public string Company { get; set; }
+            public int DeviceID { get; set; }
             public decimal? Temperature { get; set; }
             public decimal? Max { get; set; }
             public decimal? Min { get; set; }
-            public string NombreDispositivo { get; set; }
-            public decimal? MaxTolerancia { get; set; }
-            public decimal? MinTolerancia { get; set; }
-            public string TipoMedida { get; set; }
+            public string NameDevice { get; set; }
+            public decimal? MaxTolerance { get; set; }
+            public decimal? MinTolerance { get; set; }
+            public string TypeMeasure { get; set; }
 
         }
     }
@@ -171,7 +171,7 @@ public class LastTemperatureUpdate
     private readonly object _tempUpdateLock = new object();
     LineChart lineChart = new LineChart();
     TemperatureUpdate tempUpdate = new TemperatureUpdate();
-    public string idUsuario = "";
+    public string idUser = "";
 
     private LastTemperatureUpdate()
     {
@@ -211,7 +211,7 @@ public class LastTemperatureUpdate
 
     private void SendLastTemperature()
     {
-        tempUpdate.TakeLastTemp(this.idUsuario);
+        tempUpdate.TakeLastTemp(this.idUser);
         GetAllClients().All.UpdateTemperature(tempUpdate);
     }
 

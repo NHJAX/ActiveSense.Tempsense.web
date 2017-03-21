@@ -18,7 +18,7 @@ namespace ActiveSense.Tempsense.ReceptorWebJob
         {
             try
             {
-                Console.WriteLine(String.Format("Inicio webjob:  {0}", DateTime.Now.ToString()));
+                Console.WriteLine(String.Format("Webjob home:  {0}", DateTime.Now.ToString()));
 
                 JobHostConfiguration config = new JobHostConfiguration();
                 config.Tracing.ConsoleLevel = TraceLevel.Verbose;
@@ -26,7 +26,7 @@ namespace ActiveSense.Tempsense.ReceptorWebJob
                 JobHost host = new JobHost(config);
                 host.RunAndBlock();
 
-                Console.WriteLine(String.Format("Fin webjob:  {0}", DateTime.Now.ToString()));
+                Console.WriteLine(String.Format("Webjob end:  {0}", DateTime.Now.ToString()));
 
             }
             catch (Exception ex)

@@ -1,0 +1,425 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="jumbotron">
+    <center>
+        <img class="img-responsive" src="~/Content/images/Tempsense-logo.png" alt="Alternate Text" />
+    </center>
+    <div id="temperature">
+    </div>
+        <div class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document" style="position: initial;">
+                <div class="modal-content" >
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Report Device</h4>
+                    </div>
+                    <div class="modal-body">
+                        <canvas id="graphicalMeasures" width="600" height="400"></canvas>
+                        <div id="contenedorPreloadGrafico">
+                            <center> <img src="~/Content/images/8.gif" /> </center>
+                        </div>
+                        <center id="contentmessageGrafica"></center>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+<div class="col-sm-11">
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="media media-middle">
+                <div class="media-left">
+                    <div style="background-color: #007D21;width: 34px;height: 34px;">  </div>
+
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">Green</h4>
+                    <p>Stable..</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="media media-middle">
+                <div class="media-left">
+                    <div style="background-color: #FCEF00; width: 34px;height: 34px;">  </div>
+
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">Yellow</h4>
+                    <p>Tolerance..</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="media media-middle">
+                <div class="media-left">
+                    <div style="background-color: #E81F00;width: 34px;height: 34px;">  </div>
+
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">Red</h4>
+                    <p>Alert..</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container price-item">
+
+    <div class="col-sm-12">
+        <div id="content">
+        </div>
+    </div>
+
+</div>
+
+<div><input type="hidden" value="@ViewBag.UsK" id="usery" /></div>
+<br>
+<br>
+<div id="ContenedorPreload">
+    <i class="fa fa-cog fa-spin fa-5x fa-fw"></i>
+    <span class="sr-only">Loading...</span>
+</div>
+<br>
+
+<script>
+
+        $().ready(function () {
+            $(function () {
+                
+                $("#ContainerPreload").show();
+                $("#content").hide();
+                //Create the Hub
+                var temperatureHub = $.connection.temperatureHub;
+
+                //Call InitChartData
+                $.connection.hub.start().done(function () {
+                    temperatureHub.server.initTempData($('#usery').val());
+                });
+
+                temperatureHub.client.updateTemperature = function (tempUpdate) {
+                    UpdateTemperature(tempUpdate);
+                };
+            });
+        });
+</script>
+<script type="text/javascript">
+
+        var messagesWarningTotal  = '';
+        var MSGwithoutThreshold  = "The sensor does not have a defined threshold.";
+        var WIDTH_CHANGE_TOASTR = "600";
+        var MessagewithoutMeasureS  = 'Measures of the last 24 hours have not been found.';
+        var TITLE_POPPUP = " Device report # last 24 hours.";
+        //funcion que es callback de helper
+        function UpdateTemperature(data) {
+
+            messagesWarningTotal  = '';
+            $('#content').html('');
+            $.each(data, function (index, value) {
+                $.each(value, function (indextemp, valuetemp) {
+                    $('#content').append(BuildContainerDevice(valuetemp.DeviceID, valuetemp.Company, valuetemp.NameDevice, valuetemp.Temperature, valuetemp.Min, valuetemp.Max, valuetemp.MinTolerance, valuetemp.MaxTolerance, valuetemp.typeMeasure));
+                   $('.verGrafica').click(function () {
+                       GetMeasuresByDevice($(this).data('id'), $(this).data('Name'));
+                   });
+                })
+            });
+
+            if (messagesWarningTotal  != '') {
+                toastr['error'](messagesWarningTotal );
+            }
+
+            if (data != null) {
+                $("#content").show();
+            } else {
+                Command: toastr["error"]("Data not found please try again", 'ERROR');
+            }
+            $("#ContainerPreload").hide();
+        }
+
+    //function that is in charge of creating the objects Visual of devices
+        function BuildContainerDevice(idDevice, empresa, device, temperature, tempMin, tempMax, tolMin, tolMax, typeMeasure) {
+            
+            var contenedorColumna = null;
+            var content = null;
+            var contentRow = null;
+            var contentBody = null;
+            var StyleWarnigThreshold = '';
+            var btnThreshold = '';
+            var MessageAlert = null;
+            var stylehead = "background: #007D21;";
+            var stylebody = "background: #007D21;";
+            var newbtnumb = null;
+            var TypeM = null;
+            if (tempMin == 0 && tempMax == 0) {
+                btnThreshold = '<a id="btnThreshold" style="background-color: #860a0a;" class="btn btn-danger" data-toggle="tooltip" data-placement="rigth" title="' + MSGwithoutThreshold  + '" onMouseOver="message()" onClick="message()"><i class="lnr lnr-warning"></i></a>';
+            } else {
+
+                if (temperature >= tolMax || temperature <= tolMin) {
+                    MessageAlert = (temperature <= tolMin) ? ":  in very low temperature" : ": in very high temperature ";
+                    ShowPopup("error", device, MessageAlert);
+                    StyleWarnigThreshold = 'alert';
+                    stylehead = "background: #E81F00";
+                    stylebody = "background: #E81F00";
+                } else {
+                    if (temperature >= tempMax || temperature <= tempMin) {
+                        MessageAlert = (temperature <= tempMin) ? ": in low Tolerance threshold" : ": in High Tolerance threshold ";
+                        ShowPopup("warning", device, MessageAlert);
+                        stylehead = "background: #FCEF00;";
+                        stylebody = "background: #FCEF00;";
+                    }
+                }
+            }
+            if (typeMeasure == "temperature" || typeMeasure == "Ambient temp") {
+                TypeM = "°F";
+            }else if (typeMeasure == "Humitity"){
+                TypeM = "%H";
+            }
+            contentBody = $('<div class="col-md-3 col-sm-6 col-xs-12"><div class="panel panel-warning hover-3" style="border: none;"><div class="panel-heading" style="background-color: #373f4c; border-color: #ffffff;"><div class="price-value" style="' + stylehead + '"><p><span>' + temperature + '</span></p></div><div class="price-period" style=""><p id="letra">' + TypeM + '</p></div></div><div class="panel-body" style="' + stylebody + '"><h3><i id="iconodisp" class="lnr lnr-laptop-phone"></i>' + device + '</h3><ul class="list-unstyled"><li><p class="pull-left" style="color: #ffffff">' + typeMeasure + '</p></li></ul></div><div class="panel-footer" style="background-color: #373f4c; border-color: #ffffff;"><a id="btngrafica2" class="btn btn-primary verGrafica" data-id="' + idDevice + '" data-Name="' + device + '" href="#"><i class="lnr lnr-chart-bars"></i></a> <a id="btngrafica" class="btn btn-primary verGrafica" data-id="' + idDevice + '" data-Name="' + device + '" href="#"><i class="lnr lnr-chart-bars"></i> Grafica</a> ' + btnThreshold + '</div></div></div>');
+            var contenedorSeparador = $('<div class="clearfix" />');
+            contentBody.append();
+            return contentBody;
+        }
+
+    //function that displays messages
+        function ShowPopup(TypeMessage, idDevice, ShowMessage) {
+             var position = "toast-top-right";
+            if ($(window).width() < WIDTH_CHANGE_TOASTR) {
+                position = "toast-bottom-full-width";
+            }
+            toastr.options = {
+                "closeButton": true,
+                "showDuration": "2000",
+                "hideDuration": "2000",
+                "timeOut": "2000",
+                "extendedTimeOut": "2000",
+                "preventDuplicates": true,
+                "positionClass": position
+            }
+            messagesWarningTotal  += idDevice + ShowMessage + "<br/>";
+        }
+
+    // feature that allows render graph per hour
+        function RenderGraphicsByDevice(HoursList, temperaturesList, ThresholdesSuperioresList,
+                                            ThresholdesInferioresList, ToleranceInferiorList, ToleranceSuperiorList) {
+
+            
+            // show canvas of graph
+            $("#graphicalMeasures").show();
+   
+            //get object graph
+            var canvas = document.getElementById("graphicalMeasures");
+            var ctx = canvas.getContext("2d");
+
+            //rendering of lines of thresholds
+            var horizonalLinePlugin = {
+                afterDraw: function (chartInstance) {
+                    var yScale = chartInstance.scales["y-axis-0"];
+                    var canvas = chartInstance.chart;
+                    var ctx = canvas.ctx;
+                    var index;
+                    var line;
+                    var style;
+
+                    if (chartInstance.options.horizontalLine) {
+                        for (index = 0; index < chartInstance.options.horizontalLine.length; index++) {
+                            line = chartInstance.options.horizontalLine[index];
+
+                            if (!line.style) {
+                                style = "rgba(169,169,169, .6)";
+                            } else {
+                                style = line.style;
+                            }
+
+                            if (line.y) {
+                                yValue = yScale.getPixelForValue(line.y);
+                            } else {
+                                yValue = 0;
+                            }
+
+                            ctx.lineWidth = 3;
+
+                            if (yValue) {
+                                ctx.beginPath();
+                                ctx.moveTo(0, yValue);
+                                ctx.lineTo(canvas.width, yValue);
+                                ctx.strokeStyle = style;
+                                ctx.stroke();
+                            }
+
+                            if (line.text) {
+                                ctx.fillStyle = style;
+                                ctx.fillText(line.text, 0, yValue + ctx.lineWidth);
+                            }
+                        }
+                        return;
+                    };
+                }
+            };
+
+            Chart.pluginService.register(horizonalLinePlugin);
+            //data by default showing graphics
+            var data = {
+                labels: HoursList,
+                datasets: [
+                            {
+                                label: "temperature",
+                                borderColor: "rgba(75,192,192,1)",
+                                data: temperaturesList,
+                                spanGaps: true,
+                            },
+                            {
+                                label: "Tolerance Maximum",
+                                lineTension: 0.1,
+                                borderColor: "#ff0000",
+                                borderDashOffset: 0.0,
+                                pointBorderWidth: 0,
+                                pointHoverRadius: 0,
+                                pointHoverBorderWidth: 0,
+                                pointRadius: 0,
+                                pointHitRadius: 0,
+                                backgroundColor: "rgba(0,0,0,0)",
+                                data: ToleranceSuperiorList,
+                            },
+                            {
+
+                                label: "Tolerance Minimum",
+                                fill: false,
+                                lineTension: 0.1,
+                                borderColor: "#ff0000",
+                                borderDashOffset: 0.0,
+                                pointBorderWidth: 0,
+                                pointHoverRadius: 0,
+                                pointHoverBorderWidth: 0,
+                                pointRadius: 0,
+                                pointHitRadius: 0,
+                                backgroundColor: "rgba(0,0,0,0)",
+                                data: ToleranceInferiorList,
+                            },
+                             {
+                                 label: "temperature Maximum",
+                                 lineTension: 0.1,
+                                 borderColor: "#000000",
+                                 borderDashOffset: 0.0,
+                                 pointBorderWidth: 0,
+                                 pointHoverRadius: 0,
+                                 pointHoverBorderWidth: 0,
+                                 pointRadius: 0,
+                                 pointHitRadius: 0,
+                                 backgroundColor: "rgba(0,0,0,0)",
+                                 data: ThresholdesSuperioresList,
+                             },
+                            {
+                                label: "temperature Minimum",
+                                lineTension: 0.1,
+                                borderColor: "#000000",
+                                borderDashOffset: 0.0,
+                                pointBorderWidth: 0,
+                                pointHoverRadius: 0,
+                                pointHoverBorderWidth: 0,
+                                pointRadius: 0,
+                                pointHitRadius: 0,
+                                backgroundColor: "rgba(0,0,0,0)",
+                                data: ThresholdesInferioresList,
+                            }
+                ]
+            };
+            //limits to render outstanding
+            var tolMaximum = ToleranceSuperiorList[0] !== undefined ? ToleranceSuperiorList[0] : 0;
+            var tolMinimum = ToleranceInferiorList[0] !== undefined ? ToleranceInferiorList[0] : 0;
+            //configuracion de labels
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: data,
+                options: {
+                    "horizontalLine":
+                        [
+                            {
+                                "y": tolMaximum,
+                                "style": "#ff0000",
+                                "text": "Tol Max : " + tolMaximum
+                            },
+                            {
+                                "y": tolMinimum,
+                                "style": "#ff0000",
+                                "text": "Tol Min : " + tolMinimum
+                            },
+                        ],
+                    scales: {
+                        xAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Hours'
+                            }
+                        }],
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'temperature'
+                            }
+                        }]
+                    }
+                }
+            });
+
+        }
+
+    // function to obtain data
+        function GetMeasuresByDevice(idDevice, NameDevice) {
+
+            //Show popup preload, change title popup
+            $("#ContainerPreloadgraphic").show();
+            $('.modal').modal('show');
+            $('.modal-dialog').css('width', '50%');
+            $('.modal-title').html(TITLE_POPPUP.replace("#", NameDevice));
+            //hide graphics, hide error message
+            $("#graphicalMeasures").hide();
+            $('#ContentMessageGraphics').html('');
+
+            $.ajax({
+                url: '@Url.Action("GetPastMeasures", "Dashboard" )',
+                type: 'POST',
+                data: JSON.stringify({ idDevice: idDevice }),
+                datatype: 'application/json',
+                contentType: 'application/json',
+                cache: false,
+                success: function (msg) {
+                    $("#ContainerPreloadgraphic").hide();
+
+                    if (msg.HoursList.length > 0) {
+                        RenderGraphicsByDevice(msg.HoursList, msg.temperatureList,
+                                                      msg.ThresholduperiorList, msg.ThresholdInferiorList,
+                                                      msg.ToleranceInferiorList, msg.ToleranceSuperiorList);
+                    } else {
+                        $('#ContentMessageGraphics').html(MessagewithoutMeasureS );
+                    }
+                    
+                },
+                error: function (xhr, error) {
+                    $("#ContainerPreloadgraphic").hide();
+                    $('#modal').modal('hide');
+                    Command: toastr["error"]('An error occurred while obtaining data from device', 'ERROR');
+                },
+            });
+
+        }
+</script>
+
+@section scripts{
+    <script src="~/Scripts/jquery.signalR-2.2.1.js"></script>
+    <script src="~/SignalR/hubs"></script>
+    <script>
+        function message() {
+            $('[data-toggle="tooltip"]').tooltip();
+        }
+    </script>
+    <script src="~/Scripts/Chart.bundle.min.js" type="text/javascript"></script>
+}
+

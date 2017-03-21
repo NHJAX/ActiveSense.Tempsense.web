@@ -13,6 +13,6 @@
     <DeviceName>NHJAX-CompterRoom</DeviceName>
     <IotHubUri>Nhjax-iot.azure-devices.net</IotHubUri>
     <ReadingInterval>60000</ReadingInterval>
-    <Ambiente>NHJAX Compter Room</Ambiente>
+    <Ambiente>NHJAX Computer Room</Ambiente>
   </Device>
 </Devices>

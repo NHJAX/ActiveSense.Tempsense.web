@@ -1,0 +1,84 @@
+﻿@model ActiveSense.Tempsense.model.Model.Threshold
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>
+    <font color="#999">Eliminate Threshold</font>
+</h2>
+
+<h4>¿Esta seguro que desea Eliminate el Threshold?</h4>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            <a><font color="#333"> <b>Value Mínimo</b></font></a>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Temperature_min)
+        </dd>
+
+        <dt>
+            <a><font color="#333"> <b>Value Máximo</b></font></a>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Temperature_max)
+        </dd>
+
+        <dt>
+            <a><font color="#333"> <b>Tolerance Minimum</b></font></a>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tolerance_min)
+        </dd>
+
+        <dt>
+            <a><font color="#333"> <b>Tolerance Maximum</b></font></a>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tolerance_max)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Active)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Active)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateHome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateHome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeviceID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeviceID)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Eliminate" class="btn btn-primary" />  
+                @Html.ActionLink("Cancel", "Index", new { }, new { @class = "btn btn-default" })
+            </div>  
+        </div>
+    }
+</div>

@@ -27,7 +27,7 @@ namespace ActiveSense.Tempsense.Sensor
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        #region referencias
+        #region references
         static DeviceClient deviceClient;
         static string iotHubUri;
         static string outputConfig;
@@ -91,8 +91,9 @@ namespace ActiveSense.Tempsense.Sensor
 
             _startedAt = DateTimeOffset.Parse("1/1/1");
         }
+
         /// <summary>
-        /// Leemos el archivo de configuracion
+        /// Read the configuration file
         /// </summary>
         private async void InitializeDeviceKeyAndName()
         {
@@ -171,7 +172,7 @@ namespace ActiveSense.Tempsense.Sensor
                 //// user interface updates... should be invoked on the UI thread
                 var task = this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    temperatura.Text = temperatureText;
+                    temperature.Text = temperatureText;
                 });
                 var messageString = JsonConvert.SerializeObject(temperatureDataPoint);
                 var message = new Microsoft.Azure.Devices.Client.Message(Encoding.ASCII.GetBytes(messageString));
@@ -237,12 +238,12 @@ namespace ActiveSense.Tempsense.Sensor
                     {
 
                         Humedad.Text = string.Format("{0:0.0}% RH", reading.Humidity); //reading.Humidity.ToString();
-                        Temperatura_Ambiente.Text = reading.Temperature.ToString() + "°C";
+                        temperature_Ambiente.Text = reading.Temperature.ToString() + "°C";
                     });
                     //var task2 = this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     //{
 
-                    //    Temperatura_Ambiente.Text = reading.Temperature.ToString();
+                    //    temperature_Ambiente.Text = reading.Temperature.ToString();
                     //});
                     Debug.WriteLine(message);
 
@@ -504,7 +505,7 @@ namespace ActiveSense.Tempsense.Sensor
 
         }
 
-        private void temperatura_TextChanged(object sender, TextChangedEventArgs e)
+        private void temperature_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }

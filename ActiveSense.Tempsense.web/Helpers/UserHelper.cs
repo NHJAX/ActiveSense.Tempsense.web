@@ -1,4 +1,4 @@
-﻿using ActiveSense.Tempsense.model.Modelo;
+﻿using ActiveSense.Tempsense.model.Model;
 using ActiveSense.Tempsense.web.Controllers;
 using ActiveSense.Tempsense.web.Models;
 using Microsoft.AspNet.Identity;
@@ -12,39 +12,39 @@ namespace ActiveSense.Tempsense.web.Helpers
 {
     public class UserHelper : GenericController
     {
-        public string obtenerDispositivosAsociados(string id, ActiveSenseContext context = null)
+        public string GetDevicesPartners(string id, ActiveSenseContext context = null)
         {
-            string idDispositivos = "";
+            string iddevices = "";
             if (id !="")
             {
                 ActiveSenseContext contextDB = context != null ? context : dbActiveContext;
-                AspNetUsers usuario = contextDB.UsuariosASP.Find(id);
+                AspNetUsers usuario = contextDB.AspNetUsers.Find(id);
 
-                if (usuario.EmpresaID != 0) {
-                    var list = contextDB.Dispositivos.Where(u => u.EmpresaID == usuario.EmpresaID);
-                    idDispositivos = string.Join(",", list.Select(item => item.DispositivoID));
+                if (usuario.CompanyID != 0) {
+                    var list = contextDB.devices.Where(u => u.CompanyID == usuario.CompanyID);
+                    iddevices = string.Join(",", list.Select(item => item.DeviceID));
                 }
     
 
             }
-            return idDispositivos;
+            return iddevices;
         }
-        public int obtenerEmpresasAsociadas(string id, ActiveSenseContext contextT = null)
+        public int GetAssociatedCompanies(string id, ActiveSenseContext contextT = null)
         {
-            int idEmpresa = 0;
+            int idCompany = 0;
             if (id != "")
             {
                 ActiveSenseContext contextDB = contextT != null ? contextT : dbActiveContext;
-                AspNetUsers usuario = contextDB.UsuariosASP.Find(id);
-                if (usuario.EmpresaID  != 0) {
-                    idEmpresa = usuario.EmpresaID;
+                AspNetUsers user = contextDB.AspNetUsers.Find(id);
+                if (user.CompanyID  != 0) {
+                    idCompany = user.CompanyID;
                 }
             }
-            return idEmpresa;
+            return idCompany;
 
         }
 
-        public string obtenerPerfil(string id)
+        public string GetProfile(string id)
         {
             string perfil = "";
             if (id != "")

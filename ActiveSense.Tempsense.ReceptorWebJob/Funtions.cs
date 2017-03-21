@@ -17,17 +17,17 @@ namespace ActiveSense.Tempsense.Receptor.WebJob
         {
             try
             {
-                Console.WriteLine(String.Format("Inicio lectura mensajes : {0}", DateTime.Now.ToString()));
+                Console.WriteLine(String.Format("Start reading messages : {0}", DateTime.Now.ToString()));
                 string storageConnectionString = string.Format("DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}",
-                                       Configuracion.StorageAccountName, Configuracion.
+                                       Configuration.StorageAccountName, Configuration.
                                        StorageAccountKey);
                 string _guid = Guid.NewGuid().ToString();
                 string eventProcessorHostName = _guid;
                 EventProcessorHost eventProcessorHost = new EventProcessorHost(
                                                                 eventProcessorHostName,
-                                                                Configuracion.EventHubName,
+                                                                Configuration.EventHubName,
                                                                 EventHubConsumerGroup.DefaultGroupName,
-                                                                Configuracion.EventHubConnectionString,
+                                                                Configuration.EventHubConnectionString,
                                                                 storageConnectionString);
                 Console.WriteLine("Registering EventProcessor...");
                 var options = new EventProcessorOptions();
@@ -36,7 +36,7 @@ namespace ActiveSense.Tempsense.Receptor.WebJob
                 //Console.WriteLine("Receiving.Press enter key to stop worker.");
                 //Console.ReadLine();
                 eventProcessorHost.UnregisterEventProcessorAsync().Wait();
-                Console.WriteLine(String.Format("Fin lectura mensajes : {0}", DateTime.Now.ToString()));
+                Console.WriteLine(String.Format("End reading messages : {0}", DateTime.Now.ToString()));
             }
             catch (Exception ex)
             {

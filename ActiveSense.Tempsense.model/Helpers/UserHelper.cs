@@ -1,4 +1,4 @@
-﻿using ActiveSense.Tempsense.model.Modelo;
+﻿using ActiveSense.Tempsense.model.Model;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -10,19 +10,19 @@ namespace ActiveSense.Tempsense.model.Helpers
 {
     class UserHelper
     {
-        public static string obtenerDispositivoAsociados(string idUser)
+        public static string GetAssociatedDevice(string idUser)
         {
-            string idDispositivos = "";
+            string idDevice = "";
             if ( idUser!= "" )
             {
                 using (ActiveSenseContext context = new ActiveSenseContext(ConfigurationManager.ConnectionStrings["TempsenseConnection"].ConnectionString))
                 {
-                    AspNetUsers usuario = context.UsuariosASP.Find(idUser);
-                    var list = context.Dispositivos.Where(u => u.EmpresaID == usuario.EmpresaID);
-                    idDispositivos = string.Join(",", list.Select(item => item.DispositivoID));
+                    AspNetUsers user = context.AspNetUsers.Find(idUser);
+                    var list = context.devices.Where(u => u.CompanyID == user.CompanyID);
+                    idDevice = string.Join(",", list.Select(item => item.DeviceID));
                 }
             }
-            return idDispositivos;
+            return idDevice;
         }
     }
 }

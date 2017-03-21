@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using ActiveSense.Tempsense.model.Modelo;
+using ActiveSense.Tempsense.model.Model;
 using System.Configuration;
 
 namespace ActiveSense.Tempsense.web.Controllers

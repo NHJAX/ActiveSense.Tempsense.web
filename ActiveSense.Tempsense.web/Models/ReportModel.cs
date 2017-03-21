@@ -7,10 +7,10 @@ namespace ActiveSense.Tempsense.web.Models
 {
     public class ReportModel
     {
-        public int idDispositivo;
-        public string fecha;
-        public string temperatura;
-        public string nombreDispositivo;
+        public int idDevice;
+        public string date;
+        public string temperature;
+        public string NameDevice;
     }
 
 }

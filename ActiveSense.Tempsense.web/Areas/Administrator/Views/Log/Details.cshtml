@@ -1,0 +1,66 @@
+﻿@model ActiveSense.Tempsense.model.Model.Blogs
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>
+    <font color="#999">
+        Details DE LA BITACORA
+    </font>
+</h2>
+<hr />
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date)
+        </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.timeStart)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.timeStart)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.timeend)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.timeend)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Problem)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Problem)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Solution)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Solution)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.devices.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.devices.Name)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Atras", "Index", new { }, new {@class="btn btn-primary active" })
+</p>

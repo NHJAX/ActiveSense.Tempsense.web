@@ -3,7 +3,7 @@
 @using CaptchaMvc;
 
 @{
-    ViewBag.Title = "Crear Usuario";
+    ViewBag.Title = "Create user";
 
 }
 <div class="error_page">
@@ -21,7 +21,7 @@
                         <div class="form-horizontal">
                             <h2>
                                 <font color="#999">
-                                    CREAR USUARIO
+                                    CREATE USER
                                 </font>
                             </h2>
                             @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -72,15 +72,15 @@
 
                                 <h2>
                                     <font color="#999">
-                                        Datos de empresa
+                                        Company Data
                                     </font>
                                 </h2>
 
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.NombreEmpresa, htmlAttributes: new { @class = "control-label col-md-3" })
+                                    @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { @class = "control-label col-md-3" })
                                     <div class="col-sm-9">
-                                        @Html.EditorFor(model => model.NombreEmpresa, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.NombreEmpresa, "", new { @class = "text-danger" })
+                                        @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
@@ -93,18 +93,18 @@
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.CorreoEmpresa, htmlAttributes: new { @class = "control-label col-md-3" })
+                                    @Html.LabelFor(model => model.CompanyEmail, htmlAttributes: new { @class = "control-label col-md-3" })
                                     <div class="col-sm-9">
-                                        @Html.EditorFor(model => model.CorreoEmpresa, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.CorreoEmpresa, "", new { @class = "text-danger" })
+                                        @Html.EditorFor(model => model.CompanyEmail, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.CompanyEmail, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.PhoneNumberEmpresa, htmlAttributes: new { @class = "control-label col-md-3" })
+                                    @Html.LabelFor(model => model.PhoneNumberCompany, htmlAttributes: new { @class = "control-label col-md-3" })
                                     <div class="col-sm-9">
-                                        @Html.EditorFor(model => model.PhoneNumberEmpresa, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.PhoneNumberEmpresa, "", new { @class = "text-danger" })
+                                        @Html.EditorFor(model => model.PhoneNumberCompany, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.PhoneNumberCompany, "", new { @class = "text-danger" })
                                     </div>
                                 </div>                           
 
@@ -116,7 +116,7 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <input type="submit" class="btn btn-primary active" value="Registrar" />
+                                        <input type="submit" class="btn btn-primary active" value="Register" />
                                     </div>
                                 </div>
                             }

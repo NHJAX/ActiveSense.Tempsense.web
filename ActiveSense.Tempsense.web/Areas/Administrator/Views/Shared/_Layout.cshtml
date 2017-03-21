@@ -1,0 +1,125 @@
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/Master")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+</head>
+<body>
+    <div class="page-container sidebar-collapsed-back">
+        <!--/content-inner-->
+        <div class="left-content">
+            <div class="inner-content">
+                <!-- header-starts -->
+                <div class="header-section">
+                    <!--menu-right-->
+                    <div class="top_menu">
+                        <div class="user-nav">
+                            @if (Request.IsAuthenticated)
+                            {
+
+                                @Html.Label(User.Identity.GetUserName(), new { @style = "color: white;font-size: 26px;" })
+
+                            }
+                        </div>                      
+                        <!--/profile_details-->
+                        <div class="profile_details_left">
+                            <ul class="nofitications-dropdown">
+                                <li class="dropdown note">
+                                    <a href="@Url.Action("ContactUs", "Home", new { area = "Administrator" })"><i class="fa fa-envelope-o"></i></a>
+                                    @*<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-envelope-o"></i> </a>*@
+                                </li>
+                                <div class="clearfix"></div>
+                            </ul>
+                        </div>
+                        <div class="clearfix"></div>
+                        <!--//profile_details-->
+                    </div>
+                    <!--//menu-right-->
+                    <div class="clearfix"></div>
+                </div>
+                <!-- //header-ends -->
+                <div class="outter-wp">
+                    <div class="container body-content">
+                        @RenderBody()
+                        
+                    </div>
+                </div>
+                <div class="footer">
+                    <p>@DateTime.Now.Year - © NHJAX-Dev </p>
+                </div>
+            </div>
+        </div>
+        <!--//content-inner-->
+        <!--/sidebar-menu-->
+        <div class="sidebar-menu">
+            <header class="logo">
+                <a href="#" class="sidebar-icon"> <span class="fa fa-bars"></span> </a> <a href="#">
+                    <span id="logo"> <h1>Home</h1></span>
+                </a>
+            </header>
+            <div style="border-top:1px solid rgba(69, 74, 84, 0.7)"></div>
+          
+            <div class="menu">
+                <ul id="menu">                  
+                    <li id="menu-academico">
+                        <a href="@Url.Action("Index", "Dashboard", new { area = "Administrator" })">
+                            <i class="fa fa-tachometer"></i>
+                            <span style="position: relative;">Board</span>
+                        </a>
+                    </li>
+
+                    <li id="menu-academico">
+                        <a href="@Url.Action("Index", "Company", new { area = "Administrator" })"><i class="lnr lnr-apartment"></i><span style="position: relative;">Company</span></a>
+                    </li>
+
+                    <li id="menu-academico">
+                        <a href="@Url.Action("Index", "Device", new { area = "Administrator" })"><i class="lnr lnr-smartphone"></i><span style="position: relative;">Device</span></a>
+                    </li>
+
+                    <li>
+                        <a href="@Url.Action("Index", "Users", new { area = "Administrator" })"><i class="lnr lnr-user"></i><span style="position: relative;">User</span></a>
+                    </li>
+
+                    <li id="menu-academico">
+                        <a href="@Url.Action("Index", "Report", new { area = "Administrator" })"><i class="lnr lnr-layers"></i><span style="position: relative;">Report</span></a>
+                    </li>
+
+                    <li id="menu-comunicacao">
+                        <a href="@Url.Action("Index", "Threshold",new { area = "Administrator" })"><i class="fa fa-file-text-o"></i><span style="position: relative;">Threshold</span></a>
+                    </li>
+
+                    <li id="menu-comunicacao">
+                        <a href="@Url.Action("Index", "Log",new { area = "Administrator" })"><i class="lnr lnr-history"></i><span style="position: relative;">Blog</span></a>
+                    </li>
+
+                    <li id="menu-comunicacao">
+                        @if (Request.IsAuthenticated)
+                        {
+                            using (Html.BeginForm("LogOff", "Account", new { area = "" }, FormMethod.Post, new { id = "logoutForm", @class = "" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <a href="javascript:document.getElementById('logoutForm').submit()">Exit</a>
+                            }
+                        }
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/utilities")
+    @Scripts.Render("~/bundles/toastr")
+    @Scripts.Render("~/bundles/calendar")
+    @Scripts.Render("~/bundles/dataTable")
+    @Scripts.Render("~/bundles/signalR")
+    @RenderSection("scripts", required: false)
+    @RenderSection("signal", required: false)
+</body>
+</html>

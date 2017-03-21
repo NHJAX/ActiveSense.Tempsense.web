@@ -20,7 +20,7 @@ namespace ActiveSense.Tempsense.web.Hubs
 
         public void InitTempData(string data = "" )
         {
-            _instance.idUsuario = data;
+            _instance.idUser = data;
             _instance.GetTempData();
 
         }

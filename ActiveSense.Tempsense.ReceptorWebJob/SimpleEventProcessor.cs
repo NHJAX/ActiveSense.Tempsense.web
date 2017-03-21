@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 using ActiveSense.Tempsense.model;
 using ActiveSense.Tempsense.Receptor;
 using System.Configuration;
-using ActiveSense.Tempsense.model.Modelo;
+using ActiveSense.Tempsense.model.Model;
 
 namespace ActiveSense.Tempsense.Receptor
 {
@@ -36,7 +36,7 @@ namespace ActiveSense.Tempsense.Receptor
 
         public Task ProcessEventsAsync(PartitionContext context, IEnumerable<EventData> messages)
         {
-            List<ActiveSense.Tempsense.model.Modelo.Medida> medidas = new List<ActiveSense.Tempsense.model.Modelo.Medida>();
+            List<ActiveSense.Tempsense.model.Model.Measure> Measures = new List<ActiveSense.Tempsense.model.Model.Measure>();
             foreach (EventData eventData in messages)
             {
                 string strConn = string.Format(ConfigurationManager.ConnectionStrings["TempsenseConnection"].ConnectionString, eventData.Properties["Ambiente"]);
@@ -49,18 +49,18 @@ namespace ActiveSense.Tempsense.Receptor
                 {
                     try
                     {
-                        var disp = db.Dispositivos
-                            .Where(p => p.DispositivoID == deviceKey);
+                        var disp = db.devices
+                            .Where(p => p.DeviceID == deviceKey);
                         if (disp.ToList().Count > 0)
                         {
-                            ActiveSense.Tempsense.model.Modelo.Medida medida = new ActiveSense.Tempsense.model.Modelo.Medida()
+                            ActiveSense.Tempsense.model.Model.Measure Measure = new ActiveSense.Tempsense.model.Model.Measure()
                             {
-                                DispositivoID = disp.FirstOrDefault().DispositivoID,
-                                Valor = decimal.Parse(o["valor"].ToString()),
-                                FechaHora = Convert.ToDateTime(o["fecha"].ToString()),
+                                DeviceID = disp.FirstOrDefault().DeviceID,
+                                Value = decimal.Parse(o["Value"].ToString()),
+                                DateTime = Convert.ToDateTime(o["date"].ToString()),
                             };
                             Console.WriteLine(string.Format("Message received. Partition:{0}, Data:{1}{2}", context.Lease.PartitionId, data, eventData.EnqueuedTimeUtc));
-                            db.Medidas.Add(medida);
+                            db.Measure.Add(Measure);
                             db.SaveChanges();
                         }
                         else
@@ -70,13 +70,13 @@ namespace ActiveSense.Tempsense.Receptor
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(string.Format("Mensaje tuvo error:{0},{1}", ex.Message, data));
+                        Console.WriteLine(string.Format("Message was mistake:{0},{1}", ex.Message, data));
                     }
                 }
             }
 
 
-            //if (messageCount > Configuracion.TamanoLoteMensajes)
+            //if (messageCount > Configurationsizebatchmessages)
             context.CheckpointAsync();
             return Task.FromResult<object>(null);
         }

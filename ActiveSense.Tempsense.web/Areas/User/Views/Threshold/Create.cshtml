@@ -1,0 +1,75 @@
+﻿@model ActiveSense.Tempsense.model.Model.Threshold
+
+@{
+    ViewBag.Title = "create";
+}
+<h2>
+    <font color="#999">
+        create Threshold
+    </font>
+</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <label for="Temperature_min" class="control-label col-md-2"> Value Mínimo</label>
+            <div class="col-sm-2">
+                @Html.EditorFor(model => model.Temperature_min, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Temperature_min, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Temperature_max" class="control-label col-md-2"> Value Máximo</label>
+            <div class="col-sm-2">
+                @Html.EditorFor(model => model.Temperature_max, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Temperature_max, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Tolerance_min" class="control-label col-md-2"> Tolerance Minimum</label>
+            <div class="col-sm-2">
+                @Html.EditorFor(model => model.Tolerance_min, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Tolerance_min, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Tolerance_max" class="control-label col-md-2"> Tolerance Maximum</label>
+            <div class="col-sm-2">
+                @Html.EditorFor(model => model.Tolerance_max, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Tolerance_max, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="DeviceID" class="control-label col-md-2"> device</label>
+            <div class="col-sm-2" style="left: 1.3%;">
+                <div class="form-group">
+                    @Html.DropDownList("DeviceID", null, htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="create" class="btn btn-primary" />
+                @Html.ActionLink("Cancel", "Index", new { }, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+

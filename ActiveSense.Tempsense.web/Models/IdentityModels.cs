@@ -20,7 +20,7 @@ namespace ActiveSense.Tempsense.web.Models
         }
         //SE:agregara campos personalizados
         //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int EmpresaID { get; set; }
+        public int CompanyID { get; set; }
         public string State { set; get; }
       
     }
@@ -37,8 +37,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         return new ApplicationDbContext();
     }
 
-        public System.Data.Entity.DbSet<ActiveSense.Tempsense.web.Models.UsuarioViewModel> UsuarioViewModels { get; set; }
+        public System.Data.Entity.DbSet<ActiveSense.Tempsense.web.Models.UserViewModel> UsuarioViewModels { get; set; }
 
-        public System.Data.Entity.DbSet<ActiveSense.Tempsense.model.Modelo.TipoMedida> TipoMedidas { get; set; }
+        public System.Data.Entity.DbSet<ActiveSense.Tempsense.model.Model.Typemeasure> Typemeasure { get; set; }
     }
 }

@@ -1,0 +1,58 @@
+﻿@model ActiveSense.Tempsense.model.Model.devices
+
+<h2>
+    <font color="#999">
+        Eliminate device
+    </font>
+</h2>
+
+<h4>¿Esta seguro que quiere Eliminate este device?</h4>
+<div class="container-fluid">
+    <div class="row">
+        <hr />
+        <div class="col-sm-12">
+            <dl>
+                <dt>
+                    @Html.DisplayNameFor(model => model.company.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.company.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                  <dt>
+                    @Html.DisplayNameFor(model => model.Active)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Active)
+                </dd>
+
+            </dl>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input type="submit" value="Eliminate" class="btn btn-primary active" />
+                        @Html.ActionLink("Cancel", "Index", new { }, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    </div>
+
+
+
+

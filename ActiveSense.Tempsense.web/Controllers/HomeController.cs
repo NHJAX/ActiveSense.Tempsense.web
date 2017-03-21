@@ -28,7 +28,7 @@ namespace ActiveSense.Tempsense.web.Controllers
         }
 
         public ActionResult Inactive() {
-            ViewBag.Message = "Usuario Inactivo.";
+            ViewBag.Message = "User InActive.";
             return View();
         }
     }

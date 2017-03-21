@@ -57,17 +57,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\UserHelper.cs" />
-    <Compile Include="Modelo\ActiveSenseContext.cs" />
-    <Compile Include="Modelo\AspNetUsers.cs" />
-    <Compile Include="Modelo\Bitacoras.cs" />
-    <Compile Include="Modelo\Contactenos.cs" />
-    <Compile Include="Modelo\Dispositivos.cs" />
-    <Compile Include="Modelo\Empresas.cs" />
-    <Compile Include="Modelo\Medidas.cs" />
-    <Compile Include="Modelo\Perfiles.cs" />
-    <Compile Include="Modelo\TipoMedida.cs" />
-    <Compile Include="Modelo\Umbral.cs" />
-    <Compile Include="Modelo\Usuarios.cs" />
+    <Compile Include="Model\ActiveSenseContext.cs" />
+    <Compile Include="Model\AspNetUsers.cs" />
+    <Compile Include="Model\Blogs.cs" />
+    <Compile Include="Model\ContactUs.cs" />
+    <Compile Include="Model\Device.cs" />
+    <Compile Include="Model\Companies.cs" />
+    <Compile Include="Model\Measures.cs" />
+    <Compile Include="Model\Profiles.cs" />
+    <Compile Include="Model\Typemeasure.cs" />
+    <Compile Include="Model\Threshold.cs" />
+    <Compile Include="Model\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

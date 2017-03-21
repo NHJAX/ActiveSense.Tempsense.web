@@ -49,65 +49,65 @@ namespace ActiveSense.Tempsense.web.Models
     //SE:campos de registro de usuario
     public class LoginViewModel
     {
-        [Required(ErrorMessage = "Por favor ingrese el nombre usuario.")]
-        [Display(Name = "Usuario")]
+        [Required(ErrorMessage = "Please enter the Username.")]
+        [Display(Name = "User")]
         public string UserName { get; set; }
 
-        //[Required(ErrorMessage = "Por favor ingrese un correo.")]
-        //[Display(Name = "Correo")]
-        //[EmailAddress(ErrorMessage = "Correo con formato no válido.")]
+        //[Required(ErrorMessage = "Please enter Email address.")]
+        //[Display(Name = "Email")]
+        //[EmailAddress(ErrorMessage = "Mail with invalid format.")]
         //public string Email { get; set; }
 
 
-        [Required(ErrorMessage = "Por favor ingrese una contraseña.")]
+        [Required(ErrorMessage = "Please enter the Password.")]
         [DataType(DataType.Password)]
-        [Display(Name = "Contraseña")]
+        [Display(Name = "Password")]
         public string Password { get; set; }
 
-        [Display(Name = "Recordar?")]
+        [Display(Name = "Remember?")]
         public bool RememberMe { get; set; }
     }
 
     //SE:campos de registro de usuario
     public class RegisterViewModel
     {
-        [Required(ErrorMessage = "Por favor seleccione el perfil o rol.")]
+        [Required(ErrorMessage = "Please select role or profile.")]
         [Display(Name = "UserRoles")]
         public string UserRoles { get; set; }
 
-        [Required(ErrorMessage = "Por favor seleccione una empresa.")]
-        [Display(Name = "Empresas")]
-        public int EmpresaID { get; set; }
+        [Required(ErrorMessage = "Please select a company.")]
+        [Display(Name = "Companies")]
+        public int CompanyID { get; set; }
 
 
-        [Required(ErrorMessage = "Por favor ingrese un correo.")]
-        [EmailAddress(ErrorMessage = "Correo con formato no válido.")]
-        [Display(Name = "Correo")]
+        [Required(ErrorMessage = "Please enter an email.")]
+        [EmailAddress(ErrorMessage = "Mail with invalid format.")]
+        [Display(Name = "EMail")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Por favor ingrese la contraseña.")]
-        [StringLength(100, ErrorMessage = "El {0} debe ser al menos {2} caracteres.", MinimumLength = 6)]
+        [Required(ErrorMessage = "Please enter the password.")]
+        [StringLength(100, ErrorMessage = "the {0} must be at least {2} characters.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Contraseña")]
+        [Display(Name = "Password")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirmar contraseña")]
-        [Compare("Password", ErrorMessage = "La contraseña y su confirmación no son iguales.")]
+        [Display(Name = "Confirm password")]
+        [Compare("Password", ErrorMessage = "the password and confirmation are not equal.")]
         public string ConfirmPassword { get; set; }
 
-        [Required(ErrorMessage = "Por favor ingrese el nombre.")]
-        [Display(Name = "Nombre")]
+        [Required(ErrorMessage = "Please enter the Name.")]
+        [Display(Name = "Name")]
         public string UserName { get; set; }
 
-        [Required(ErrorMessage = "Por favor ingrese el teléfono.")]
-        [Display(Name = "Teléfono")]
-        [StringLength(10, MinimumLength = 7, ErrorMessage = "La logitud de número telefónico es de 7 a 10 digitos")]
+        [Required(ErrorMessage = "Please enter the phone.")]
+        [Display(Name = "Phone")]
+        [StringLength(10, MinimumLength = 7, ErrorMessage = "the phone number length is 7 to 10 digit")]
         public string PhoneNumber { get; set; }
 
-        [Required(ErrorMessage = "Por favor ingrese la confirmación de teléfono.")]
-        [Display(Name = "Confirmar Teléfono")]
-        [Compare("PhoneNumber", ErrorMessage = "El teléfono y su confirmación no son iguales.")]
+        [Required(ErrorMessage = "Please enter the phone confirmation.")]
+        [Display(Name = "Confirm phone")]
+        [Compare("PhoneNumber", ErrorMessage = " the phone and confirmation are not equal.")]
         public string ConfirmPhone{ get; set; }
     }
 
@@ -115,57 +115,57 @@ namespace ActiveSense.Tempsense.web.Models
     {
        
 
-        [Required(ErrorMessage = "Por favor ingrese un correo.")]
-        [EmailAddress(ErrorMessage = "Correo con formato no válido.")]
-        [Display(Name = "Correo")]
+        [Required(ErrorMessage = "Please enter an email.")]
+        [EmailAddress(ErrorMessage = "Mail with invalid format.")]
+        [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Por favor ingrese la contraseña.")]
-        [StringLength(100, ErrorMessage = "El {0} debe ser al menos {2} caracteres.", MinimumLength = 6)]
+        [Required(ErrorMessage = "Please enter the password.")]
+        [StringLength(100, ErrorMessage = "the {0} must be at least {2} characters.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Contraseña")]
+        [Display(Name = "Password")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirmar contraseña")]
-        [Compare("Password", ErrorMessage = "La contraseña y su confirmación no son iguales.")]
+        [Display(Name = "Confirm password")]
+        [Compare("Password", ErrorMessage = "the password and confirmation are not equal.")]
         public string ConfirmPassword { get; set; }
 
-        [Required(ErrorMessage = "Por favor ingrese el nombre.")]
-        [Display(Name = "Nombre")]
+        [Required(ErrorMessage = "Please enter the Name.")]
+        [Display(Name = "Name")]
         public string UserName { get; set; }
 
-        [Required(ErrorMessage = "Por favor ingrese el teléfono.")]
-        [Display(Name = "Teléfono")]
-        [StringLength(10, MinimumLength = 7, ErrorMessage = "La logitud de número telefónico es de 7 a 10 digitos")]
+        [Required(ErrorMessage = "Please enter the phone.")]
+        [Display(Name = "Phone")]
+        [StringLength(10, MinimumLength = 7, ErrorMessage = "the phone number length is 7 to 10 digit")]
         public string PhoneNumber { get; set; }
 
-        [Required(ErrorMessage = "Por favor ingrese la confirmación de teléfono.")]
-        [Display(Name = "Confirmar Teléfono")]
-        [Compare("PhoneNumber", ErrorMessage = "El teléfono y su confirmación no son iguales.")]
+        [Required(ErrorMessage = "Please enter the phone confirmation.")]
+        [Display(Name = "Confirm Phone")]
+        [Compare("PhoneNumber", ErrorMessage = "the phone and confirmation are not equal.")]
         public string ConfirmPhone { get; set; }
 
 
-        [StringLength(100)] // no debe pasarse de 100 caracteres
-        [Required(ErrorMessage = "El nombre empresa es requerido")]
-        [Display(Name = "Nombre Empresa")]
-        public string NombreEmpresa { get; set; }
+        [StringLength(100)] // not must pass 100 characters
+        [Required(ErrorMessage = "the Company Nme is required")]
+        [Display(Name = "Company Name")]
+        public string CompanyName { get; set; }
 
-        [StringLength(11, ErrorMessage = "La máxima cantidad de caracteres es 11.")]
-        [Required(ErrorMessage = "El NIT es requerido.")]
-        [RegularExpression("^[0-9]{1,9}-[0-9]{1}$", ErrorMessage = "El formato del NIT ES ddddddddd-d")]
+        [StringLength(11, ErrorMessage = "the maximum number of characters is 11.")]
+        [Required(ErrorMessage = "NIT required.")]
+        [RegularExpression("^[0-9]{1,9}-[0-9]{1}$", ErrorMessage = "the format of the NIT is ddddddddd-d")]
         [Display(Name = "Nit")]
         public string Nit { get; set; }
 
-        [Display(Name = "Correo")]
-        [Required(ErrorMessage = "El correo de empresa es requerido")]
-        [EmailAddress(ErrorMessage = "Dirección de correo invalido")]
-        public string CorreoEmpresa { get; set; }
+        [Display(Name = "Mail")]
+        [Required(ErrorMessage = "company email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email address")]
+        public string CompanyEmail { get; set; }
 
-        [Required(ErrorMessage = "Por favor ingrese el teléfono de la empresa.")]
-        [Display(Name = "Teléfono")]
-        [StringLength(10, MinimumLength = 7, ErrorMessage = "La logitud de número telefónico es de 7 a 10 digitos")]
-        public string PhoneNumberEmpresa { get; set; }
+        [Required(ErrorMessage = "Please enter the company phone.")]
+        [Display(Name = "Phone")]
+        [StringLength(10, MinimumLength = 7, ErrorMessage = "Lthe phone number length is 7 to 10 digit")]
+        public string PhoneNumberCompany { get; set; }
 
     }
 
@@ -183,41 +183,37 @@ namespace ActiveSense.Tempsense.web.Models
             this.Email = user.Email;
         }
 
-        [Required(ErrorMessage = "Por favor seleccione el perfil o rol.")]
+        [Required(ErrorMessage = "Please select role or profile.")]
         [Display(Name = "UserRoles")]
         public string UserRoles { get; set; }
 
-        //[Required(ErrorMessage = "Por favor seleccione la empresa.")]
-        //[Display(Name = "Empresa")]
-        //public string Empresa { get; set; }
-
-        [Required(ErrorMessage = "Por favor ingrese un correo.")]
-        [EmailAddress(ErrorMessage = "Correo con formato no válido.")]
-        [Display(Name = "Correo")]
+          [Required(ErrorMessage = "Please enter an email.")]
+        [EmailAddress(ErrorMessage = "Mail with invalid format.")]
+        [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Por favor ingrese la contraseña.")]
-        [StringLength(100, ErrorMessage = "El {0} debe ser al menos {2} caracteres.", MinimumLength = 6)]
+        [Required(ErrorMessage = "Please enter the password.")]
+        [StringLength(100, ErrorMessage = "the {0} must be at least {2} characters.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Contraseña")]
+        [Display(Name = "Password")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirmar contraseña")]
-        [Compare("Password", ErrorMessage = "La contraseña y su confirmación no son iguales.")]
+        [Display(Name = "Confirm password")]
+        [Compare("Password", ErrorMessage = "the password and confirmation are not equal.")]
         public string ConfirmPassword { get; set; }
 
-        [Required(ErrorMessage = "Por favor ingrese el nombre.")]
-        [Display(Name = "Nombre")]
+        [Required(ErrorMessage = "Please enter the Name.")]
+        [Display(Name = "Name")]
         public string UserName { get; set; }
 
-        [Required(ErrorMessage = "Por favor ingrese el teléfono.")]
-        [Display(Name = "Teléfono")]
+        [Required(ErrorMessage = "Please enter the phone.")]
+        [Display(Name = "Phone")]
         public string PhoneNumber { get; set; }
 
-        [Required(ErrorMessage = "Por favor ingrese la confirmación de teléfono.")]
-        [Display(Name = "Confirmar Teléfono")]
-        [Compare("PhoneNumber", ErrorMessage = "El teléfono y su confirmación no son iguales.")]
+        [Required(ErrorMessage = "Please enter the phone confirmation.")]
+        [Display(Name = "Confirm Phone")]
+        [Compare("PhoneNumber", ErrorMessage = "the phone and confirmation are not equal.")]
         public string ConfirmPhone { get; set; }
     }
 

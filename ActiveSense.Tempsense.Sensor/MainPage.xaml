@@ -8,11 +8,11 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBox x:Name="temperatura" HorizontalAlignment="Center" Margin="127,88,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" TextChanged="temperatura_TextChanged" Width="104" Height="28"/>
+        <TextBox x:Name="temperature" HorizontalAlignment="Center" Margin="127,88,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" TextChanged="temperature_TextChanged" Width="104" Height="28"/>
         <TextBox x:Name="Humedad" HorizontalAlignment="Center" Margin="37,241,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" TextChanged="textBox_TextChanged" Width="86"/>
-        <TextBox x:Name="Temperatura_Ambiente" HorizontalAlignment="Center" Margin="160,241,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" RenderTransformOrigin="0.638,3.719"/>
-        <TextBox x:Name="textBox" HorizontalAlignment="Center" Margin="127,51,0,0" TextWrapping="Wrap" Text="Temperatura" VerticalAlignment="Top" Width="104" Height="32"/>
+        <TextBox x:Name="temperature_Ambiente" HorizontalAlignment="Center" Margin="160,241,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" RenderTransformOrigin="0.638,3.719"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Center" Margin="127,51,0,0" TextWrapping="Wrap" Text="temperature" VerticalAlignment="Top" Width="104" Height="32"/>
         <TextBox x:Name="textBox1" HorizontalAlignment="Center" Margin="37,191,0,0" TextWrapping="Wrap" Text="Humedad" VerticalAlignment="Top" TextChanged="textBox1_TextChanged"/>
-        <TextBox x:Name="textBox2" HorizontalAlignment="Center" Margin="160,191,0,0" TextWrapping="Wrap" Text="Temperatura Ambiente" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBox2" HorizontalAlignment="Center" Margin="160,191,0,0" TextWrapping="Wrap" Text="temperature Ambiente" VerticalAlignment="Top"/>
     </Grid>
 </Page>

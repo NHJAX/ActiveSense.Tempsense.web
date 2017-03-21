@@ -26,33 +26,33 @@ namespace ActiveSense.Tempsense.web
 
 
             // In Startup iam creating first Admin Role and creating a default Admin User    
-            if (!roleManager.RoleExists("Administrador"))
+            if (!roleManager.RoleExists("Administrator"))
             {
 
-                // first we create Admin rool   
+                // first we create Admin role   
                 var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
-                role.Name = "Administrador";
+                role.Name = "Administrator";
                 roleManager.Create(role);
 
                 //Here we create a Admin super user who will maintain the website                  
 
                 var user = new ApplicationUser();
-                user.UserName = "gina";
-                user.Email = "gina.ospina@softwareestrategico.com";
+                user.UserName = "fbenton";
+                user.Email = "frank.benton2020@gmail.com";
 
-                string userPWD = "A@Z200711";
+                string userPWD = "Zaq2#ert";
 
                 var chkUser = UserManager.Create(user, userPWD);
 
                 if (chkUser.Succeeded)
                 {
-                    var result1 = UserManager.AddToRole(user.Id, "Administrador");
+                    var result1 = UserManager.AddToRole(user.Id, "Administrator");
 
                 }
 
                 var user2 = new ApplicationUser();
-                user2.UserName = "sistemas";
-                user2.Email = "sistemas@mymdiagnostics.com";
+                user2.UserName = "systems";
+                user2.Email = "systems@mymdiagnostics.com";
 
                 string userPWD1 = "A@Z200711";
 
@@ -61,22 +61,22 @@ namespace ActiveSense.Tempsense.web
                 //Add default User to Role Admin   
                 if (chkUser2.Succeeded)
                 {
-                    var result1 = UserManager.AddToRole(user2.Id, "Administrador");
+                    var result1 = UserManager.AddToRole(user2.Id, "Administrator");
 
                 }
             }
 
             // creating Creating Manager role    
-            if (!roleManager.RoleExists("Usuario"))
+            if (!roleManager.RoleExists("User"))
             {
                 var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
-                role.Name = "Usuario";
+                role.Name = "User";
                 roleManager.Create(role);
 
 
                 var user1 = new ApplicationUser();
-                user1.UserName = "almacen";
-                user1.Email = "almacen@mymdiagnostics.com";
+                user1.UserName = "compterroom";
+                user1.Email = "compterroom@mymdiagnostics.com";
 
                 string userPWD1 = "A@Z200711";
 
@@ -85,7 +85,7 @@ namespace ActiveSense.Tempsense.web
                 //Add default User to Role Admin   
                 if (chkUser1.Succeeded)
                 {
-                    var result1 = UserManager.AddToRole(user1.Id, "Usuario");
+                    var result1 = UserManager.AddToRole(user1.Id, "User");
 
                 }
 
