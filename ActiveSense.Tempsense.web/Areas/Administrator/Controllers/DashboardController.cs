@@ -22,7 +22,7 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
         public ActionResult Index()
         {
             string idUser = User.Identity.GetUserId();
-            //esta variable permite que se pase a un identificador de usuario a helperchart.
+            //This variable allows that it passes to a userid to helperchart.
             ViewBag.UsK = idUser;
 
             return View();

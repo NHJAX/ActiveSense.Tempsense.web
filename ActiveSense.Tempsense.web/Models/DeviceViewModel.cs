@@ -10,7 +10,7 @@ namespace ActiveSense.Tempsense.web.Models
 
         public int idDevice ;
         public string NameDevice;
-        public string typeMeasure;
+        public string TypeMeasure;
     }
 
     public class DeviceViewModel2
@@ -18,6 +18,6 @@ namespace ActiveSense.Tempsense.web.Models
 
         public int idDevice { get; set; }
         public string NameDevice { get; set; }
-        public string typeMeasure { get; set; }
+        public string TypeMeasure { get; set; }
     }
 }

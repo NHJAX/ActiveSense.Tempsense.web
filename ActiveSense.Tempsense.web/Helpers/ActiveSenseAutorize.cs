@@ -108,7 +108,7 @@ namespace ActiveSense.Tempsense.web.Helpers
                         {
                             {"controller" , "Home"},
                             {"action" , "Index"},
-                            {"area" , "Usuario"}
+                            {"area" , "User"}
                          };
                         filterContext.Result = new RedirectToRouteResult(routeValues);
                     }

@@ -22,7 +22,7 @@ namespace ActiveSense.Tempsense.web.Areas.Users.Controllers
             userHelper = new UserHelper();
         }
 
-        // GET: Thresholds
+        // GET: Threshold
         public ActionResult Index()
         {
             string idUser  = User.Identity.GetUserId();
@@ -31,7 +31,7 @@ namespace ActiveSense.Tempsense.web.Areas.Users.Controllers
             return View(Thresholdes);
         }
 
-        // GET: Thresholds/Details/5
+        // GET: Threshold/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -46,7 +46,7 @@ namespace ActiveSense.Tempsense.web.Areas.Users.Controllers
             return View(Threshold);
         }
 
-        // GET: Thresholds/Create
+        // GET: Threshold/Create
         public ActionResult Create()
         {
             string idUser = User.Identity.GetUserId();
@@ -55,7 +55,7 @@ namespace ActiveSense.Tempsense.web.Areas.Users.Controllers
             return View();
         }
 
-        // POST: Thresholds/Create
+        // POST: Threshold/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         //Add active in the include and the current date
@@ -77,7 +77,7 @@ namespace ActiveSense.Tempsense.web.Areas.Users.Controllers
             return View(Threshold);
         }
 
-        // GET: Thresholds/Edit/5
+        // GET: Threshold/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -95,7 +95,7 @@ namespace ActiveSense.Tempsense.web.Areas.Users.Controllers
             return View(Threshold);
         }
 
-        // POST: Thresholds/Edit/5
+        // POST: Threshold/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -116,7 +116,7 @@ namespace ActiveSense.Tempsense.web.Areas.Users.Controllers
             return View(Threshold);
         }
 
-        // GET: Thresholds/Delete/5
+        // GET: Threshold/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -131,7 +131,7 @@ namespace ActiveSense.Tempsense.web.Areas.Users.Controllers
             return View(Threshold);
         }
 
-        // POST: Thresholds/Delete/5
+        // POST: Threshold/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

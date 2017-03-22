@@ -54,9 +54,9 @@ namespace ActiveSense.Tempsense.web.Areas.User.Controllers
             {
                 DeviceViewModel device = new DeviceViewModel();
                 device.idDevice = dist.DeviceID;
-                var typeMeasure = dbActiveContext.Typemeasure.Where(x => x.TypeMeasureID == dist.TypeMeasureID).FirstOrDefault().Name;
-                device.typeMeasure = typeMeasure;
-                device.NameDevice = dist.name + " ( " + device.typeMeasure + " )";
+                var TypeMeasure = dbActiveContext.TypeMeasure.Where(x => x.TypeMeasureID == dist.TypeMeasureID).FirstOrDefault().Name;
+                device.TypeMeasure = TypeMeasure;
+                device.NameDevice = dist.name + " ( " + device.TypeMeasure + " )";
                 data.Add(device);
             }
 
@@ -91,12 +91,12 @@ namespace ActiveSense.Tempsense.web.Areas.User.Controllers
             List<DeviceViewModel2> data = new List<DeviceViewModel2>();
             foreach (devices disp in lists)
             {
-                var typeMeasure = String.Empty;
+                var TypeMeasure = String.Empty;
                 DeviceViewModel2 device = new DeviceViewModel2();
                 device.idDevice = disp.DeviceID;
-                typeMeasure = dbActiveContext.Typemeasure.Where(x => x.TypeMeasureID == disp.TypeMeasureID).FirstOrDefault().Name;
-                device.typeMeasure = typeMeasure;
-                device.NameDevice = disp.name + " ( " + device.typeMeasure + " )";
+                TypeMeasure = dbActiveContext.TypeMeasure.Where(x => x.TypeMeasureID == disp.TypeMeasureID).FirstOrDefault().Name;
+                device.TypeMeasure = TypeMeasure;
+                device.NameDevice = disp.name + " ( " + device.TypeMeasure + " )";
                 data.Add(device);
             }
             var list = new SelectList(data, "idDevice", "NameDevice").ToList();

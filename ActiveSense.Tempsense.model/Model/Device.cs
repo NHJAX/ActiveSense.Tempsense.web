@@ -25,7 +25,7 @@ namespace ActiveSense.Tempsense.model.Model
         [Display(Name = "Measure")]
         public int? TypeMeasureID { get; set; }
 
-        public virtual Typemeasure TypeMeasure { get; set; }
+        public virtual TypeMeasure TypeMeasure { get; set; }
 
         public virtual company company { get; set; }
 

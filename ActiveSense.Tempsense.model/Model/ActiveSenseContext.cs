@@ -28,7 +28,7 @@ namespace ActiveSense.Tempsense.model.Model
 
         public System.Data.Entity.DbSet<ActiveSense.Tempsense.model.Model.Measure> Measure { get; set; }
         
-        public virtual DbSet<Typemeasure> Typemeasure { get; set; }
+        public virtual DbSet<TypeMeasure> TypeMeasure { get; set; }
         
         public System.Data.Entity.DbSet<ActiveSense.Tempsense.model.Model.Threshold> Threshold { get; set; }
 

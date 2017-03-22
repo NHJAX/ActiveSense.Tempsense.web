@@ -124,7 +124,7 @@
             $('#content').html('');
             $.each(data, function (index, value) {
                 $.each(value, function (indextemp, valuetemp) {
-                    $('#content').append(BuildContainerDevice(valuetemp.DeviceID, valuetemp.Company, valuetemp.NameDevice, valuetemp.Temperature, valuetemp.Min, valuetemp.Max, valuetemp.MinTolerance, valuetemp.MaxTolerance, valuetemp.typeMeasure));
+                    $('#content').append(BuildContainerDevice(valuetemp.DeviceID, valuetemp.Company, valuetemp.NameDevice, valuetemp.Temperature, valuetemp.Min, valuetemp.Max, valuetemp.MinTolerance, valuetemp.MaxTolerance, valuetemp.TypeMeasure));
                    $('.verGrafica').click(function () {
                        GetMeasuresByDevice($(this).data('id'), $(this).data('Name'));
                    });
@@ -144,7 +144,7 @@
         }
 
     //function that is in charge of creating the objects Visual of devices
-        function BuildContainerDevice(idDevice, empresa, device, temperature, tempMin, tempMax, tolMin, tolMax, typeMeasure) {
+        function BuildContainerDevice(idDevice, empresa, device, temperature, tempMin, tempMax, tolMin, tolMax, TypeMeasure) {
             
             var contenedorColumna = null;
             var content = null;
@@ -176,12 +176,12 @@
                     }
                 }
             }
-            if (typeMeasure == "temperature" || typeMeasure == "Ambient temp") {
+            if (TypeMeasure == "temperature" || TypeMeasure == "Ambient temp") {
                 TypeM = "°F";
-            }else if (typeMeasure == "Humitity"){
+            }else if (TypeMeasure == "Humitity"){
                 TypeM = "%H";
             }
-            contentBody = $('<div class="col-md-3 col-sm-6 col-xs-12"><div class="panel panel-warning hover-3" style="border: none;"><div class="panel-heading" style="background-color: #373f4c; border-color: #ffffff;"><div class="price-value" style="' + stylehead + '"><p><span>' + temperature + '</span></p></div><div class="price-period" style=""><p id="letra">' + TypeM + '</p></div></div><div class="panel-body" style="' + stylebody + '"><h3><i id="iconodisp" class="lnr lnr-laptop-phone"></i>' + device + '</h3><ul class="list-unstyled"><li><p class="pull-left" style="color: #ffffff">' + typeMeasure + '</p></li></ul></div><div class="panel-footer" style="background-color: #373f4c; border-color: #ffffff;"><a id="btngrafica2" class="btn btn-primary verGrafica" data-id="' + idDevice + '" data-Name="' + device + '" href="#"><i class="lnr lnr-chart-bars"></i></a> <a id="btngrafica" class="btn btn-primary verGrafica" data-id="' + idDevice + '" data-Name="' + device + '" href="#"><i class="lnr lnr-chart-bars"></i> Grafica</a> ' + btnThreshold + '</div></div></div>');
+            contentBody = $('<div class="col-md-3 col-sm-6 col-xs-12"><div class="panel panel-warning hover-3" style="border: none;"><div class="panel-heading" style="background-color: #373f4c; border-color: #ffffff;"><div class="price-value" style="' + stylehead + '"><p><span>' + temperature + '</span></p></div><div class="price-period" style=""><p id="letra">' + TypeM + '</p></div></div><div class="panel-body" style="' + stylebody + '"><h3><i id="iconodisp" class="lnr lnr-laptop-phone"></i>' + device + '</h3><ul class="list-unstyled"><li><p class="pull-left" style="color: #ffffff">' + TypeMeasure + '</p></li></ul></div><div class="panel-footer" style="background-color: #373f4c; border-color: #ffffff;"><a id="btngrafica2" class="btn btn-primary verGrafica" data-id="' + idDevice + '" data-Name="' + device + '" href="#"><i class="lnr lnr-chart-bars"></i></a> <a id="btngrafica" class="btn btn-primary verGrafica" data-id="' + idDevice + '" data-Name="' + device + '" href="#"><i class="lnr lnr-chart-bars"></i> Grafica</a> ' + btnThreshold + '</div></div></div>');
             var contenedorSeparador = $('<div class="clearfix" />');
             contentBody.append();
             return contentBody;
@@ -217,7 +217,7 @@
             var canvas = document.getElementById("graphicalMeasures");
             var ctx = canvas.getContext("2d");
 
-            //rendering of lines of thresholds
+            //rendering of lines of Threshold
             var horizonalLinePlugin = {
                 afterDraw: function (chartInstance) {
                     var yScale = chartInstance.scales["y-axis-0"];

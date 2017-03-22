@@ -99,7 +99,7 @@ namespace ActiveSense.Tempsense.web.Helpers
                                 }
                                 catch (Exception ex)
                                 {
-                                    Debug.WriteLine("ERROR chartBroadcaster.cs temperature thresholds.");
+                                    Debug.WriteLine("ERROR chartBroadcaster.cs temperature Threshold.");
                                     Debug.WriteLine(ex.GetBaseException().ToString());
                                 }
                                 try {

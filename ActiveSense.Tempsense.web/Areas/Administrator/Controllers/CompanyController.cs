@@ -12,14 +12,14 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
     public class CompanyController : GenericController
     {
        
-        // GET: Empresa
+        // GET: Company
         public ActionResult Index()
         {
             //return View();
             return View(dbActiveContext.companies.ToList());
         }
 
-        // GET: Empresa/Details/5
+        // GET: Company/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -34,13 +34,13 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
             return View(company);
         }
 
-        // GET: Empresa/Create
+        // GET: Company/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Empresa/Create
+        // POST: Company/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -57,7 +57,7 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
             return View(company);
         }
 
-        // GET: Empresa/Edit/5
+        // GET: Company/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -88,7 +88,7 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
             return View(company);
         }
 
-        // GET: Empresa/Delete/5
+        // GET: Company/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -103,7 +103,7 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
             return View(company);
         }
 
-        // POST: Empresa/Delete/5
+        // POST: Company/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

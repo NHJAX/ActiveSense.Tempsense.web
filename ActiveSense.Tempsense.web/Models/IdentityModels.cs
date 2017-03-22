@@ -18,7 +18,7 @@ namespace ActiveSense.Tempsense.web.Models
             // Add custom user claims here
             return userIdentity;
         }
-        //SE:agregara campos personalizados
+        //SE:Add custom fields
         //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CompanyID { get; set; }
         public string State { set; get; }
@@ -37,8 +37,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         return new ApplicationDbContext();
     }
 
-        public System.Data.Entity.DbSet<ActiveSense.Tempsense.web.Models.UserViewModel> UsuarioViewModels { get; set; }
+        public System.Data.Entity.DbSet<ActiveSense.Tempsense.web.Models.UserViewModel> UserViewModels { get; set; }
 
-        public System.Data.Entity.DbSet<ActiveSense.Tempsense.model.Model.Typemeasure> Typemeasure { get; set; }
+        public System.Data.Entity.DbSet<ActiveSense.Tempsense.model.Model.TypeMeasure> TypeMeasure { get; set; }
     }
 }

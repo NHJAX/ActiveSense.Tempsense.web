@@ -30,7 +30,7 @@ namespace ActiveSense.Tempsense.model.Model
         [Required(ErrorMessage = "the number is required")]
         public string Celular { get; set; }
 
-        public string ConfirmarCelular { get; set; }
+        public string ConfirmCelular { get; set; }
         public int CompanyID { get; set; }
         public virtual company company { get; set; }
         [Display(Name = "Profile")]

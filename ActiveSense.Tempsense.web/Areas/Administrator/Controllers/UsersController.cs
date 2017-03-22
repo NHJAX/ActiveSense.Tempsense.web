@@ -94,7 +94,7 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
             return View(updatedUser);
         }
 
-        // POST: Usuario/Edit/5
+        // POST: User/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -123,7 +123,7 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
 
                 if (result.Succeeded)
                 {
-                    //se modifica rol de usuario
+                    //modifies user role
                     var perfil = UserManager.GetRoles(userTemp.Id);
                     UserManager.RemoveFromRole(userTemp.Id, perfil[0].ToString());
                     UserManager.AddToRole(userTemp.Id, user.UserRoles);
@@ -188,7 +188,7 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
 
             if (ModelState.IsValid)
             {
-                //SE: agregar campos personalizados para creacion de usuario.
+                //SE: Add custom for creation of user fields.
                 var user = new ApplicationUser
                 {
                     UserName = model.UserName,
@@ -205,7 +205,7 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
                 }
                 AddErrors(result, model);
             }
-            //SE:agregar lista de roles
+            //SE:Add list of roles
             ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains(PROFILE_EXCLUDED_IN_CREATION))
                                          .ToList(), "Name", "Name");
             ViewBag.CompanyID = new SelectList(dbActiveContext.companies, "CompanyID", "Name");
@@ -244,13 +244,13 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
             if (message == ("Passwords must have at least one lowercase ('a'-'z')."))
             {
                 sizeError += "2";
-                ModelState.AddModelError("", "La contraseña debe contener al menos un caracter en minúscula ('a'-'z').");
+                ModelState.AddModelError("", "The password must contain at least one character lowercase ('a'-'z').");
             }
 
             if (message.Substring(0, message.IndexOf(" ")) == "Email")
             {
                 sizeError += "3";
-                ModelState.AddModelError("", "El Email " + model.Email + " ya fue ingresado.");
+                ModelState.AddModelError("", "Email " + model.Email + "  was already entered.");
             }
             return sizeError;
         }

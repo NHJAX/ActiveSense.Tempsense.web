@@ -65,7 +65,7 @@
     <Compile Include="Model\Companies.cs" />
     <Compile Include="Model\Measures.cs" />
     <Compile Include="Model\Profiles.cs" />
-    <Compile Include="Model\Typemeasure.cs" />
+    <Compile Include="Model\TypeMeasure.cs" />
     <Compile Include="Model\Threshold.cs" />
     <Compile Include="Model\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
