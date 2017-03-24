@@ -120,27 +120,27 @@ namespace ActiveSense.Tempsense.web.Areas.User.Controllers
 
 
 
-        public JsonResult ObtainDataGraphic(int pageIndex, int idDevice, string dateInicio, string dateFin)
+        public JsonResult ObtainDataGraphic(int pageIndex, int idDevice, string dateStart, string dateEnd)
         {
 
             int start = Request["start"] != null ? Int16.Parse(Request["start"]) : 0;
             int lenght = Request["length"] != null ? Int16.Parse(Request["length"]) : 10;
 
-            string dateInicial = Request["dateInicio"] != null ? Request["dateInicio"] : "";
-            string dateFi = Request["dateFin"] != null ? Request["dateFin"] : "";
-            int filtroMeasureTiempo = Request["FilterTime"] != null ? Int16.Parse(Request["FilterTime"]) : 0;
+            string dateInicial = Request["dateStart"] != null ? Request["dateStart"] : "";
+            string dateFi = Request["dateEnd"] != null ? Request["dateEnd"] : "";
+            int filterMeasureTiempo = Request["FilterTime"] != null ? Int16.Parse(Request["FilterTime"]) : 0;
 
 
             Measure Measure = new Measure();
             int pageCount = 0;
             List<Measure> Measures = null;
 
-            if (filtroMeasureTiempo <= 0)
+            if (filterMeasureTiempo <= 0)
             {
                 Measures = Measure.List(start, lenght, out pageCount, idDevice, dateInicial, dateFi);
             }
             else {
-                Measures = Measure.ListAverages(start, lenght, out pageCount, idDevice, dateInicial, dateFi, "", "", filtroMeasureTiempo);
+                Measures = Measure.ListAverages(start, lenght, out pageCount, idDevice, dateInicial, dateFi, "", "", filterMeasureTiempo);
             }
 
 
@@ -150,8 +150,8 @@ namespace ActiveSense.Tempsense.web.Areas.User.Controllers
             List<double> ThresholdInferior = new List<double>();
             List<double> Thresholduperior = new List<double>();
 
-            List<double> ToleranceSuperiorList = new List<double>();
-            List<double> ToleranceInferiorList = new List<double>();
+            List<double> UpperToleranceList = new List<double>();
+            List<double> LowerToleranceList = new List<double>();
 
             decimal umbraMax = 0;
             decimal umbraMin = 0;
@@ -175,8 +175,8 @@ namespace ActiveSense.Tempsense.web.Areas.User.Controllers
                 dates.Add(MeasureTemp.DateTime.ToString());
                 ThresholdInferior.Add((double)umbraMin);
                 Thresholduperior.Add((double)umbraMax);
-                ToleranceSuperiorList.Add((double)toleranceMax);
-                ToleranceInferiorList.Add((double)toleranceMin);
+                UpperToleranceList.Add((double)toleranceMax);
+                LowerToleranceList.Add((double)toleranceMin);
             }
 
 
@@ -187,8 +187,8 @@ namespace ActiveSense.Tempsense.web.Areas.User.Controllers
                 temperatures = temperatureList.ToArray(),
                 Thresholduperior = Thresholduperior.ToArray(),
                 ThresholdInferior = ThresholdInferior.ToArray(),
-                ToleranceSuperiorList = ToleranceSuperiorList.ToArray(),
-                ToleranceInferiorList = ToleranceInferiorList.ToArray(),
+                UpperToleranceList = UpperToleranceList.ToArray(),
+                LowerToleranceList = LowerToleranceList.ToArray(),
             };
             return resultado;
 
@@ -206,10 +206,10 @@ namespace ActiveSense.Tempsense.web.Areas.User.Controllers
 
             int device = Request["idDevice"] != null ? Int16.Parse(Request["idDevice"]) : 0;
 
-            string dateInicial = Request["dateInicio"] != null ? Request["dateInicio"] : "";
-            string dateFinal = Request["dateFin"] != null ? Request["dateFin"] : "";
+            string dateInicial = Request["dateStart"] != null ? Request["dateStart"] : "";
+            string dateEndal = Request["dateEnd"] != null ? Request["dateEnd"] : "";
 
-            int filtroMeasureTiempo = Request["FilterTime"] != null ? Int16.Parse(Request["FilterTime"]) : 0;
+            int filterMeasureTiempo = Request["FilterTime"] != null ? Int16.Parse(Request["FilterTime"]) : 0;
 
         
             Measure Measure = new Measure();
@@ -219,14 +219,14 @@ namespace ActiveSense.Tempsense.web.Areas.User.Controllers
             string perfil = userHelper.GetProfile(idUser);
 
             List<Measure> Measures = null;
-            if (filtroMeasureTiempo <= 0)
+            if (filterMeasureTiempo <= 0)
             {
                 Measures = Measure.List(start, lenght, out pageCount,
-                device, dateInicial, dateFinal, idUser, perfil);
+                device, dateInicial, dateEndal, idUser, perfil);
             }
             else {
                 Measures = Measure.ListAverages(start, lenght, out pageCount, device,
-                  dateInicial, dateFinal, idUser, perfil, filtroMeasureTiempo);
+                  dateInicial, dateEndal, idUser, perfil, filterMeasureTiempo);
             }
 
             List<double> temperatureList = new List<double>();

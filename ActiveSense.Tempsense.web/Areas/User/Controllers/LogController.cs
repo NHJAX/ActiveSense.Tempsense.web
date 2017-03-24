@@ -10,20 +10,20 @@ using ActiveSense.Tempsense.model.Model;
 using ActiveSense.Tempsense.web.Models;
 using ActiveSense.Tempsense.web.Controllers;
 
-namespace ActiveSense.Tempsense.web.Areas.Usuario.Controllers
+namespace ActiveSense.Tempsense.web.Areas.User.Controllers
 {
     public class LogController : GenericController
     {
         //private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Usuario/Log
+        // GET: User/Log
         public ActionResult Index()
         {
             var Blogs = dbActiveContext.Blogs.Include(b => b.devices);
             return View(Blogs.ToList());
         }
 
-        // GET: Usuario/Log/Details/5
+        // GET: User/Log/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -38,14 +38,14 @@ namespace ActiveSense.Tempsense.web.Areas.Usuario.Controllers
             return View(Blogs);
         }
 
-        // GET: Usuario/Log/Create
+        // GET: User/Log/Create
         public ActionResult Create()
         {
             ViewBag.DeviceID = new SelectList(dbActiveContext.devices, "DeviceID", "Name");
             return View();
         }
 
-        // POST: Usuario/Log/Create
+        // POST: User/Log/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]

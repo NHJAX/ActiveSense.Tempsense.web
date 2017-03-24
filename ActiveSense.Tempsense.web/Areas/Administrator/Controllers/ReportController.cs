@@ -117,7 +117,7 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
             int start = Request["start"] != null ? Int16.Parse(Request["start"]) : 0;
             int lenght = Request["length"] != null ? Int16.Parse(Request["length"]) : 10;
             string dateInicial = Request["DateHome"] != null ? Request["DateHome"] : "";
-            string dateFinal = Request["EndDate"] != null ? Request["EndDate"] : "";
+            string dateEndal = Request["EndDate"] != null ? Request["EndDate"] : "";
             int MeasureTimeFilter = Request["FilterTime"] != null ? Int16.Parse(Request["FilterTime"]) : 0;
 
             Measure Measure = new Measure();
@@ -139,8 +139,8 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
             List<double> thresholdInferior = new List<double>();
             List<double> thresholdSuperior = new List<double>();
 
-            List<double> ToleranceSuperiorList = new List<double>();
-            List<double> ToleranceInferiorList = new List<double>();
+            List<double> UpperToleranceList = new List<double>();
+            List<double> LowerToleranceList = new List<double>();
 
             decimal thresholdMax = 0;
             decimal thresholdMin = 0;
@@ -162,8 +162,8 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
                 dates.Add(MeasureTemp.DateTime.ToString());
                 thresholdInferior.Add((double)thresholdMin);
                 thresholdSuperior.Add((double)thresholdMax);
-                ToleranceSuperiorList.Add((double)toleranceMax);
-                ToleranceInferiorList.Add((double)toleranceMin);
+                UpperToleranceList.Add((double)toleranceMax);
+                LowerToleranceList.Add((double)toleranceMin);
             }
 
             var resultado = new JsonResult();
@@ -173,8 +173,8 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
                 temperatures = temperatureList.ToArray(),
                 thresholdSuperior = thresholdSuperior.ToArray(),
                 thresholdInferior = thresholdInferior.ToArray(),
-                toleranceSuperiorList = ToleranceSuperiorList.ToArray(),
-                toleranceInferiorList = ToleranceInferiorList.ToArray(),
+                UpperToleranceList = UpperToleranceList.ToArray(),
+                LowerToleranceList = LowerToleranceList.ToArray(),
             };
             return resultado;
 

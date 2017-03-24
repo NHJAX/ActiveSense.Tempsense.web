@@ -79,7 +79,7 @@ namespace ActiveSense.Tempsense.model.Model
                 List<Measure> orders = new List<Measure>();
 
                 string whereTotal = "";
-                string consultaFiltroTotal = "";
+                string consultafilterTotal = "";
                 int SeeTotalMeasuresFound = 0;
 
                 if (Datehome != "" && Dateend != "")
@@ -136,7 +136,7 @@ namespace ActiveSense.Tempsense.model.Model
                 }
 
                 string paginacion = "  WHERE consecutive BETWEEN(" + pageIndex + ") and(" + (pageIndex + pageSize) + ")";
-                consultaFiltroTotal = "SELECT * FROM(SELECT ROW_NUMBER() OVER (ORDER BY MeasureID DESC) consecutive, * from Measures " + whereTotal + ") Measures " + paginacion + " ORDER BY DeviceID ASC, DateTime DESC ";
+                consultafilterTotal = "SELECT * FROM(SELECT ROW_NUMBER() OVER (ORDER BY MeasureID DESC) consecutive, * from Measures " + whereTotal + ") Measures " + paginacion + " ORDER BY DeviceID ASC, DateTime DESC ";
              
                 using (SqlCommand cmd = new SqlCommand())
                 {
@@ -145,7 +145,7 @@ namespace ActiveSense.Tempsense.model.Model
                     {
                         cmd.CommandType = CommandType.Text;
                         cmd.Connection = sqlConnection1;
-                        cmd.CommandText = consultaFiltroTotal;
+                        cmd.CommandText = consultafilterTotal;
                         sqlConnection1.Open();
                         reader = cmd.ExecuteReader();
                         Measure Measure = null;
@@ -292,7 +292,7 @@ namespace ActiveSense.Tempsense.model.Model
 
                 string paginacion = "  WHERE consecutive BETWEEN(" + pageIndex + ") and(" + (pageIndex + pageSize) + ") "+ postPagination;
 
-                string consultaFiltroTotal = " SELECT * FROM( " +
+                string consultafilterTotal = " SELECT * FROM( " +
                                         row_number +
                                         " FROM( "+
                                           querySearch + 
@@ -314,7 +314,7 @@ namespace ActiveSense.Tempsense.model.Model
                     {
                         cmd.CommandType = CommandType.Text;
                         cmd.Connection = sqlConnection1;
-                        cmd.CommandText = consultaFiltroTotal;
+                        cmd.CommandText = consultafilterTotal;
                         sqlConnection1.Open();
                         reader = cmd.ExecuteReader();
                         Measure Measure = null;

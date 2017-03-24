@@ -11,16 +11,16 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace ActiveSense.Tempsense.web.Areas.Usuario.Controllers
+namespace ActiveSense.Tempsense.web.Areas.User.Controllers
 {
-    [ActiveSenseAutorize("Usuario")]
+    [ActiveSenseAutorize("User")]
     public class DashboardController : GenericController
     {
-        // GET: Usuario/Dashboard
+        // GET: User/Dashboard
         public ActionResult Index()
         {
             string idUser = User.Identity.GetUserId();
-            //esta variable permite que se pase a un identificador de usuario a helperchart.
+            //esta variable permite que se pase a un identificador de User a helperchart.
             ViewBag.UsK = idUser;
             return View();
         }
@@ -74,8 +74,8 @@ namespace ActiveSense.Tempsense.web.Areas.Usuario.Controllers
             List<double> ThresholdInferiorList = new List<double>();
             List<double> ThresholduperiorList = new List<double>();
 
-            List<double> ToleranceSuperiorList = new List<double>();
-            List<double> ToleranceInferiorList = new List<double>();
+            List<double> UpperToleranceList = new List<double>();
+            List<double> LowerToleranceList = new List<double>();
 
             decimal umbraMax = 0;
             decimal umbraMin = 0;
@@ -96,8 +96,8 @@ namespace ActiveSense.Tempsense.web.Areas.Usuario.Controllers
 
                 ThresholdInferiorList.Add((double)umbraMin);
                 ThresholduperiorList.Add((double)umbraMax);
-                ToleranceSuperiorList.Add((double)toleranceMax);
-                ToleranceInferiorList.Add((double)toleranceMin);
+                UpperToleranceList.Add((double)toleranceMax);
+                LowerToleranceList.Add((double)toleranceMin);
 
             }
 
@@ -108,8 +108,8 @@ namespace ActiveSense.Tempsense.web.Areas.Usuario.Controllers
                 temperatureList = temperatureList.ToArray(),
                 ThresholduperiorList = ThresholdInferiorList.ToArray(),
                 ThresholdInferiorList = ThresholduperiorList.ToArray(),
-                ToleranceSuperiorList = ToleranceSuperiorList.ToArray(),
-                ToleranceInferiorList = ToleranceInferiorList.ToArray(),
+                UpperToleranceList = UpperToleranceList.ToArray(),
+                LowerToleranceList = LowerToleranceList.ToArray(),
             };
             return resultado;
 

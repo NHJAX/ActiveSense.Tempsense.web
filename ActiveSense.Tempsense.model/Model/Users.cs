@@ -14,7 +14,7 @@ namespace ActiveSense.Tempsense.model.Model
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
         [Required(ErrorMessage = "User is required")]
-        [RegularExpression(@"([a-zA-Z\d]+[\w\d]*|)[a-zA-Z]+[\w\d.]*", ErrorMessage = "usuario invalido")]
+        [RegularExpression(@"([a-zA-Z\d]+[\w\d]*|)[a-zA-Z]+[\w\d.]*", ErrorMessage = "User invalido")]
 
         public string UserName { get; set; }
         [Required(ErrorMessage = "Password required")]

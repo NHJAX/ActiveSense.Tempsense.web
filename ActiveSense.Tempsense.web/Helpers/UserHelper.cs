@@ -18,10 +18,10 @@ namespace ActiveSense.Tempsense.web.Helpers
             if (id !="")
             {
                 ActiveSenseContext contextDB = context != null ? context : dbActiveContext;
-                AspNetUsers usuario = contextDB.AspNetUsers.Find(id);
+                AspNetUsers User = contextDB.AspNetUsers.Find(id);
 
-                if (usuario.CompanyID != 0) {
-                    var list = contextDB.devices.Where(u => u.CompanyID == usuario.CompanyID);
+                if (User.CompanyID != 0) {
+                    var list = contextDB.devices.Where(u => u.CompanyID == User.CompanyID);
                     iddevices = string.Join(",", list.Select(item => item.DeviceID));
                 }
     

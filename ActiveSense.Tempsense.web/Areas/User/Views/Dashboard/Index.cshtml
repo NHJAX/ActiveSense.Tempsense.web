@@ -24,7 +24,7 @@
                     <center id="contentmessageGrafica"></center>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -207,8 +207,8 @@
         }
 
     // feature that allows render graph per hour
-        function RenderGraphicsByDevice(HoursList, temperaturesList, ThresholdesSuperioresList,
-                                            ThresholdesInferioresList, ToleranceInferiorList, ToleranceSuperiorList) {
+        function RenderGraphicsByDevice(HoursList, temperaturesList, UpperThreshold List,
+                                            LowerThreshold List, LowerToleranceList, UpperToleranceList) {
 
 
             // mostrar canvas de grafia
@@ -286,7 +286,7 @@
                                 pointRadius: 0,
                                 pointHitRadius: 0,
                                 backgroundColor: "rgba(0,0,0,0)",
-                                data: ToleranceSuperiorList,
+                                data: UpperToleranceList,
                             },
                             {
 
@@ -301,7 +301,7 @@
                                 pointRadius: 0,
                                 pointHitRadius: 0,
                                 backgroundColor: "rgba(0,0,0,0)",
-                                data: ToleranceInferiorList,
+                                data: LowerToleranceList,
                             },
                              {
                                  label: "Maximum temperature",
@@ -314,7 +314,7 @@
                                  pointRadius: 0,
                                  pointHitRadius: 0,
                                  backgroundColor: "rgba(0,0,0,0)",
-                                 data: ThresholdesSuperioresList,
+                                 data: UpperThreshold List,
                              },
                             {
                                 label: "Minimum temperature",
@@ -327,13 +327,13 @@
                                 pointRadius: 0,
                                 pointHitRadius: 0,
                                 backgroundColor: "rgba(0,0,0,0)",
-                                data: ThresholdesInferioresList,
+                                data: LowerThreshold List,
                             }
                 ]
             };
             //limites a renderizar sobresalientes
-            var tolMaximum = ToleranceSuperiorList[0] !== undefined ? ToleranceSuperiorList[0] : 0;
-            var tolMinimum = ToleranceInferiorList[0] !== undefined ? ToleranceInferiorList[0] : 0;
+            var tolMaximum = UpperToleranceList[0] !== undefined ? UpperToleranceList[0] : 0;
+            var tolMinimum = LowerToleranceList[0] !== undefined ? LowerToleranceList[0] : 0;
             //configuracion de labels
             var myChart = new Chart(ctx, {
                 type: 'line',
@@ -397,7 +397,7 @@
                     if (msg.HoursList.length > 0) {
                         RenderGraphicsByDevice(msg.HoursList, msg.temperatureList,
                                                       msg.ThresholduperiorList, msg.ThresholdInferiorList,
-                                                      msg.ToleranceInferiorList, msg.ToleranceSuperiorList);
+                                                      msg.LowerToleranceList, msg.UpperToleranceList);
                     } else {
                         $('#ContentMessageGraphics').html(MessagewithoutMeasureS );
                     }

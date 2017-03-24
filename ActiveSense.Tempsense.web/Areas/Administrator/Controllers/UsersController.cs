@@ -149,12 +149,12 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AspNetUsers usuario = dbActiveContext.AspNetUsers.Find(id);
-            if (usuario == null)
+            AspNetUsers User = dbActiveContext.AspNetUsers.Find(id);
+            if (User == null)
             {
                 return HttpNotFound();
             }
-            return View(usuario);
+            return View(User);
         }
         // POST: user/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -238,7 +238,7 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
             if (message == ("Name " + model.UserName + " is already taken."))
             {
                 sizeError += "1";
-                ModelState.AddModelError("", "El Usuario " + model.UserName + " ya existe.");
+                ModelState.AddModelError("", "El User " + model.UserName + " ya existe.");
             }
 
             if (message == ("Passwords must have at least one lowercase ('a'-'z')."))

@@ -13,12 +13,12 @@ namespace ActiveSense.Tempsense.web.Helpers
 {
     public class ActiveSenseAutorize : AuthorizeAttribute, IActionFilter
     {
-        private const string USER_PROFILE = "Usuario";
+        private const string USER_PROFILE = "User";
         private const string PROFILE_Administrator= "Administrator";
         private readonly string[] userAssignedRoles;
 
-        private const string STATE_USER_INHABILITADO = "NO_HABILITADO";
-        private const string STATE_USER_HABILITADO = "HABILITADO";
+        private const string STATE_USER_DISABLED = "NOT_ENABLED";
+        private const string STATE_USER_ENABLED = "ENABLED";
 
 
         public ActiveSenseAutorize(params string[] roles)
@@ -29,37 +29,37 @@ namespace ActiveSense.Tempsense.web.Helpers
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
-            bool estadoAutorizacion = false;
+            bool StateAuthorization = false;
             if (httpContext == null)
             {
                 throw new ArgumentNullException("httpContext");
             }
 
-            //¿Esta el Users autenticado?
+            //¿This the Authenticated Users?
             var user = httpContext.User;
             if (!user.Identity.IsAuthenticated)
-                return estadoAutorizacion;
+                return StateAuthorization;
 
-            //usuario autenticado pero ¿hay validaciones en acciones?
+            //Authenticated user but there are validations in actions?
             if (userAssignedRoles.Length > 0)
             {
-                estadoAutorizacion = userAssignedRoles.Any(user.IsInRole) ? true : false;
+                StateAuthorization = userAssignedRoles.Any(user.IsInRole) ? true : false;
             }
             else
-            {   //no hay validaciones en acciones
-                estadoAutorizacion = true;
+            {   //There is no validation in action
+                StateAuthorization = true;
             }
-            return estadoAutorizacion;
+            return StateAuthorization;
         }
 
 
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
             var user = filterContext.HttpContext.User;
-            // si el usuario esta autenticado se redirecciona al portal inicio de su area
+            // If the user is authenticated is redirected to the portal home in your area
             if (user.Identity.IsAuthenticated)
             {
-                //Redireccion a sitio inicio de perfil Administrator
+                //Redirect to site home profile Administrator
                 if (user.IsInRole(PROFILE_Administrator))
                 {
                     RouteValueDictionary routeValues = new RouteValueDictionary
@@ -70,20 +70,20 @@ namespace ActiveSense.Tempsense.web.Helpers
                      };
                     filterContext.Result = new RedirectToRouteResult(routeValues);
                 }
-                //Redireccion a sitio inicio de perfil usuario
+                //Redirect to site home of user profile
                 if (user.IsInRole(USER_PROFILE))
                 {
                     RouteValueDictionary routeValues = new RouteValueDictionary
                     {
                         {"controller" , "Home"},
                         {"action" , "Index"},
-                        {"area" , "Usuario"}
+                        {"area" , "User"}
                      };
                     filterContext.Result = new RedirectToRouteResult(routeValues);
                 }
             }
             else
-            {   // Se redirecciona a pagina de inicio por defecto
+            {   // Is redirected to home page default
                 filterContext.Result = new HttpUnauthorizedResult();
             }
 
@@ -127,7 +127,7 @@ namespace ActiveSense.Tempsense.web.Helpers
             ApplicationDbContext context = new ApplicationDbContext();
             var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
             var perfil = UserManager.FindById(idUser);
-            return (perfil.State == STATE_USER_INHABILITADO) ? false : true;
+            return (perfil.State == STATE_USER_DISABLED) ? false : true;
         }
 
     }

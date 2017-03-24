@@ -77,8 +77,8 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
             List<double> ThresholdInferiorList = new List<double>();
             List<double> ThresholduperiorList = new List<double>();
 
-            List<double> ToleranceSuperiorList = new List<double>();
-            List<double> ToleranceInferiorList = new List<double>();
+            List<double> UpperToleranceList = new List<double>();
+            List<double> LowerToleranceList = new List<double>();
 
             decimal umbraMax = 0;
             decimal umbraMin = 0;
@@ -99,8 +99,8 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
 
                 ThresholdInferiorList.Add((double)umbraMin);
                 ThresholduperiorList.Add((double)umbraMax);
-                ToleranceSuperiorList.Add((double)toleranceMax);
-                ToleranceInferiorList.Add((double)toleranceMin);
+                UpperToleranceList.Add((double)toleranceMax);
+                LowerToleranceList.Add((double)toleranceMin);
 
             }
 
@@ -111,8 +111,8 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
                 temperatureList = temperatureList.ToArray(),
                 ThresholduperiorList = ThresholdInferiorList.ToArray(),
                 ThresholdInferiorList = ThresholduperiorList.ToArray(),
-                ToleranceSuperiorList = ToleranceSuperiorList.ToArray(),
-                ToleranceInferiorList = ToleranceInferiorList.ToArray(),
+                UpperToleranceList = UpperToleranceList.ToArray(),
+                LowerToleranceList = LowerToleranceList.ToArray(),
             };
             return resultado;
 

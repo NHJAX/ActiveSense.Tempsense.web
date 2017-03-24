@@ -5,12 +5,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace ActiveSense.Tempsense.web.Areas.Usuario.Controllers
+namespace ActiveSense.Tempsense.web.Areas.User.Controllers
 {
-    [ActiveSenseAutorize("Usuario")]
+    [ActiveSenseAutorize("User")]
     public class UsersController : Controller
     {
-        // GET: Usuario/Users
+        // GET: User/Users
         public ActionResult Index()
         {
             return View();

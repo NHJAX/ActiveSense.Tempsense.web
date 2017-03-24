@@ -12,7 +12,7 @@
 
                         <div id="dateHome" class="input-append">
                             <label for="dateHome"> date Home </label>
-                            <input class="form-control" data-format="yyyy-MM-dd" type="text" id="dateInicioData" />
+                            <input class="form-control" data-format="yyyy-MM-dd" type="text" id="dateStartData" />
                             <span class="add-on">
                                 <i data-time-icon="icon-time" data-date-icon="icon-calendar">
                                     <img src="~/Content/images/img_calendar.png" />
@@ -24,9 +24,9 @@
                 <div class="col-xs-5 col-md-5">
                     <div class="form-group">
 
-                        <div id="dateFin" class="input-append">
-                            <label for="dateFin"> Enddate Fin </label>
-                            <input data-format="yyyy-MM-dd" type="text" class="form-control" id="dateFinData" />
+                        <div id="dateEnd" class="input-append">
+                            <label for="dateEnd"> Enddate Fin </label>
+                            <input data-format="yyyy-MM-dd" type="text" class="form-control" id="dateEndData" />
                             <span class="add-on">
                                 <i data-time-icon="icon-time" data-date-icon="icon-calendar">
                                     <img src="~/Content/images/img_calendar.png" />
@@ -92,7 +92,7 @@
                 <tr>
                     <th>Value</th>
                     <th>device</th>
-                    <th>date Hora</th>
+                    <th>datetime</th>
                 </tr>
             </thead>
         </table>
@@ -125,26 +125,26 @@
                 autoclose: true
             });
 
-            // funcion que permite limpiar los calendarios si ha ocurrido un error
-            function limpiarCalendario() {
-                $("#dateInicioData").val('');
-                $("#dateFinData").val('');
+            // feature that allows you to clean the calendars if an error has occurred
+            function CleanCalendar() {
+                $("#dateStartData").val('');
+                $("#dateEndData").val('');
             }
 
-            // evento de cambio de device
+            // device change event
             $("#DeviceID").change(function () {
-                ToFindInformacion();
+                ToFindInformation();
             });
 
-            //evento de cambio de filtro tiempo
+            //filter change event time
             $('#FilterTime').change(function () {
-                var ValueFiltro = $(this).val();
-                if (ValueFiltro != 0 && ValueFiltro != "") {
-                    ToFindInformacion();
+                var Valuefilter = $(this).val();
+                if (Valuefilter != 0 && Valuefilter != "") {
+                    ToFindInformation();
                 }
             });
 
-            //evento de cambio de empresa
+            //Enterprise change event
             $('#Companies').change(function () {
                 var idCompany = $(this).val();
                 if (idCompany != 0 && idCompany != "") {
@@ -165,7 +165,7 @@
                             })
                             $('#prelaodInner').hide();
                             $("#DeviceID").show();
-                            ToFindInformacion();
+                            ToFindInformation();
 
                         },
                         error: function (xhr, error) {
@@ -177,43 +177,43 @@
                 }
             });
 
-            //funcion que permite realizar la busqueda cuando se cambia o seleciona el device
-            function ToFindInformacion() {
+            //function that allows to search when changing or select the device
+            function ToFindInformation() {
                 var idDevice = $("#DeviceID").val();
-                var dateInicio = $("#dateInicioData").val();
-                var dateFin = $("#dateFinData").val();
+                var dateStart = $("#dateStartData").val();
+                var dateEnd = $("#dateEndData").val();
 
-                if (validarPeticion(dateInicio, dateFin)) {
+                if (ValidateRequest(dateStart, dateEnd)) {
                     $('#TableMeasures').show();
-                    renderizarTabla(idDevice, dateInicio, dateFin);
-                    solicitarDatosEstadistica();
+                    RenderTable(idDevice, dateStart, dateEnd);
+                    SolicitorDataStatistics();
                 }
             }
 
-            // funcion de proposito general que permite validar una peticion
-            function validarPeticion(dateInicio, dateFin) {
-                var validacionD = validardevice();;
-                var validacionF = validardates(dateInicio, dateFin);
-                var validacionFtr = validarFiltroDias(dateInicio, dateFin);
+            // function of general enabling validate request purpose
+            function ValidateRequest(dateStart, dateEnd) {
+                var validacionD = validateDevice();;
+                var validacionF = validateDates(dateStart, dateEnd);
+                var validacionFtr = ValidateFilterDays(dateStart, dateEnd);
                 return (validacionD && validacionF && validacionFtr) ? true : false;
             }
 
-            // funcion que permite validar si se han seleccionado los dias para
-            // para realizar el filtro por dias
-            function validarFiltroDias(dateInicio, dateFin) {
-                var esValido = true;
-                var filtro = $("#FilterTime").val();
-                if ( filtro == FILTER_DAYS ) {
-                    if (dateInicio == "" || dateFin == "") {
+            // feature that allows you to validate that the days have been selected for
+            // to filter by days
+            function ValidateFilterDays(dateStart, dateEnd) {
+                var IsValid = true;
+                var filter = $("#FilterTime").val();
+                if ( filter == FILTER_DAYS ) {
+                    if (dateStart == "" || dateEnd == "") {
                         Command: toastr["error"](MESSAGE_ERROR_DATE_FILTER, 'ERROR');
-                        esValido = false;
+                        IsValid = false;
                     }
                 }
-                return esValido;
+                return IsValid;
             }
 
-            // funcion de validacion de device
-            function validardevice() {
+            // device validation function
+            function validateDevice() {
                 var idDevice = $("#DeviceID").val();
                 var validate = false;
                 if (idDevice != 0 && idDevice != undefined) {
@@ -224,33 +224,33 @@
                 return validate;
             }
 
-            // funcion que permite validar que la date de inicio se mayor que la date final
-            function validardates(dateInicio, dateFin) {
-                if (dateInicio > dateFin) {
+            // feature that allows you to validate that you date it from home is greater that the date end
+            function validateDates(dateStart, dateEnd) {
+                if (dateStart > dateEnd) {
                     Command: toastr["error"](MESSAGE_ERROR_date_MORE , 'ERROR');
-                    limpiarCalendario();
+                    CleanCalendar();
                     return false;
                 }
 
-                if (dateInicio == "" && dateFin != "") {
+                if (dateStart == "" && dateEnd != "") {
                     Command: toastr["error"](MESSAGE_ERROR_date_EMPTY, 'ERROR');
-                    limpiarCalendario();
+                    CleanCalendar();
                     return false;
                 }
                 return true;
             }
 
-            //funcion encargada construir la tabla de Measures recibe como parametro
-            //identificacion de device, date de inicio, date de fin
-            // ademas permite Register eventos cuando se presiona el selector de tamaño y se pagina
-            function renderizarTabla(idDevice, dateInicio, dateFin) {
+            //function charge build the table of Measures receives as parameter
+            // device ID, start date, date end
+            // also allows you to Register events when the selector is pressed and is page
+            function RenderTable(idDevice, dateStart, dateEnd) {
 
-                //Mostrar contenedor de tabla
+                //Show table container
                 var objTableMeasuresVisual = $('#TableMeasures');
                 objTableMeasuresVisual.show();
-                //Obtener tabla
-                var objContenedorPaginatedtable = $('#Paginatedtable');
-                //Generar tabla
+                //Get table
+                var ObjContainerPaginatedTable = $('#Paginatedtable');
+                //Generate table
                 objTablePaged  = objTableMeasuresVisual.DataTable({
                     "processing": true,
                     "serverSide": true,
@@ -258,45 +258,45 @@
                     "destroy": true,
                     "lengthMenu": [10, 15, 20],
                     language: {
-                        processing: "Procesando...",
+                        processing: "Processing...",
                         search: "ToFind:",
-                        lengthMenu: "Mostrar _MENU_ registros",
-                        info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                        infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
-                        infoFiltered: "(filtrado de un total de _MAX_ registros)",
+                        lengthMenu: "Show _MENU_ records",
+                        info: "Displaying records from the _START_ to _END_ of _TOTAL_ total records",
+                        infoEmpty: "Showing records 0 to 0 of 0 total records",
+                        infoFiltered: "a total of _MAX_ records (filtering)",
                         infoPostFix: "",
-                        loadingRecords: "Cargando...",
-                        zeroRecords: "No se encontraron resultados",
-                        emptyTable: "Ningún dato disponible en esta tabla",
-                        paginate: {
-                            first: "Primero",
-                            previous: "Ant",
-                            next: "Sig",
-                            last: "Último",
+                        loadingRecords: "Loading...",
+                        zeroRecords: "Are they found no results",
+                        emptyTable: "No data available in this table",
+                        paginate: {}
+                        first: "First",
+                        previous: "Ant",
+                        next: "Sig",
+                        last: "Last",
                         },
-                        aria: {
-                            sortAscending: ": Activar para ordenar la columna de manera ascendente",
-                            sortDescending: ": Activar para ordenar la columna de manera descendente"
-                        }
+                     Aria: {
+            sortAscending: ": Select to sort the column in ascending fashion",
+            sortDescending: ": Select to sort the column in descending"
+        }
                     },
-                    //Peticion de datos servicio
+                    //Data service request
                     "ajax": {
                         "type": "POST",
-                        "url": '@Url.Action("ObtenerDatosTabla", "Report" )',
+                        "url": '@Url.Action("DataTable", "Report" )',
                         //"data": {
                         //    "idDevice": idDevice,
-                        //    "dateInicio": dateInicio,
-                        //    "dateFin": dateFin
+                        //    "dateStart": dateStart,
+                        //    "dateEnd": dateEnd
                         //},
                         "data": function (d) {
                             d.idDevice = idDevice,
-                            d.dateInicio = $("#dateInicioData").val(),
-                            d.dateFin = $("#dateFinData").val(),
+                            d.dateStart = $("#dateStartData").val(),
+                            d.dateEnd = $("#dateEndData").val(),
                             d.FilterTime = $("#FilterTime").val()
                         },
-                        // Mostras toastr error si hay error
+                        // Show toastr error if there is error
                         "error": function () {
-                            objContenedorPaginatedtable.hide();
+                            ObjContainerPaginatedTable.hide();
                             Command: toastr["error"](MESSAGE_ERROR_CONNECTION, 'ERROR');
                         }
                     },
@@ -307,33 +307,34 @@
                     ]
                 });
 
-                var objdateInicio = $("#dateInicioData");
-                var objdateFinal = $("#dateFinData");
+                var objdateStart = $("#dateStartData");
+                var objdateEndal = $("#dateEndData");
 
                 objTablePaged .on('length.dt', function (e, settings, len) {
-                    var dateInicio = objdateInicio.val();
-                    var dateFin = objdateFinal.val();
-                    if (validarPeticion(dateInicio, dateFin)) {
-                        solicitarDatosEstadistica();
+                    var dateStart = objdateStart.val();
+                    var dateEnd = objdateEndal.val();
+                    if (ValidateRequest(dateStart, dateEnd)) {
+                        SolicitorDataStatistics();
                     }
                 });
 
                 objTablePaged .on('page.dt', function () {
-                    var dateInicio = objdateInicio.val();
-                    var dateFin = objdateFinal.val()
+                    var dateStart = objdateStart.val();
+                    var dateEnd = objdateEndal.val()
 
 
-                    if (validarPeticion(dateInicio, dateFin)) {
-                        solicitarDatosEstadistica();
+                    if (ValidateRequest(dateStart, dateEnd)) {
+                        SolicitorDataStatistics();
                     }
                 });
 
             }
 
 
-            // funcion que permite construir la tabla estadistico recibe como parametro
-            // un arreglo de dates y un arreglo de temperatures.
-            function renderizarGraficaEstadistica(dates, temperatures, ThresholdesSuperiores, ThresholdesInferiores, ToleranceInferiorList, ToleranceSuperiorList) {
+            // 
+            //   feature that allows you to build the statistical table receives as parameters
+            //    an array of dates and an array of temperatures.
+            function renderizarGraficaEstadistica(dates, temperatures, UpperThreshold , LowerThreshold , LowerToleranceList, UpperToleranceList) {
                 var canvas = document.getElementById("graphicalMeasures");
                 var ctx = canvas.getContext("2d");
 
@@ -404,7 +405,7 @@
                                     pointRadius: 0,
                                     pointHitRadius: 0,
                                     backgroundColor: "rgba(0,0,0,0)",
-                                    data: ToleranceSuperiorList,
+                                    data: UpperToleranceList,
                                 },
                                 {
 
@@ -419,7 +420,7 @@
                                     pointRadius: 0,
                                     pointHitRadius: 0,
                                     backgroundColor: "rgba(0,0,0,0)",
-                                    data: ToleranceInferiorList,
+                                    data: LowerToleranceList,
                                 },
                                  {
                                      label: "temperature Maximum",
@@ -432,7 +433,7 @@
                                      pointRadius: 0,
                                      pointHitRadius: 0,
                                      backgroundColor: "rgba(0,0,0,0)",
-                                     data: ThresholdesSuperiores,
+                                     data: UpperThreshold ,
                                  },
                                    {
                                        label: "temperature Minimum",
@@ -445,14 +446,14 @@
                                        pointRadius: 0,
                                        pointHitRadius: 0,
                                        backgroundColor: "rgba(0,0,0,0)",
-                                       data: ThresholdesInferiores,
+                                       data: LowerThreshold ,
                                    }
 
                     ]
                 };
 
-                var tolMaximum = ToleranceSuperiorList[0] !== undefined ? ToleranceSuperiorList[0] : 0;
-                var tolMinimum = ToleranceInferiorList[0] !== undefined ? ToleranceInferiorList[0] : 0;
+                var tolMaximum = UpperToleranceList[0] !== undefined ? UpperToleranceList[0] : 0;
+                var tolMinimum = LowerToleranceList[0] !== undefined ? LowerToleranceList[0] : 0;
 
                 var myChart = new Chart(ctx, {
                     type: 'line',
@@ -492,25 +493,25 @@
 
             }
 
-            // funcion que permite cargar los datos mediante peticiones ajax para mostrar en grafica
-            // luego llama a funcion para renderizar la grafica estadistica
-            function solicitarDatosEstadistica() {
+            // function that allows you to load data using ajax requests to show graph
+            // then it calls function to render the graph statistics
+            function SolicitorDataStatistics() {
                 var info = objTablePaged .page.info();
                 $("#graphicalMeasures").hide();
-                var objTituloGrafico = $("#title_graphic");
-                objTituloGrafico.text('');
+                var ObjTitleGraphic = $("#title_graphic");
+                ObjTitleGraphic.text('');
                 $("#ContainerPreload").show();
 
                 $.ajax(
                {
-                   url: '@Url.Action("ObtenerDatosGrafico", "Report")',
+                   url: '@Url.Action("DataChart", "Report")',
                    data: {
                        pageIndex: 1,
                        start: info.start,
                        length: info.length,
                        idDevice: $("#DeviceID").val(),
-                       dateInicio: $("#dateInicioData").val(),
-                       dateFin: $("#dateFinData").val(),
+                       dateStart: $("#dateStartData").val(),
+                       dateEnd: $("#dateEndData").val(),
                        FilterTime: $("#FilterTime").val(),
                    },
                    type: "POST",
@@ -521,14 +522,14 @@
                            $("#graphicalMeasures").show();
                            renderizarGraficaEstadistica(msg.dates, msg.temperatures,
                                                    msg.Thresholduperior, msg.ThresholdInferior,
-                                                   msg.ToleranceInferiorList, msg.ToleranceSuperiorList);
-                           objTituloGrafico.text("Gráfica " + $("#DeviceID option:selected").text());
+                                                   msg.LowerToleranceList, msg.UpperToleranceList);
+                           ObjTitleGraphic.text("Gráfica " + $("#DeviceID option:selected").text());
                        }
 
 
                    },
                    error: function (result) {
-                       objTituloGrafico.html('');
+                       ObjTitleGraphic.html('');
                        $("#ContainerPreload").hide();
                    }
                });
