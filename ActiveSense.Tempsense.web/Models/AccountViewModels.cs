@@ -46,7 +46,7 @@ namespace ActiveSense.Tempsense.web.Models
         public string Email { get; set; }
     }
 
-    //SE:user registration fields
+    //Comment:user registration fields
     public class LoginViewModel
     {
         [Required(ErrorMessage = "Please enter the Username.")]
@@ -68,7 +68,7 @@ namespace ActiveSense.Tempsense.web.Models
         public bool RememberMe { get; set; }
     }
 
-    //SE:user registration fields
+    //Comment:user registration fields
     public class RegisterViewModel
     {
         [Required(ErrorMessage = "Please select role or profile.")]

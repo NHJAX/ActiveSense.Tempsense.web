@@ -51,7 +51,7 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
         // Add active in the include and the date current
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ThresholdID,Active,Temperature_min,Temperature_max,DeviceID,Tolerance_min,Tolerance_max")] Threshold threshold)
+        public ActionResult Create([Bind(Include = "thresholdID,Active,Temperature_min,Temperature_max,DeviceID,Tolerance_min,Tolerance_max")] Threshold threshold)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ThresholdID,Active,Temperature_min,Temperature_max,DeviceID,Tolerance_min,Tolerance_max")] Threshold threshold)
+        public ActionResult Edit([Bind(Include = "thresholdID,Active,Temperature_min,Temperature_max,DeviceID,Tolerance_min,Tolerance_max")] Threshold threshold)
         {
             if (ModelState.IsValid)
             {

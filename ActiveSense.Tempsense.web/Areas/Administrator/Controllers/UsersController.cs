@@ -170,7 +170,7 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
         public ActionResult Register()
         {
 
-            //SE:obtener lista de perfiles
+            //Comment:list of profiles
             ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains(PROFILE_EXCLUDED_IN_CREATION))
                                             .ToList(), "Name", "Name");
 
@@ -188,7 +188,7 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
 
             if (ModelState.IsValid)
             {
-                //SE: Add custom for creation of user fields.
+                //Comment: Add custom for creation of user fields.
                 var user = new ApplicationUser
                 {
                     UserName = model.UserName,
@@ -205,7 +205,7 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
                 }
                 AddErrors(result, model);
             }
-            //SE:Add list of roles
+            //Comment:Add list of roles
             ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains(PROFILE_EXCLUDED_IN_CREATION))
                                          .ToList(), "Name", "Name");
             ViewBag.CompanyID = new SelectList(dbActiveContext.companies, "CompanyID", "Name");
@@ -238,7 +238,7 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
             if (message == ("Name " + model.UserName + " is already taken."))
             {
                 sizeError += "1";
-                ModelState.AddModelError("", "El User " + model.UserName + " ya existe.");
+                ModelState.AddModelError("", "The User " + model.UserName + " already exists.");
             }
 
             if (message == ("Passwords must have at least one lowercase ('a'-'z')."))

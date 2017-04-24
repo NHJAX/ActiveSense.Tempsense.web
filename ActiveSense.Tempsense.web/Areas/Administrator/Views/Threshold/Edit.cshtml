@@ -16,30 +16,30 @@
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ThresholdID)
+        @Html.HiddenFor(model => model.thresholdID)
         <div class="form-group">
-            <label for="Temperature_min" class="control-label col-md-2"> Value Mínimo</label>
+            <label for="Temperature_min" class="control-label col-md-2"> Mínimum Temperature</label>
             <div class="col-sm-2">
                 @Html.EditorFor(model => model.Temperature_min, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Temperature_min, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
-            <label for="Temperature_max" class="control-label col-md-2"> Value Máximo</label>
+            <label for="Temperature_max" class="control-label col-md-2"> Maximum Temperature</label>
             <div class="col-sm-2">
                 @Html.EditorFor(model => model.Temperature_max, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Temperature_max, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
-            <label for="Tolerance_min" class="control-label col-md-2"> Tolerance Minimum</label>
+            <label for="Tolerance_min" class="control-label col-md-2"> Minimum Tolerance </label>
             <div class="col-sm-2">
                 @Html.EditorFor(model => model.Tolerance_min, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Tolerance_min, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
-            <label for="Tolerance_max" class="control-label col-md-2"> Tolerance Maximum</label>
+            <label for="Tolerance_max" class="control-label col-md-2"> Maximum Tolerance </label>
             <div class="col-sm-2">
                 @Html.EditorFor(model => model.Tolerance_max, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Tolerance_max, "", new { @class = "text-danger" })

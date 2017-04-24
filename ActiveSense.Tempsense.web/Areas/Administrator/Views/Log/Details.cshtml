@@ -6,7 +6,7 @@
 
 <h2>
     <font color="#999">
-        Details DE LA BITACORA
+        Details THE LOGBOOK
     </font>
 </h2>
 <hr />
@@ -53,14 +53,14 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.devices.Name)
+            @Html.DisplayNameFor(model => model.devices.name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.devices.Name)
+            @Html.DisplayFor(model => model.devices.name)
         </dd>
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Atras", "Index", new { }, new {@class="btn btn-primary active" })
+    @Html.ActionLink("Back", "Index", new { }, new {@class="btn btn-primary active" })
 </p>

@@ -39,25 +39,26 @@ namespace ActiveSense.Tempsense.Receptor
             List<ActiveSense.Tempsense.model.Model.Measure> Measures = new List<ActiveSense.Tempsense.model.Model.Measure>();
             foreach (EventData eventData in messages)
             {
-                string strConn = string.Format(ConfigurationManager.ConnectionStrings["TempsenseConnection"].ConnectionString, eventData.Properties["Ambiente"]);
+                string strConn = string.Format(ConfigurationManager.ConnectionStrings["TempsenseConnection"].ConnectionString, eventData.Properties["Environment"]);
                 messageCount++;
                 string data = Encoding.UTF8.GetString(eventData.GetBytes());
                 JObject o = JObject.Parse(data);
-                var deviceKey = int.Parse(o["deviceKey"].ToString());
+                var deviceID = int.Parse(o["deviceID"].ToString());
+                //var deviceID = 3;
 
                 using (ActiveSenseContext db = new ActiveSenseContext(strConn))
                 {
                     try
                     {
                         var disp = db.devices
-                            .Where(p => p.DeviceID == deviceKey);
+                            .Where(p => p.DeviceID == deviceID);
                         if (disp.ToList().Count > 0)
                         {
                             ActiveSense.Tempsense.model.Model.Measure Measure = new ActiveSense.Tempsense.model.Model.Measure()
                             {
                                 DeviceID = disp.FirstOrDefault().DeviceID,
-                                Value = decimal.Parse(o["Value"].ToString()),
-                                DateTime = Convert.ToDateTime(o["date"].ToString()),
+                                Value = decimal.Parse(o["Temperature"].ToString()),
+                                DateTime = Convert.ToDateTime(o["Date"].ToString()),
                             };
                             Console.WriteLine(string.Format("Message received. Partition:{0}, Data:{1}{2}", context.Lease.PartitionId, data, eventData.EnqueuedTimeUtc));
                             db.Measure.Add(Measure);

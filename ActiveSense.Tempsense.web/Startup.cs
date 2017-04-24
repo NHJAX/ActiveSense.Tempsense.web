@@ -14,7 +14,7 @@ namespace ActiveSense.Tempsense.web
         {
             ConfigureAuth(app);
             app.MapSignalR();
-            //createRolesandUsers();
+            createRolesandUsers();
         }
 
         private void createRolesandUsers()
@@ -23,6 +23,7 @@ namespace ActiveSense.Tempsense.web
 
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
             var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+   
 
 
             // In Startup iam creating first Admin Role and creating a default Admin User    
@@ -54,7 +55,7 @@ namespace ActiveSense.Tempsense.web
                 user2.UserName = "systems";
                 user2.Email = "systems@mymdiagnostics.com";
 
-                string userPWD1 = "A@Z200711";
+                string userPWD1 = "systems";
 
                 var chkUser2 = UserManager.Create(user2, userPWD1);
 
@@ -75,10 +76,10 @@ namespace ActiveSense.Tempsense.web
 
 
                 var user1 = new ApplicationUser();
-                user1.UserName = "compterroom";
-                user1.Email = "compterroom@mymdiagnostics.com";
+                user1.UserName = "nhjaxdev";
+                user1.Email = "computerroom@mymdiagnostics.com";
 
-                string userPWD1 = "A@Z200711";
+                string userPWD1 = "nhjaxdev";
 
                 var chkUser1 = UserManager.Create(user1, userPWD1);
 

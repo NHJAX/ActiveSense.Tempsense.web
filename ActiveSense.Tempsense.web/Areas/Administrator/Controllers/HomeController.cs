@@ -62,10 +62,10 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
                 //}
 
                 var body = "<p> name of user: {0} </p> <p> name of company: {1} </p  <p> phone: {2} </p> <p> mail: {3} </p  <p> Description: {4} </p> <p> <strong>-------------TempSence   NHJAX-DEV-----------------</strong> </p>";
-                var apiKey = ConfigurationManager.AppSettings["SendGridKey"].ToString();
+                var apiKey = ConfigurationManager.AppSettings["NHJAX_SendGrid"].ToString();
                 var client = new SendGridClient(apiKey);
                 var from = new EmailAddress(model.Mail, model.user);
-                var to = new EmailAddress(ConfigurationManager.AppSettings["smtpTo"].ToString(), "Contact Us Dialog");
+                var to = new EmailAddress(ConfigurationManager.AppSettings["smtpTo"].ToString(), "Contact Us dialog");
                 var subject = ConfigurationManager.AppSettings["smtpSubject"].ToString();
                 var plainTextContent = " ";
                 var htmlContent = string.Format(body, model.user, model.Company, model.Phone, model.Mail, model.Description); 

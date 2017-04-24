@@ -66,18 +66,18 @@
           
             <div class="menu">
                 <ul id="menu">                  
-                    <li id="menu-academico">
+                    <li id="menu-academic">
                         <a href="@Url.Action("Index", "Dashboard", new { area = "Administrator" })">
                             <i class="fa fa-tachometer"></i>
                             <span style="position: relative;">DashBoard</span>
                         </a>
                     </li>
 
-                    <li id="menu-academico">
-                        <a href="@Url.Action("Index", "Company", new { area = "Administrator" })"><i class="lnr lnr-apartment"></i><span style="position: relative;">Company</span></a>
+                    <li id="menu-academic">
+                        <a href="@Url.Action("Index", "Company", new { area = "Administrator" })"><i class="lnr lnr-apartment"></i><span style="position: relative;">Deparment</span></a>
                     </li>
 
-                    <li id="menu-academico">
+                    <li id="menu-academic">
                         <a href="@Url.Action("Index", "Device", new { area = "Administrator" })"><i class="lnr lnr-smartphone"></i><span style="position: relative;">Device</span></a>
                     </li>
 
@@ -85,19 +85,19 @@
                         <a href="@Url.Action("Index", "Users", new { area = "Administrator" })"><i class="lnr lnr-user"></i><span style="position: relative;">User</span></a>
                     </li>
 
-                    <li id="menu-academico">
+                    <li id="menu-academic">
                         <a href="@Url.Action("Index", "Report", new { area = "Administrator" })"><i class="lnr lnr-layers"></i><span style="position: relative;">Report</span></a>
                     </li>
 
-                    <li id="menu-comunicacao">
+                    <li id="menu-communication">
                         <a href="@Url.Action("Index", "Threshold",new { area = "Administrator" })"><i class="fa fa-file-text-o"></i><span style="position: relative;">Threshold</span></a>
                     </li>
 
-                    <li id="menu-comunicacao">
+                    <li id="menu-communication">
                         <a href="@Url.Action("Index", "Log",new { area = "Administrator" })"><i class="lnr lnr-history"></i><span style="position: relative;">Blog</span></a>
                     </li>
 
-                    <li id="menu-comunicacao">
+                    <li id="menu-communication">
                         @if (Request.IsAuthenticated)
                         {
                             using (Html.BeginForm("LogOff", "Account", new { area = "" }, FormMethod.Post, new { id = "logoutForm", @class = "" }))

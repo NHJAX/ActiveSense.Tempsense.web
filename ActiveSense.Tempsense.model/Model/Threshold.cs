@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace ActiveSense.Tempsense.model.Model
 {
+    [Table("Threshold")]
     public class Threshold
     {
         public ActiveSenseContext dbActiveContext = new ActiveSenseContext(ConfigurationManager.ConnectionStrings["TempsenseConnection"].ConnectionString);

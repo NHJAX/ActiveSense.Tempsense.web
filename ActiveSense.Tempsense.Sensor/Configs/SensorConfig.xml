@@ -2,16 +2,18 @@
 <!--Configuraciòn dispositivos-->
 <Devices>
   <Device>
-    <DeviceKey>lH4wMY+XbzSimCS5pFNKZmBQ0VVUZUDVyJRji8h01Jg=</DeviceKey>
+    <DeviceKey>NTIrr4GA2QdxfJqDc/4jIFzH7ueVA+Fw5Vh0wTBBLA4=</DeviceKey>
     <DeviceName>NHJAX-MID-113C</DeviceName>
-    <IotHubUri>Nhjax-iot.azure-devices.net</IotHubUri>
+    <DeviceID>2</DeviceID>
+    <IotHubUri>nhjaxiot.azure-devices.net</IotHubUri>
     <ReadingInterval>30000</ReadingInterval>
     <Ambiente>Room MID 113C</Ambiente>
   </Device>
 <Device>
-    <DeviceKey>lH4wMY+XbzSimCS5pFNKZmBQ0VVUZUDVyJRji8h01Jg=</DeviceKey>
-    <DeviceName>NHJAX-CompterRoom</DeviceName>
-    <IotHubUri>Nhjax-iot.azure-devices.net</IotHubUri>
+    <DeviceKey>NTIrr4GA2QdxfJqDc/4jIFzH7ueVA+Fw5Vh0wTBBLA4=</DeviceKey>
+    <DeviceName>nhjaxcomputerroom</DeviceName>
+    <DeviceID>3</DeviceID>
+    <IotHubUri>nhjaxiot.azure-devices.net</IotHubUri>
     <ReadingInterval>60000</ReadingInterval>
     <Ambiente>NHJAX Computer Room</Ambiente>
   </Device>

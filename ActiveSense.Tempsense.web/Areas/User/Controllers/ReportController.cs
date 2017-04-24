@@ -18,13 +18,13 @@ namespace ActiveSense.Tempsense.web.Areas.User.Controllers
 
         enum enumFilterTime
         {
-            Dia = 1440,
-            Sesenta_min = 60,
-            Treinta_min = 30,
-            Veinte_min = 20,
-            Diez_min = 10,
-            Cinco_min = 5,
-            Seleccione_Tiempo = 0
+            Day = 1440,
+            Sixty_Min = 60,
+            Thirty_Min = 30,
+            Twenty_Min = 20,
+            Ten_Min = 10,
+            Five_Min = 5,
+            Select_Time = 0
         };
 
         // GET: Administrator/Report
@@ -39,15 +39,18 @@ namespace ActiveSense.Tempsense.web.Areas.User.Controllers
         //GET:/Measure/
         public ActionResult Index(int id = 1, int idDevice = 0)
         {
+            var controller = RouteData.Values["controller"];
+            var action = RouteData.Values["action"];
+            var passid = RouteData.Values["id"];
             return View(ToFind(id, idDevice));
         }
 
         [HttpPost]
-        public ActionResult GetDeviceAssociated(string idCompany)
+        public ActionResult GetAssociatedDevice(string idcompany)
         {
 
-            int idCompanyT = Convert.ToInt32(idCompany);
-            var lists = (dbActiveContext.devices.Where(x => x.CompanyID == idCompanyT)).ToList<devices>();
+            int idCompany = Convert.ToInt32(idcompany);
+            var lists = (dbActiveContext.devices.Where(x => x.CompanyID == idCompany)).ToList<devices>();
 
             List<DeviceViewModel> data = new List<DeviceViewModel>();
             foreach (devices dist in lists)
@@ -66,7 +69,7 @@ namespace ActiveSense.Tempsense.web.Areas.User.Controllers
         }
 
 
-        public ActionResult ListaMeasures(int id = 1, int idDevice = 0)
+        public ActionResult ListMeasures(int id = 1, int idDevice = 0)
         {
 
             return PartialView(ToFind(id, idDevice));
@@ -83,7 +86,7 @@ namespace ActiveSense.Tempsense.web.Areas.User.Controllers
 
             int idCompany = userHelper.GetAssociatedCompanies(idUser);
             var listEmp = new SelectList(dbActiveContext.companies.Where(disp => disp.CompanyID == idCompany), "CompanyID", "Name").ToList();
-            listEmp.Insert(0, (new SelectListItem { Text = "Select a company", Value = "0" }));
+            listEmp.Insert(0, (new SelectListItem { Text = "Select a Department", Value = "0" }));
             ViewBag.Companies = listEmp;
 
 
@@ -120,29 +123,31 @@ namespace ActiveSense.Tempsense.web.Areas.User.Controllers
 
 
 
-        public JsonResult ObtainDataGraphic(int pageIndex, int idDevice, string dateStart, string dateEnd)
+        public JsonResult GetDataChart(int pageIndex, int idDevice, string dateStart, string dateEnd)
         {
 
             int start = Request["start"] != null ? Int16.Parse(Request["start"]) : 0;
-            int lenght = Request["length"] != null ? Int16.Parse(Request["length"]) : 10;
+            int lenght = Request["length"] != null ? Int16.Parse(Request["length"]) : 15;
 
-            string dateInicial = Request["dateStart"] != null ? Request["dateStart"] : "";
-            string dateFi = Request["dateEnd"] != null ? Request["dateEnd"] : "";
-            int filterMeasureTiempo = Request["FilterTime"] != null ? Int16.Parse(Request["FilterTime"]) : 0;
+            string Initialdate = Request["dateStart"] != null ? Request["dateStart"] : "";
+            string dateFinish = Request["dateEnd"] != null ? Request["dateEnd"] : "";
+            int filterMeasureTime = Request["FilterTime"] != null ? Int16.Parse(Request["FilterTime"]) : 0;
+            int offset = Request["Offset"] != null ? Int16.Parse(Request["Offset"]) : 0;
 
 
             Measure Measure = new Measure();
             int pageCount = 0;
             List<Measure> Measures = null;
 
-            if (filterMeasureTiempo <= 0)
+            if (filterMeasureTime <= 0)
             {
-                Measures = Measure.List(start, lenght, out pageCount, idDevice, dateInicial, dateFi);
+                Measures = Measure.List(start, lenght, out pageCount, idDevice, Initialdate, dateFinish);
             }
             else {
-                Measures = Measure.ListAverages(start, lenght, out pageCount, idDevice, dateInicial, dateFi, "", "", filterMeasureTiempo);
+                Measures = Measure.ListAverages(start, lenght, out pageCount, idDevice, Initialdate, dateFinish, "", "", filterMeasureTime);
             }
 
+            DateTime ConvertFromUtc = new DateTime();
 
             List<double> temperatureList = new List<double>();
             List<string> dates = new List<string>();
@@ -153,15 +158,15 @@ namespace ActiveSense.Tempsense.web.Areas.User.Controllers
             List<double> UpperToleranceList = new List<double>();
             List<double> LowerToleranceList = new List<double>();
 
-            decimal umbraMax = 0;
-            decimal umbraMin = 0;
+            decimal TempatureMax = 0;
+            decimal TempatureMin = 0;
             decimal toleranceMin = 0;
             decimal toleranceMax = 0;
 
             try
             {
-                umbraMax = dbActiveContext.Threshold.Where(p => p.DeviceID == idDevice).FirstOrDefault().Temperature_max;
-                umbraMin = dbActiveContext.Threshold.Where(p => p.DeviceID == idDevice).FirstOrDefault().Temperature_min;
+                TempatureMax = dbActiveContext.Threshold.Where(p => p.DeviceID == idDevice).FirstOrDefault().Temperature_max;
+                TempatureMin = dbActiveContext.Threshold.Where(p => p.DeviceID == idDevice).FirstOrDefault().Temperature_min;
                 toleranceMin = dbActiveContext.Threshold.Where(p => p.DeviceID == idDevice).FirstOrDefault().Tolerance_min;
                 toleranceMax = dbActiveContext.Threshold.Where(p => p.DeviceID == idDevice).FirstOrDefault().Tolerance_max;
             }
@@ -172,16 +177,19 @@ namespace ActiveSense.Tempsense.web.Areas.User.Controllers
             {
 
                 temperatureList.Add((double)MeasureTemp.Value);
-                dates.Add(MeasureTemp.DateTime.ToString());
-                ThresholdInferior.Add((double)umbraMin);
-                Thresholduperior.Add((double)umbraMax);
+
+                ConvertFromUtc = MeasureTemp.DateTime.AddMinutes(offset);
+                dates.Add(ConvertFromUtc.ToString("ddd, dd MMMM HH: mm tt"));
+
+                ThresholdInferior.Add((double)TempatureMin);
+                Thresholduperior.Add((double)TempatureMax);
                 UpperToleranceList.Add((double)toleranceMax);
                 LowerToleranceList.Add((double)toleranceMin);
             }
 
 
-            var resultado = new JsonResult();
-            resultado.Data = new
+            var result = new JsonResult();
+            result.Data = new
             {
                 dates = dates.ToArray(),
                 temperatures = temperatureList.ToArray(),
@@ -190,28 +198,29 @@ namespace ActiveSense.Tempsense.web.Areas.User.Controllers
                 UpperToleranceList = UpperToleranceList.ToArray(),
                 LowerToleranceList = LowerToleranceList.ToArray(),
             };
-            return resultado;
+            return result;
 
         }
 
         [HttpPost]
-        public JsonResult ObtenerDatosTabla()
+        public JsonResult GetDataTable()
         {
 
             string search = Request["search[value]"];
             string draw = Request["draw"];
 
             int start = Request["start"] != null ? Int16.Parse(Request["start"]) : 0;
-            int lenght = Request["length"] != null ? Int16.Parse(Request["length"]) : 10;
+            int lenght = Request["length"] != null ? Int16.Parse(Request["length"]) : 15;
 
             int device = Request["idDevice"] != null ? Int16.Parse(Request["idDevice"]) : 0;
 
-            string dateInicial = Request["dateStart"] != null ? Request["dateStart"] : "";
-            string dateEndal = Request["dateEnd"] != null ? Request["dateEnd"] : "";
+            string dateStart = Request["dateStart"] != null ? Request["dateStart"] : "";
+            string dateEnd = Request["dateEnd"] != null ? Request["dateEnd"] : "";
 
-            int filterMeasureTiempo = Request["FilterTime"] != null ? Int16.Parse(Request["FilterTime"]) : 0;
+            int filterMeasureTime = Request["FilterTime"] != null ? Int16.Parse(Request["FilterTime"]) : 0;
 
-        
+            int offset = Request["Offset"] != null ? Int16.Parse(Request["Offset"]) : 0;
+
             Measure Measure = new Measure();
             int pageCount = 0;
 
@@ -219,16 +228,16 @@ namespace ActiveSense.Tempsense.web.Areas.User.Controllers
             string perfil = userHelper.GetProfile(idUser);
 
             List<Measure> Measures = null;
-            if (filterMeasureTiempo <= 0)
+            if (filterMeasureTime <= 0)
             {
                 Measures = Measure.List(start, lenght, out pageCount,
-                device, dateInicial, dateEndal, idUser, perfil);
+                device, dateStart, dateEnd, idUser, perfil);
             }
             else {
                 Measures = Measure.ListAverages(start, lenght, out pageCount, device,
-                  dateInicial, dateEndal, idUser, perfil, filterMeasureTiempo);
+                  dateStart, dateEnd, idUser, perfil, filterMeasureTime);
             }
-
+            DateTime ConvertFromUtc = new DateTime();
             List<double> temperatureList = new List<double>();
             List<string> dates = new List<string>();
 
@@ -239,8 +248,11 @@ namespace ActiveSense.Tempsense.web.Areas.User.Controllers
 
             foreach (Measure MeasureTemp in Measures)
             {
+
                 Measuresmodel = new ReportModel();
-                Measuresmodel.date = MeasureTemp.DateTime.ToString();
+                ConvertFromUtc = MeasureTemp.DateTime.AddMinutes(offset);
+                Measuresmodel.date = ConvertFromUtc.ToString("ddd, dd MMMM HH:mm tt");
+                //Measuresmodel.date = MeasureTemp.DateTime.ToString();
                 Measuresmodel.idDevice = MeasureTemp.DeviceID;
                 Measuresmodel.temperature = MeasureTemp.Value.ToString();
 
@@ -254,9 +266,9 @@ namespace ActiveSense.Tempsense.web.Areas.User.Controllers
                 MeasuresModelList.Add(Measuresmodel);
             }
 
-            var resultado = new JsonResult();
-            resultado.Data = new { draw = draw, recordsTotal = pageCount, recordsFiltered = pageCount, data = MeasuresModelList.ToArray() };
-            return resultado;
+            var result = new JsonResult();
+            result.Data = new { draw = draw, recordsTotal = pageCount, recordsFiltered = pageCount, data = MeasuresModelList.ToArray() };
+            return result;
         }
 
     }

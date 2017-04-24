@@ -50,7 +50,7 @@ namespace ActiveSense.Tempsense.web.Areas.User.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "BlogsID,date,HoraInicio,HoraFin,Problem,Solution,DeviceID")] Blogs Blogs)
+        public ActionResult Create([Bind(Include = "BlogsID,Date, StartTime, EndTime, Problem, Solution,DeviceID")] Blogs Blogs)
         {
             if (ModelState.IsValid)
             {

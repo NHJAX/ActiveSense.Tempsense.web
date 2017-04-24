@@ -26,13 +26,13 @@ namespace ActiveSense.Tempsense.web.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        //SE: roles of the system
+        //Comment: roles of the system
         private const string USER_PROFILE = "User";
         private const string PROFILE_Administrator= "Administrator";
         private const string PROFILE_EXCLUDED_IN_CREATION = "Item";
         private const string STATE_USER = "NOT_ENABLED";
 
-        //SE:obtain the context to perform searches and operations EF
+        //Comment:obtain the context to perform searches and operations EF
         ApplicationDbContext context;
         public AccountController()
         {
@@ -105,7 +105,7 @@ namespace ActiveSense.Tempsense.web.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    //SE: redirect according to profile
+                    //Comment: redirect according to profile
                     ApplicationUser user = await UserManager.FindAsync(model.UserName, model.Password);
 
                     //This unauthenticated user redirection
@@ -212,12 +212,13 @@ namespace ActiveSense.Tempsense.web.Controllers
                     dbActiveContext.SaveChanges();
                     idCompany = company.CompanyID;
                 }
+                //Captcha --Completely Automated Public Turing test to tell Computers and Humans Apart
                 catch (Exception ex) {
                     ModelState.AddModelError("Error create Captcha", new Exception("Error in create Captcha "));
                 }
 
 
-                //SE: Add custom for creation of user fields.
+                //Comment: Add custom for creation of user fields.
                 var user = new ApplicationUser
                 {
                     UserName = model.UserName,
@@ -236,7 +237,7 @@ namespace ActiveSense.Tempsense.web.Controllers
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                    //SE: excluir roles
+                    //Comment: excluir roles
                     user.CompanyID = idCompany;
                     await this.UserManager.AddToRoleAsync(user.Id, USER_PROFILE);
                     await this.UserManager.UpdateAsync(user);
@@ -255,7 +256,7 @@ namespace ActiveSense.Tempsense.web.Controllers
                 AddErrors(result, model);
 
             }
-            //SE:Add list of roles
+            //Comment:Add list of roles
             ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains(PROFILE_EXCLUDED_IN_CREATION))
                                          .ToList(), "Name", "Name");
             ViewBag.CompanyID = new SelectList(dbActiveContext.companies, "CompanyID", "Name");

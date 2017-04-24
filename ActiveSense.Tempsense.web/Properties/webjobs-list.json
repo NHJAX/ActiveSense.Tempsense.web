@@ -1,0 +1,11 @@
+﻿{
+  "$schema": "http://schemastore.org/schemas/json/webjobs-list.json",
+  "WebJobs": [
+    {
+      "filePath": "../ActiveSense.Tempsense.ReceptorWebJob/ActiveSense.Tempsense.ReceptorWebJob.csproj"
+    },
+    {
+      "filePath": "../ActiveSense.Tempsense.ReceptorWebJob/ActiveSense.Tempsense.ReceptorWebJob.csproj"
+    }
+  ]
+}

@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 <div class="footer">
-                    <p>@DateTime.Now.Year - © ActiveSense </p>
+                    <p>2017 - © NHJAX-Dev</p>
                     <p>@ViewBag.State</p>
                 </div>
             </div>
@@ -59,7 +59,7 @@
         <div class="sidebar-menu" style="background: #373f4c;">
             <header class="logo">
                 <a href="#" class="sidebar-icon"> <span class="fa fa-bars"></span> </a> <a href="#">
-                    <span id="logo"> <h1>Inicio</h1></span>
+                    <span id="logo"> <h1>Home</h1></span>
                 </a>
             </header>
             <div style="border-top:1px solid rgba(69, 74, 84, 0.7)"></div>
@@ -68,40 +68,40 @@
                 <ul id="menu">
                     @if (@ViewBag.IsEnable == null || @ViewBag.IsEnable == false)
                     {
-                        <li id="menu-academico">
+                        <li id="menu-academic">
                             <a href="@Url.Action("AcquireService", "Home", new { area = "User" })">
                                 <i class="fa fa-tachometer"></i>
-                                <span style="position: relative;">Adquirir Servicio</span>
+                                <span style="position: relative;">Purchase Service</span>
                             </a>
                         </li>
                     }
                     else
                     {
-                        <li id="menu-academico">
+                        <li id="menu-academic">
                             <a href="@Url.Action("Index", "Dashboard", new { area = "User" })">
                                 <i class="fa fa-tachometer"></i>
-                                <span style="position: relative;">Board</span>
+                                <span style="position: relative;">DashBoard</span>
                             </a>
                         </li>
-                        <li id="menu-academico">
-                            <a href="@Url.Action("Index", "Report", new { area = "User" })"><i class="lnr lnr-layers"></i><span style="position: relative;">Reporte</span></a>
+                        <li id="menu-academic">
+                            <a href="@Url.Action("Index", "Report", new { area = "User" })"><i class="lnr lnr-layers"></i><span style="position: relative;">Report</span></a>
                         </li>
-                        <li id="menu-comunicacao">
+                        <li id="menu-communication">
                             <a href="@Url.Action("Index", "Threshold",new { area = "User" })"><i class="fa fa-file-text-o"></i><span style="position: relative;">Threshold</span></a>
                         </li>
-                        <li id="menu-comunicacao">
-                            <a href="@Url.Action("Index", "Log",new { area = "User" })"><i class="lnr lnr-history"></i><span style="position: relative;">Bitácora</span></a>
+                        <li id="menu-communication">
+                            <a href="@Url.Action("Index", "Log",new { area = "User" })"><i class="lnr lnr-history"></i><span style="position: relative;">Blog</span></a>
                         </li>
                     }
 
 
-                    <li id="menu-comunicacao">
+                    <li id="menu-communication">
                         @if (Request.IsAuthenticated)
                         {
                             using (Html.BeginForm("LogOff", "Account", new { area = "" }, FormMethod.Post, new { id = "logoutForm", @class = "" }))
                             {
                                 @Html.AntiForgeryToken()
-                                <a href="javascript:document.getElementById('logoutForm').submit()">Salir</a>
+                                <a href="javascript:document.getElementById('logoutForm').submit()">Exit</a>
                             }
                         }
                     </li>

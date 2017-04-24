@@ -18,7 +18,7 @@ namespace ActiveSense.Tempsense.web.Models
             // Add custom user claims here
             return userIdentity;
         }
-        //SE:Add custom fields
+        //Comment:Add custom fields
         //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CompanyID { get; set; }
         public string State { set; get; }

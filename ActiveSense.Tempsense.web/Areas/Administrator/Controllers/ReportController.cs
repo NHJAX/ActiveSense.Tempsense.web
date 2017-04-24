@@ -23,7 +23,7 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
     public class ReportController : GenericController
     {
         // GET: Administrator/Report
-        public const int CANTIDAD_Devices = 10;
+        public const int QUANTITY_Devices = 10;
         enum enumFilterTime
         {
             Day = 1440,
@@ -34,6 +34,11 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
             Five_min = 5,
             Select_time = 0
         };
+        private UserHelper userHelper = null;
+        public ReportController()
+        {
+            userHelper = new UserHelper();
+        }
 
         // [MeterAuthorize]
         //GET:/Measure/
@@ -51,7 +56,7 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetDeviceAssociated(string idcompany)
+        public ActionResult GetAssociatedDevice(string idcompany)
         {
 
             int idCompany = Convert.ToInt32(idcompany);
@@ -80,7 +85,7 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
             Measure Measure = new Measure();
 
             var listEmp = new SelectList(dbActiveContext.companies, "CompanyID", "Name").ToList();
-            listEmp.Insert(0, (new SelectListItem { Text = "Select a company", Value = "0" }));
+            listEmp.Insert(0, (new SelectListItem { Text = "Select a Department", Value = "0" }));
             ViewBag.Companies = listEmp;
 
             var lists = (dbActiveContext.devices).ToList<devices>();
@@ -111,91 +116,99 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
         }
 
 
-        public JsonResult ObtainDataChart(int pageIndex, int iddevice, string DateHome, string EndDate)
+        public JsonResult GetDataChart(int pageIndex, int iddevice, string dateStart, string dateEnd)
         {
 
             int start = Request["start"] != null ? Int16.Parse(Request["start"]) : 0;
-            int lenght = Request["length"] != null ? Int16.Parse(Request["length"]) : 10;
-            string dateInicial = Request["DateHome"] != null ? Request["DateHome"] : "";
-            string dateEndal = Request["EndDate"] != null ? Request["EndDate"] : "";
+            int lenght = Request["length"] != null ? Int16.Parse(Request["length"]) : 15;
+
+            string Initialdate = Request["dateStart"] != null ? Request["dateStart"] : "";
+            string dateFinish = Request["dateEnd"] != null ? Request["dateEnd"] : "";
             int MeasureTimeFilter = Request["FilterTime"] != null ? Int16.Parse(Request["FilterTime"]) : 0;
+            int offset = Request["Offset"] != null ? Int16.Parse(Request["Offset"]) : 0;
 
             Measure Measure = new Measure();
             int pageCount = 0;
-            List<Measure> MeasuresList = null;
+            List<Measure> Measures = null;
 
             if ( MeasureTimeFilter <= 0)
             {
-                MeasuresList = Measure.List(start, lenght, out pageCount, iddevice, DateHome, EndDate, "", "", MeasureTimeFilter);
+                Measures = Measure.List(start, lenght, out pageCount, iddevice, Initialdate, dateFinish);
             }
             else {
-                MeasuresList = Measure.ListAverages(start, lenght, out pageCount, iddevice, DateHome, EndDate, "", "", MeasureTimeFilter);
+                Measures = Measure.ListAverages(start, lenght, out pageCount, iddevice, Initialdate, dateFinish, "", "", MeasureTimeFilter);
             }
-            
+
+            DateTime ConvertFromUtc = new DateTime();
 
             List<double> temperatureList = new List<double>();
             List<string> dates = new List<string>();
 
-            List<double> thresholdInferior = new List<double>();
-            List<double> thresholdSuperior = new List<double>();
+            List<double> ThresholdInferior = new List<double>();
+            List<double> ThresholdSuperior = new List<double>();
 
             List<double> UpperToleranceList = new List<double>();
             List<double> LowerToleranceList = new List<double>();
 
-            decimal thresholdMax = 0;
-            decimal thresholdMin = 0;
+            decimal TempatureMax = 0;
+            decimal TempatureMin = 0;
             decimal toleranceMin = 0;
             decimal toleranceMax = 0;
 
             try
             {
-                thresholdMax = dbActiveContext.Threshold.Where(p => p.DeviceID == iddevice).FirstOrDefault().Temperature_max;
-                thresholdMin = dbActiveContext.Threshold.Where(p => p.DeviceID == iddevice).FirstOrDefault().Temperature_min;
-                 toleranceMin = dbActiveContext.Threshold.Where(p => p.DeviceID == iddevice).FirstOrDefault().Tolerance_min;
-                 toleranceMax = dbActiveContext.Threshold.Where(p => p.DeviceID == iddevice).FirstOrDefault().Tolerance_max;
+                TempatureMax = dbActiveContext.Threshold.Where(p => p.DeviceID == iddevice).FirstOrDefault().Temperature_max;
+                TempatureMin = dbActiveContext.Threshold.Where(p => p.DeviceID == iddevice).FirstOrDefault().Temperature_min;
+                toleranceMin = dbActiveContext.Threshold.Where(p => p.DeviceID == iddevice).FirstOrDefault().Tolerance_min;
+                toleranceMax = dbActiveContext.Threshold.Where(p => p.DeviceID == iddevice).FirstOrDefault().Tolerance_max;
             }
             catch (Exception ex){ }
 
-            foreach (Measure MeasureTemp in MeasuresList)
+
+            foreach (Measure MeasureTemp in Measures)
             {
                 temperatureList.Add((double)MeasureTemp.Value);
-                dates.Add(MeasureTemp.DateTime.ToString());
-                thresholdInferior.Add((double)thresholdMin);
-                thresholdSuperior.Add((double)thresholdMax);
+
+                ConvertFromUtc = MeasureTemp.DateTime.AddMinutes(offset); ;
+                dates.Add(ConvertFromUtc.ToString("ddd, dd MMMM HH:mm tt"));
+
+                ThresholdInferior.Add((double)TempatureMin);
+                ThresholdSuperior.Add((double)TempatureMax);
                 UpperToleranceList.Add((double)toleranceMax);
                 LowerToleranceList.Add((double)toleranceMin);
             }
 
-            var resultado = new JsonResult();
-            resultado.Data = new
+            var result = new JsonResult();
+            result.Data = new
             {
                 dates = dates.ToArray(),
                 temperatures = temperatureList.ToArray(),
-                thresholdSuperior = thresholdSuperior.ToArray(),
-                thresholdInferior = thresholdInferior.ToArray(),
+                ThresholdSuperior = ThresholdSuperior.ToArray(),
+                ThresholdInferior = ThresholdInferior.ToArray(),
                 UpperToleranceList = UpperToleranceList.ToArray(),
                 LowerToleranceList = LowerToleranceList.ToArray(),
             };
-            return resultado;
+            return result;
 
         }
 
         [HttpPost]
-        public JsonResult ObtenerDatosTabla()
+        public JsonResult GetDataTable()
         {
 
             string search = Request["search[value]"];
             string draw = Request["draw"];
 
             int start = Request["start"] != null ? Int16.Parse(Request["start"]) : 0;
-            int lenght = Request["length"] != null ? Int16.Parse(Request["length"]) : 10;
+            int lenght = Request["length"] != null ? Int16.Parse(Request["length"]) : 15;
 
             int device = Request["iddevice"] != null ? Int16.Parse(Request["iddevice"]) : 0;
 
-            string Startdate = Request["startdate"] != null ? Request["startdate"] : "";
-            string EndDate = Request["endDate"] != null ? Request["endDate"] : "";
+            string Startdate = Request["dateStart"] != null ? Request["dateStart"] : "";
+            string EndDate = Request["dateEnd"] != null ? Request["dateEnd"] : "";
 
             int MeasureTimeFilter = Request["FilterTime"] != null ? Int16.Parse(Request["FilterTime"]) : 0;
+            int offset = Request["offset"] != null ? Int16.Parse(Request["offset"]) : 0;
 
             Measure Measure = new Measure();
             int pageCount = 0;
@@ -211,7 +224,7 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
                 MeasuresList = Measure.ListAverages(start, lenght, out pageCount, device, Startdate, EndDate, "", "", MeasureTimeFilter);
             }
 
-
+            DateTime ConvertFromUtc = new DateTime();
             List<double> temperatureList = new List<double>();
             List<string> dates = new List<string>();
 
@@ -223,7 +236,8 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
             foreach (Measure MeasureTemp in MeasuresList)
             {
                 Measuresmodel = new ReportModel();
-                Measuresmodel.date = MeasureTemp.DateTime.ToString();
+                ConvertFromUtc = MeasureTemp.DateTime.AddMinutes(offset); ;
+                Measuresmodel.date = ConvertFromUtc.ToString("ddd, dd MMMM HH:mm tt");
                 Measuresmodel.idDevice = MeasureTemp.DeviceID;
                 Measuresmodel.temperature = MeasureTemp.Value.ToString();
 
@@ -237,9 +251,9 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
                 MeasuresModelList.Add(Measuresmodel);
             }
 
-            var resultado = new JsonResult();
-            resultado.Data = new { draw = draw, recordsTotal = pageCount, recordsFiltered = pageCount, data = MeasuresModelList.ToArray() };
-            return resultado;
+            var result = new JsonResult();
+            result.Data = new { draw = draw, recordsTotal = pageCount, recordsFiltered = pageCount, data = MeasuresModelList.ToArray() };
+            return result;
         }
 
     }

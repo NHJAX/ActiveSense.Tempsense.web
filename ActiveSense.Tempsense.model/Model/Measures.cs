@@ -29,7 +29,7 @@ namespace ActiveSense.Tempsense.model.Model
         
         public const int NUMBER_DEVICES = 10;
 
-        private const string ADMINISTRATOR_PROFILE = "Administrador";
+        private const string ADMINISTRATOR_PROFILE = "Administrator";
 
         private const int FILTER_DAYS = 1440;
 
@@ -89,7 +89,7 @@ namespace ActiveSense.Tempsense.model.Model
 
                 if (device != 0)
                 {
-                    whereTotal = whereTotal != "" ? whereTotal + " AND DeviceID = " + Device : " DeviceID = " + device;
+                    whereTotal = whereTotal != "" ? whereTotal + " AND DeviceID = " + device : " DeviceID = " + device;
                 }
                 else
                 {
@@ -136,7 +136,7 @@ namespace ActiveSense.Tempsense.model.Model
                 }
 
                 string paginacion = "  WHERE consecutive BETWEEN(" + pageIndex + ") and(" + (pageIndex + pageSize) + ")";
-                consultafilterTotal = "SELECT * FROM(SELECT ROW_NUMBER() OVER (ORDER BY MeasureID DESC) consecutive, * from Measures " + whereTotal + ") Measures " + paginacion + " ORDER BY DeviceID ASC, DateTime DESC ";
+                consultafilterTotal = "SELECT * FROM(SELECT ROW_NUMBER() OVER (ORDER BY MeasureID DESC) consecutive, * from Measures " + whereTotal + ") Measures " + paginacion + " ORDER BY DeviceID ASC, DateTime ASC ";
              
                 using (SqlCommand cmd = new SqlCommand())
                 {
@@ -215,7 +215,7 @@ namespace ActiveSense.Tempsense.model.Model
 
                 if (device != 0)
                 {
-                    whereTotal = whereTotal != "" ? whereTotal + " AND DeviceID = " + Device : " DeviceID = " + DeviceID;
+                    whereTotal = whereTotal != "" ? whereTotal + " AND DeviceID = " + device : " DeviceID = " + device;
                 }
                 else
                 {
@@ -237,18 +237,18 @@ namespace ActiveSense.Tempsense.model.Model
                 string queryGroupSearch = " (DATEPART(MINUTE, DateTime) / " + FilterTime + "), " +
                                           " DATEPART(hh, DateTime), " ;
 
-                string postPagination = " ORDER BY day, time, month ASC";
+                string postPagination = " ORDER BY day, time, months ASC";
 
-                string row_number = " SELECT(ROW_NUMBER() OVER(ORDER BY T.minute ASC, T.Month ASC)) as consecutive, *";
+                string row_number = " SELECT(ROW_NUMBER() OVER(ORDER BY T.minute ASC, T.Months ASC)) as consecutive, *";
 
                 if ( FilterTime == FILTER_DAYS) {
-                    postPagination = " ORDER BY day, month ASC";
+                    postPagination = " ORDER BY day, months ASC";
                     querySearch = "Select (DATEPART(DAY, DateTime)) as day, ";
                     queryGroupSearch = "";
                     row_number = " SELECT(ROW_NUMBER() OVER(ORDER BY T.day ASC)) as consecutive, *";
                 }
 
-                string  sqlCountMeasures = "SELECT COUNT(Average.averages) FROM ( " +
+                string  sqlCountMeasures = "SELECT COUNT(Average) FROM ( " +
                       querySearch +
                     " AVG(Value) as average " +
                     " FROM Measures " + whereTotal +
@@ -262,7 +262,7 @@ namespace ActiveSense.Tempsense.model.Model
                 using (SqlCommand cmdTotal = new SqlCommand())
                 {
 
-                    // consulta total items encontrado
+                    // see total items found
                     try
                     {
                         sqlConnection1.Open();
@@ -332,7 +332,7 @@ namespace ActiveSense.Tempsense.model.Model
                                 }
                             }
 
-                            dateD = reader["day"].ToString() + "/" + reader["Month"].ToString() + "/" + reader["Years"].ToString() + " " + time + ":00:00";/* "01/08/2008 14:50:50.42" */
+                            dateD = reader["Months"].ToString() + "/" + reader["day"].ToString() + "/" + reader["Years"].ToString() + " " + time + ":00:00";/* "01/08/2008 14:50:50.42" */
                             Measure.DateTime = Convert.ToDateTime(dateD);
                             Measure.DeviceID = device;
                             listMeasures.Add(Measure);

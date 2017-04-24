@@ -10,7 +10,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
-namespace ActiveSense.Tempsense.web.Areas.Users.Controllers
+namespace ActiveSense.Tempsense.web.Areas.User.Controllers
 {
     [ActiveSenseAutorize("User")]
     public class ThresholdController : GenericController
@@ -27,8 +27,8 @@ namespace ActiveSense.Tempsense.web.Areas.Users.Controllers
         {
             string idUser  = User.Identity.GetUserId();
             string devicesTemp = userHelper.GetDevicesPartners(idUser);
-            List<Threshold> Thresholdes = dbActiveContext.Threshold.Where(x => x.Active == true && devicesTemp.Contains(x.DeviceID.ToString())).ToList();
-            return View(Thresholdes);
+            List<Threshold> Threshold = dbActiveContext.Threshold.Where(x => x.Active == true && devicesTemp.Contains(x.DeviceID.ToString())).ToList();
+            return View(Threshold);
         }
 
         // GET: Threshold/Details/5
@@ -61,7 +61,7 @@ namespace ActiveSense.Tempsense.web.Areas.Users.Controllers
         //Add active in the include and the current date
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ThresholdID,Active,Temperature_min,Temperature_max,DeviceID,Tolerance_min,Tolerance_max")] Threshold Threshold)
+        public ActionResult Create([Bind(Include = "thresholdID,Active,Temperature_min,Temperature_max,DeviceID,Tolerance_min,Tolerance_max")] Threshold Threshold)
         {
             if (ModelState.IsValid)
             {
@@ -100,7 +100,7 @@ namespace ActiveSense.Tempsense.web.Areas.Users.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ThresholdID,Active,Temperature_min,Temperature_max,DeviceID,Tolerance_min,Tolerance_max")] Threshold Threshold)
+        public ActionResult Edit([Bind(Include = "thresholdID,Active,Temperature_min,Temperature_max,DeviceID,Tolerance_min,Tolerance_max")] Threshold Threshold)
         {
             if (ModelState.IsValid)
             {

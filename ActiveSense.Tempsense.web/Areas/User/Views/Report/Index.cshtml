@@ -1,17 +1,17 @@
 ﻿@model IEnumerable<ActiveSense.Tempsense.model.Model.Measure>
 @{
-    ViewBag.Title = "Reportes";
+    ViewBag.Title = "Reports";
 }
 <div style="padding: 0%; background-color: #babdc7;" class="panel panel">
-    <div class="panel-heading"><h2>Reporte</h2></div>
+    <div class="panel-heading"><h2>Report</h2></div>
     <div class="panel-body">
-        <div id="listaMeasures" class="form-inline">
+        <div id="ListMeasures" class="form-inline">
             <div class="row">
-                <div class="col-xs-5 col-md-5">
+                <div class="col-xs-4 col-md-4">
                     <div class="form-group">
 
                         <div id="dateStart" class="input-append">
-                            <label for="dateStart"> date Inicio </label>
+                            <label for="dateStart">Start Date</label>
                             <input class="form-control" data-format="yyyy-MM-dd" type="text" id="dateStartData" />
                             <span class="add-on">
                                 <i data-time-icon="icon-time" data-date-icon="icon-calendar">
@@ -21,11 +21,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-5 col-md-5">
+                <div class="col-xs-4 col-md-4">
                     <div class="form-group">
 
                         <div id="dateEnd" class="input-append">
-                            <label for="dateEnd"> date Fin </label>
+                            <label for="dateEnd">End Date</label>
                             <input data-format="yyyy-MM-dd" type="text" class="form-control" id="dateEndData" />
                             <span class="add-on">
                                 <i data-time-icon="icon-time" data-date-icon="icon-calendar">
@@ -35,24 +35,24 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-2 col-md-2">
+                <div class="col-xs-3 col-md-3">
                     <div class="form-group">
                         <div>
-                            <button type="button" id="btnPrint" class="btn btn-primary">Imprimir</button>
+                            <button type="button" id="btnPrint" class="btn btn-primary">Print</button>
                         </div>
                     </div>
                 </div>
             </div>
             <br />
             <div class="row">
-                <div class="col-xs-5 col-md-5">
-                    <label for="DeviceID"> Empresa</label>
+                <div class="col-xs-4 col-md-4">
+                    <label for="DeviceID">Department</label>
                     <div class="form-group">
                         @Html.DropDownList("Companies", null, htmlAttributes: new { @class = "form-control" })
                     </div>
                     <div class="clearfix"></div>
                 </div>
-                <div class="col-xs-5 col-md-5" id="contentSelectDisp">
+                <div class="col-xs-4 col-md-4" id="contentSelectDisp">
                     <label for="DeviceID"> Sensor</label>
                     <div class="form-group">
                         @Html.DropDownList("DeviceID", null, htmlAttributes: new { @class = "form-control" })
@@ -61,7 +61,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="col-xs-3 col-md-3">
-                    <label for="FilterTime"> Filter </label><br />
+                    <label for="FilterTime"> Filter </label>
                     <div class="form-group">
                         @Html.DropDownList("FilterTime", null, htmlAttributes: new { @class = "form-control" })
                     </div>
@@ -76,7 +76,7 @@
 
 <br />
 
-<div id="ContenedorPreload">
+<div id="ContainerPreload">
     <img src="~/Content/images/8.gif" />
 </div>
 
@@ -91,8 +91,8 @@
             <thead>
                 <tr>
                     <th>Value</th>
-                    <th>device</th>
-                    <th>date time</th>
+                    <th>Device</th>
+                    <th>Date Time</th>
                 </tr>
             </thead>
         </table>
@@ -103,12 +103,16 @@
     <script type="text/javascript">
 
         var objTablePaged  = '';
-        var MESSAGE_ERROR_date_MORE  = 'Date initial must be less that the end date';
+        var MESSAGE_ERROR_date_MORE = 'Start Date must be less that the end date';
         var MESSAGE_ERROR_date_EMPTY = 'You must enter the two dates';
         var MESSAGE_ERROR_CONNECTION = "Has been an error in the system please try again";
         var MESSAGE_ERROR_DEVICE = "Please select a device";
         var FILTER_DAYS = 1440;
         var MESSAGE_ERROR_DATE_FILTER = 'You must enter the two dates for this filter ';
+        //Need to pass in timezone offset to get dates corrected for local display
+        //Dates in the database are stored in UTC format
+        var offset = new Date().getTimezoneOffset();
+        offset = offset * -1;
 
         $(document).ready(function () {
 
@@ -125,18 +129,18 @@
                 autoclose: true
             });
 
-            // funcion que permite limpiar los calendarios si ha ocurrido un error
+            // feature that allows you to clean the calendars if an error has occurred
             function CleanCalendar() {
                 $("#dateStartData").val('');
                 $("#dateEndData").val('');
             }
 
-            // evento de cambio de device
+            // device change event
             $("#DeviceID").change(function () {
                 ToFindInformation();
             });
 
-            //evento de cambio de filter tiempo
+            //filter change event time
             $('#FilterTime').change(function () {
                 var Valuefilter = $(this).val();
                 if (Valuefilter != 0 && Valuefilter != "") {
@@ -144,7 +148,7 @@
                 }
             });
 
-            //evento de cambio de empresa
+            //company changed event
             $('#Companies').change(function () {
                 var idCompany = $(this).val();
                 if (idCompany != 0 && idCompany != "") {
@@ -153,7 +157,7 @@
                     $("#DeviceID").hide();
                     $('#prelaodInner').show();
                     $.ajax({
-                        url: '@Url.Action("ObtenerdeviceAsociado", "Report" )',
+                        url: '@Url.Action("GetAssociatedDevice", "Report" )',
                         type: 'POST',
                         data: JSON.stringify({ idCompany: idCompany }),
                         datatype: 'application/json',
@@ -177,7 +181,7 @@
                 }
             });
 
-            //funcion que permite realizar la busqueda cuando se cambia o seleciona el device
+            //function that allows to search when changing or select the device
             function ToFindInformation() {
                 var idDevice = $("#DeviceID").val();
                 var dateStart = $("#dateStartData").val();
@@ -190,16 +194,16 @@
                 }
             }
 
-            // funcion de proposito general que permite validar una peticion
+            // function of general enabling validate request purpose
             function ValidateRequest(dateStart, dateEnd) {
-                var validacionD = validateDevice();;
-                var validacionF = validateDates(dateStart, dateEnd);
-                var validacionFtr = ValidateFilterDays(dateStart, dateEnd);
-                return (validacionD && validacionF && validacionFtr) ? true : false;
+                var validationD = validateDevice();;
+                var validationF = validateDates(dateStart, dateEnd);
+                var validationFtr = ValidateFilterDays(dateStart, dateEnd);
+                return (validationD && validationF && validationFtr) ? true : false;
             }
 
-            // funcion que permite validar si se han seleccionado los dias para
-            // para realizar el filter por dias
+            //feature that allows you to validate that the days have been selected for
+            //to make the filter by days
             function ValidateFilterDays(dateStart, dateEnd) {
                 var IsValid = true;
                 var filter = $("#FilterTime").val();
@@ -212,7 +216,7 @@
                 return IsValid;
             }
 
-            // funcion de validacion de device
+            // device validation function
             function validateDevice() {
                 var idDevice = $("#DeviceID").val();
                 var validate = false;
@@ -224,7 +228,7 @@
                 return validate;
             }
 
-            // funcion que permite validar que la date de inicio se mayor que la date final
+            // feature that allows you to validate that you date it from home is greater that the date end
             function validateDates(dateStart, dateEnd) {
                 if (dateStart > dateEnd) {
                     Command: toastr["error"](MESSAGE_ERROR_date_MORE , 'ERROR');
@@ -240,49 +244,50 @@
                 return true;
             }
 
-            //funcion encargada construir la tabla de Measures recibe como parametro
-            //identificacion de device, date de inicio, date de fin
-            // ademas permite Register eventos cuando se presiona el selector de tamaño y se pagina
-            function RenderTable(idDevice, dateStart, dateEnd) {
+            //charge function build the table of Measures receives as parameters
+            //device ID, start date, date end
+            //also allows you to Register events when the selector is pressed and is page
+                function RenderTable(idDevice, dateStart, dateEnd) {
 
-                //Mostrar contenedor de tabla
+                    //Show table container
                 var objTableMeasuresVisual = $('#TableMeasures');
                 objTableMeasuresVisual.show();
-                //Obtener tabla
+                    //Get table
                 var ObjContainerPaginatedTable = $('#Paginatedtable');
-                //Generar tabla
+                    //Generate table
                 objTablePaged  = objTableMeasuresVisual.DataTable({
                     "processing": true,
                     "serverSide": true,
                     "searching": false,
                     "destroy": true,
-                    "lengthMenu": [10, 15, 20],
+                    "lengthMenu": [10, 15, 20, 30, 60],
+                    "pageLength": 15,
                     language: {
-                        processing: "Procesando...",
+                        processing: "Processing...",
                         search: "ToFind:",
-                        lengthMenu: "Mostrar _MENU_ registros",
-                        info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                        infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
-                        infoFiltered: "(filtrado de un total de _MAX_ registros)",
+                        lengthMenu: "Show _MENU_ records",
+                        info: "Show records of the _START_ at the _END_ of _TOTAL_ records total",
+                        infoEmpty: "Show records 0 to 0 of 0 total records",
+                        infoFiltered: "(a total of _MAX_ filtering records)",
                         infoPostFix: "",
-                        loadingRecords: "Cargando...",
-                        zeroRecords: "No se encontraron resultados",
-                        emptyTable: "Ningún dato disponible en esta tabla",
+                        loadingRecords: "Loading...",
+                        zeroRecords: "No results were found",
+                        emptyTable: "No data were available on this table",
                         paginate: {
-                            first: "Primero",
-                            previous: "Ant",
-                            next: "Sig",
-                            last: "Último",
+                            first: "First",
+                            previous: "Prev",
+                            next: "Next",
+                            last: "Last",
                         },
                         aria: {
-                            sortAscending: ": Activar para ordenar la columna de manera ascendente",
-                            sortDescending: ": Activar para ordenar la columna de manera descendente"
+                            sortAscending: ": Select to sort the column ascending",
+                            sortDescending: ": Select to sort the column descending"
                         }
                     },
-                    //Peticion de datos servicio
+                    //Data service request
                     "ajax": {
                         "type": "POST",
-                        "url": '@Url.Action("ObtenerDatosTabla", "Report" )',
+                        "url": '@Url.Action("GetDataTable", "Report" )',
                         //"data": {
                         //    "idDevice": idDevice,
                         //    "dateStart": dateStart,
@@ -292,9 +297,10 @@
                             d.idDevice = idDevice,
                             d.dateStart = $("#dateStartData").val(),
                             d.dateEnd = $("#dateEndData").val(),
-                            d.FilterTime = $("#FilterTime").val()
+                            d.FilterTime = $("#FilterTime").val(),
+                            d.offset = offset
                         },
-                        // Mostras toastr error si hay error
+                        // Show toastr error if there is error
                         "error": function () {
                             ObjContainerPaginatedTable.hide();
                             Command: toastr["error"](MESSAGE_ERROR_CONNECTION, 'ERROR');
@@ -308,11 +314,11 @@
                 });
 
                 var objdateStart = $("#dateStartData");
-                var objdateEndal = $("#dateEndData");
+                var objdateEnd = $("#dateEndData");
 
                 objTablePaged .on('length.dt', function (e, settings, len) {
                     var dateStart = objdateStart.val();
-                    var dateEnd = objdateEndal.val();
+                    var dateEnd = objdateEnd.val();
                     if (ValidateRequest(dateStart, dateEnd)) {
                         SolicitorDataStatistics();
                     }
@@ -320,7 +326,7 @@
 
                 objTablePaged .on('page.dt', function () {
                     var dateStart = objdateStart.val();
-                    var dateEnd = objdateEndal.val()
+                    var dateEnd = objdateEnd.val()
 
 
                     if (ValidateRequest(dateStart, dateEnd)) {
@@ -331,14 +337,16 @@
             }
 
 
-            // funcion que permite construir la tabla estadistico recibe como parametro
-            // un arreglo de dates y un arreglo de temperatures.
-            function renderizarGraficaEstadistica(dates, temperatures, UpperThreshold , LowerThreshold , LowerToleranceList, UpperToleranceList) {
+            // feature that allows you to build the statistical table receives as parameters
+            // an array of dates and an array of temperatures.
+            function RenderGraphicsStatistics(dates, temperatures, UpperThreshold , LowerThreshold , LowerToleranceList, UpperToleranceList) {
                 var canvas = document.getElementById("graphicalMeasures");
+                $('#graphicalMeasures').remove(); // this is my <canvas> element
+                $('#printThis').append('<canvas id="graphicalMeasures"><canvas>');
+                canvas = document.querySelector('#graphicalMeasures');
                 var ctx = canvas.getContext("2d");
 
-
-                var horizonalLinePlugin = {
+                 var horizonalLinePlugin = {
                     afterDraw: function (chartInstance) {
                         var yScale = chartInstance.scales["y-axis-0"];
                         var canvas = chartInstance.chart;
@@ -388,13 +396,13 @@
                     labels: dates,
                     datasets: [
                                 {
-                                    label: "Value",
+                                    label: "Temp",
                                     borderColor: "rgba(75,192,192,1)",
                                     data: temperatures,
                                     spanGaps: true,
                                 },
                                 {
-                                    label: "Tolerance Maximum",
+                                    label: "Tolerance Max",
                                     lineTension: 0.1,
                                     borderColor: "#ff0000",
                                     borderDashOffset: 0.0,
@@ -408,7 +416,7 @@
                                 },
                                 {
 
-                                    label: "Tolerance Minimum",
+                                    label: "Tolerance Min",
                                     fill: false,
                                     lineTension: 0.1,
                                     borderColor: "#ff0000",
@@ -422,7 +430,7 @@
                                     data: LowerToleranceList,
                                 },
                                  {
-                                     label: "temperature Maximum",
+                                     label: "Temp Max",
                                      lineTension: 0.1,
                                      borderColor: "#000000",
                                      borderDashOffset: 0.0,
@@ -435,7 +443,7 @@
                                      data: UpperThreshold ,
                                  },
                                    {
-                                       label: "temperature Minimum",
+                                       label: "Temp Min",
                                        lineTension: 0.1,
                                        borderColor: "#000000",
                                        borderDashOffset: 0.0,
@@ -476,7 +484,7 @@
                                 display: true,
                                 scaleLabel: {
                                     display: true,
-                                    labelString: 'dates'
+                                    labelString: 'Dates'
                                 }
                             }],
                             yAxes: [{
@@ -490,10 +498,11 @@
                     }
                 });
 
+
             }
 
-            // funcion que permite cargar los datos mediante peticiones ajax para mostrar en grafica
-            // luego llama a funcion para renderizar la grafica estadistica
+            // function that allows you to load data using ajax requests to show graph
+            // then it calls function to render the graph statistics
             function SolicitorDataStatistics() {
                 var info = objTablePaged .page.info();
                 $("#graphicalMeasures").hide();
@@ -503,7 +512,7 @@
 
                 $.ajax(
                {
-                   url: '@Url.Action("DataChart", "Report")',
+                   url: '@Url.Action("GetDataChart", "Report")',
                    data: {
                        pageIndex: 1,
                        start: info.start,
@@ -512,6 +521,7 @@
                        dateStart: $("#dateStartData").val(),
                        dateEnd: $("#dateEndData").val(),
                        FilterTime: $("#FilterTime").val(),
+                       offset: offset
                    },
                    type: "POST",
                    success: function (msg) {
@@ -519,10 +529,10 @@
 
                        if (msg.dates.length > 0) {
                            $("#graphicalMeasures").show();
-                           renderizarGraficaEstadistica(msg.dates, msg.temperatures,
+                           RenderGraphicsStatistics(msg.dates, msg.temperatures,
                                                    msg.Thresholduperior, msg.ThresholdInferior,
                                                    msg.LowerToleranceList, msg.UpperToleranceList);
-                           ObjTitleGraphic.text("Gráfica " + $("#DeviceID option:selected").text());
+                           ObjTitleGraphic.text("Chart for " + $("#DeviceID option:selected").text());
                        }
 
 
@@ -535,19 +545,37 @@
             }
         });
 
-        //var canvas = document.getElementById('graphicalMeasures');
-        //printBtn.addEventListener('click', function () {
-        //    document.body.removeChild(canvas);
-        //    var img = new Image;
-        //    img.id = 'tempPrintImage';
-        //    img.onload = print;
-        //    img.src = canvas.toDataURL();
-        //    document.body.appendChild(img);
-        //}, false);
+        //
+        //Print stuff
+        var imgData;
+        var windowContent;
+        var newcanvas;
+        $printSection = document.getElementById("printSection");
+        if (!$printSection) {
+            var $printSection = document.createElement("div");
+            $printSection.id = "printSection";
+            document.body.appendChild($printSection);
+        }
+        var newcanvas = document.createElement("canvan2");
 
         document.getElementById("btnPrint").onclick = function () {
-            printElement(document.getElementById("printThis"));
-            printElement(document.getElementById("printThis2"), true, "<hr />");
+            // if we need to get the various browsers to print correctly look into
+            //html2canvas
+
+
+            imgData = document.getElementById('graphicalMeasures').toDataURL('image/pdf');
+            windowContent = '<img src="' + imgData + '">';
+            newcanvas.innerHTML = windowContent;
+
+            $printSection.innerHTML = "";
+            $printSection.appendChild(newcanvas);
+
+            var elem = document.getElementById("printThis2")
+            var domClone = elem.cloneNode(true);
+            $printSection.appendChild(domClone);
+
+            //printElementnew(document.getElementById("printThis"));
+            //printElementnew(document.getElementById("printThis2"), true, "<hr />");
             window.print();
         }
 

@@ -51,11 +51,11 @@ namespace ActiveSense.Tempsense.ReceptorWebJob
                 return (ConfigurationManager.AppSettings["BDConnectionString"].ToString());
             }
         }
-        public static int TamanoLotemessages
+        public static int LotSizeMessages
         {
             get
             {
-                return int.Parse(ConfigurationManager.AppSettings["TamanoLotemessages"].ToString());
+                return int.Parse(ConfigurationManager.AppSettings["SizeBatchMessages"].ToString());
             }
         }
     }

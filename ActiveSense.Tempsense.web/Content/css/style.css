@@ -274,10 +274,10 @@ ul#menu i {
     margin-right: 6px;
 	    width: 10%;
 }
-ul#menu-academico-sub {
+ul#menu-academic-sub {
     z-index: 999;
 }
-li#menu-academico{
+li#menu-academic{
  z-index: 999;
 }
 /*#logo
@@ -414,7 +414,7 @@ cursor: pointer;
        position: relative;
        z-index:99999;
         top: 12px; 
-        left: 4%; 
+        left: 8%; 
 }
 
 .main-search{
@@ -569,7 +569,7 @@ ul#menu-mensagens-sub,li#menu-mensagens-enviadas{
 z-index:9999;
 
 }
-li#menu-mensagens-enviadas,li#menu-mensagens,li#menu-academico-avaliacoes,li#menu-mensagens-recebidas,li#menu-academico-boletim{
+li#menu-mensagens-enviadas,li#menu-mensagens,li#menu-academic-avaliacoes,li#menu-mensagens-recebidas,li#menu-academic-boletim{
     background-color: #021F4E;
 	    border-bottom: 1px ridge #002561;
 		z-index:9999;
@@ -2772,7 +2772,7 @@ form.com-mail {
     padding: 0.4em 1em;
     margin-top: 1em;
 }*/
-ul#menu-comunicacao-sub {
+ul#menu-communication-sub {
     z-index: 999999;
 }
 /*--/404--*/
@@ -8511,7 +8511,7 @@ footer  p a:hover ,.footer p a:hover{
 	}
 
 /*
-backgorund alerta temperature
+backgorund alerta temperatura
 */
 
 .alerta {
@@ -8532,32 +8532,32 @@ color: #fff;
     color: #fff;
 }
 
-#tabla-Measure {
+#tabla-medida {
     margin-top:20px;
     padding-top:20px;
 }
 
-#Contentdevice {
+#ContentDispositivo {
     padding-top:25px;
 }
 
-#listaMeasures input{
+#listaMedidas input{
     background:white;
     color: black;
     border:1px solid #cccccc;
     height:30px;
 }
 
-#listaMeasures .input-append .add-on {
+#listaMedidas .input-append .add-on {
     height: 30px; 
 }
 
-#ContainerPreload{
+#ContenedorPreload{
     text-align: center;
     visibility: none;
 }
 
-.warning_Threshold {
+.warning_umbral {
     clear:both;
     border: 1px solid yellow;
     background:#021F4E;
@@ -8566,7 +8566,7 @@ color: #fff;
     padding:5px;
 }
 
-#contenedorMeasuresBoard {
+#contenedorMedidasTablero {
     height: 400px;
     overflow: scroll;
     text-align: center;
@@ -8678,7 +8678,7 @@ color: #fff;
              display: none;
              
         }
-         #btnThreshold{
+         #btnumbral{
           height: 30px;
 
         }
@@ -8717,7 +8717,7 @@ color: #fff;
         #btngrafica2{
            display: initial;           
         }
-        #btnThreshold{
+        #btnumbral{
             float: right;
            margin: -5px;
 
@@ -8764,7 +8764,7 @@ color: #fff;
         #btngrafica2{
            display: initial;           
         }
-        #btnThreshold{
+        #btnumbral{
             float: right;
            margin: -5px;
 
@@ -8805,7 +8805,7 @@ color: #fff;
         #btngrafica2{
            display: initial;           
         }
-        #btnThreshold{
+        #btnumbral{
             float: right;
            margin: -5px;
 

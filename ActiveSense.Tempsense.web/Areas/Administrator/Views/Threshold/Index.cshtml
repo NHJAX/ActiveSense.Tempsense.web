@@ -6,7 +6,7 @@
 
 <h2>
     <font color="#999">
-        ThresholdES
+        Threshold
     </font>
 </h2>
 <hr />
@@ -19,16 +19,16 @@
         <thead>
             <tr class="active">
                 <th>
-                    Value Mínimo
+                    Mínimum Temperature
                 </th>
                 <th>
-                    Value Máximo
+                    Maximum Temperature
                 </th>
                 <th>
-                    Tolerance Minimum
+                    Minimum Tolerance
                 </th>
                 <th>
-                    Tolerance Maximum
+                    Maximum Tolerance 
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.DeviceID)
@@ -59,8 +59,8 @@
                     </td>
 
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.ThresholdID }, new { @class = "btn btn-primary btn-xs" })
-                        @Html.ActionLink("Eliminate", "Delete", new { id = item.ThresholdID }, new { @class = "btn btn-primary btn-xs" })
+                        @Html.ActionLink("Edit", "Edit", new { id = item.thresholdID }, new { @class = "btn btn-primary btn-xs" })
+                        @Html.ActionLink("Eliminate", "Delete", new { id = item.thresholdID }, new { @class = "btn btn-primary btn-xs" })
                     </td>
                 </tr>
             }

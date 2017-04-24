@@ -32,11 +32,12 @@ namespace ActiveSense.Tempsense.Sensor
         static string iotHubUri;
         static string outputConfig;
         static string deviceKey;
+        static int deviceID;
         static string deviceName;
         static int readingInterval;
         static string ambiente;
         private Bmp180Sensor _bmp180;
-        private Timer _periodicTimer; //Condicional de temporizador periódico
+        private Timer _periodicTimer; //Conditionally periodic timer
         static RegistryManager registryManager;
         AutoResetEvent autoResetEvent = new AutoResetEvent(false);
 
@@ -115,6 +116,7 @@ namespace ActiveSense.Tempsense.Sensor
             {
                 deviceKey = nodo.Element("DeviceKey").Value.ToString();
                 deviceName = nodo.Element("DeviceName").Value.ToString();
+                deviceID = Convert.ToInt32(nodo.Element("DeviceID").Value.ToString());
                 iotHubUri = nodo.Element("IotHubUri").Value.ToString();
                 readingInterval = int.Parse(nodo.Element("ReadingInterval").Value.ToString());
                 ambiente = nodo.Element("Ambiente").Value.ToString();
@@ -166,6 +168,7 @@ namespace ActiveSense.Tempsense.Sensor
                 {
                     deviceKey = deviceKey,
                     deviceName = deviceName,
+                    deviceID = deviceID,
                     Temperature = sensorData.Temperature,
                     Date = DateTime.Now
                 };
@@ -232,12 +235,12 @@ namespace ActiveSense.Tempsense.Sensor
                     //await deviceClient.SendEventAsync(message);
 
 
-                    Humedad.Text = this.Humidity.ToString();
+                    Moisture.Text = this.Humidity.ToString();
 
                     var task = this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
 
-                        Humedad.Text = string.Format("{0:0.0}% RH", reading.Humidity); //reading.Humidity.ToString();
+                        Moisture.Text = string.Format("{0:0.0}% RH", reading.Humidity); //reading.Humidity.ToString();
                         temperature_Ambiente.Text = reading.Temperature.ToString() + "°C";
                     });
                     //var task2 = this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>

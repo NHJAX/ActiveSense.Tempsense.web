@@ -17,7 +17,7 @@ namespace ActiveSense.Tempsense.Receptor.WebJob
         {
             try
             {
-                Console.WriteLine(String.Format("Start reading messages : {0}", DateTime.Now.ToString()));
+                   Console.WriteLine(String.Format("Start reading messages : {0}", DateTime.Now.ToString()));
                 string storageConnectionString = string.Format("DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}",
                                        Configuration.StorageAccountName, Configuration.
                                        StorageAccountKey);
@@ -31,10 +31,13 @@ namespace ActiveSense.Tempsense.Receptor.WebJob
                                                                 storageConnectionString);
                 Console.WriteLine("Registering EventProcessor...");
                 var options = new EventProcessorOptions();
+                options.MaxBatchSize = Configuration.LotSizeMessages;
                 options.ExceptionReceived += (sender, e) => { Console.WriteLine(e.Exception); };
                 eventProcessorHost.RegisterEventProcessorAsync<SimpleEventProcessor>(options).Wait();
                 //Console.WriteLine("Receiving.Press enter key to stop worker.");
                 //Console.ReadLine();
+               // System.Threading.Thread.Sleep(5000);
+                //Console.WriteLine("Wait 5 sec...");
                 eventProcessorHost.UnregisterEventProcessorAsync().Wait();
                 Console.WriteLine(String.Format("End reading messages : {0}", DateTime.Now.ToString()));
             }

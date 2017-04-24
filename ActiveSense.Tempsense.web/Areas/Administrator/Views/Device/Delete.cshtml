@@ -2,11 +2,11 @@
 
 <h2>
     <font color="#999">
-        Eliminate device
+        Delete device
     </font>
 </h2>
 
-<h4>¿Esta seguro que quiere Eliminate este device?</h4>
+<h4>Sure that you want to Delete this device?</h4>
 <div class="container-fluid">
     <div class="row">
         <hr />
@@ -21,11 +21,11 @@
                 </dd>
 
                 <dt>
-                    @Html.DisplayNameFor(model => model.Name)
+                    @Html.DisplayNameFor(model => model.name)
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.Name)
+                    @Html.DisplayFor(model => model.name)
                 </dd>
 
                   <dt>
@@ -44,7 +44,7 @@
 
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <input type="submit" value="Eliminate" class="btn btn-primary active" />
+                        <input type="submit" value="Delete" class="btn btn-primary active" />
                         @Html.ActionLink("Cancel", "Index", new { }, new { @class = "btn btn-default" })
                     </div>
                 </div>

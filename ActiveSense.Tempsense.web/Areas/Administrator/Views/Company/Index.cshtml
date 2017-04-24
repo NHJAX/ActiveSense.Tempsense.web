@@ -6,7 +6,7 @@
 
 <h2>
     <font color="#999">
-        Companies
+        Department
     </font>
 </h2>
 <hr />
@@ -71,96 +71,10 @@
                     </td>
                     <td>
                         @Html.ActionLink("Edit", "Edit", new { id = item.CompanyID }, new { @class = "btn btn-primary btn-xs " })
-                        @Html.ActionLink("Eliminate", "Delete", new { id = item.CompanyID }, new { @class = "btn btn-primary btn-xs " })
+                        @Html.ActionLink("Delete", "Delete", new { id = item.CompanyID }, new { @class = "btn btn-primary btn-xs " })
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
-@*<script>
-        $(document).ready(function () {
-            function RenderTable() {
-
-                var objTableMeasuresVisual = $('#tablCompanies');
-                objTableMeasuresVisual.show();
-
-                //var ObjContainerPaginatedTable = $('#Paginatedtable');
-                alert("entró");
-                objTablePaged  = objTableMeasuresVisual.DataTable({
-                    "processing": true,
-                    "serverSide": true,
-                    "searching": false,
-                    "destroy": true,
-                    "lengthMenu": [10, 15, 20],
-                    language: {
-                        processing: "Procesando...",
-                        search: "ToFind:",
-                        lengthMenu: "Mostrar _MENU_ registros",
-                        info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                        infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
-                        infoFiltered: "(filtrado de un total de _MAX_ registros)",
-                        infoPostFix: "",
-                        loadingRecords: "Cargando...",
-                        zeroRecords: "No se encontraron resultados",
-                        emptyTable: "Ningún dato disponible en esta tabla",
-                        paginate: {
-                            first: "Primero",
-                            previous: "Ant",
-                            next: "Sig",
-                            last: "Último",
-                        },
-                        aria: {
-                            sortAscending: ": Activar para ordenar la columna de manera ascendente",
-                            sortDescending: ": Activar para ordenar la columna de manera descendente"
-                        }
-                    },
-                    "columnDefs": [{
-                        "orderable": false,
-                        "searchable": false,
-                        "targets": [0]
-                    }, {
-                        "orderable": false,
-                        "targets": [2, 3, 11, 12]
-                    }
-                    ]
-                });
-
-
-
-            }
-            //$('#tablCompanies').DataTable();
-            RenderTable();
-            function listar(){
-
-
-                var sample_6 = $("#tablCompanies").dataTable();
-                sample_6.fnClearTable();
-                sample_6.fnDestroy();
-                var tabla = "";
-                var cont = 0;
-
-                @foreach (var item in Model)
-                {
-
-                    <text>
-
-                  tabla += "<tr id='row" + cont + "'>";
-
-                    tabla += "<td><a href='" + (modelItem => item.Name) + "'></a></td>";
-                    tabla += " <td>" +" @Html.DisplayFor(modelItem => item.Code)" + "</td>";
-                    tabla += " <td>"+ "@Html.DisplayFor(modelItem => item.Correo)"  +"</td>";
-                    tabla += " <td>"+ "@Html.DisplayFor(modelItem => item.Active)" +"</td>";
-                    tabla += "<td>"+ "@Html.DisplayFor(modelItem => item.Notify_Mail)" +"</td>";
-                    tabla += "<td>"+" @Html.DisplayFor(modelItem => item.Notify_SMS) " +"</td>";
-                    tabla += "<td>"+ @Html.ActionLink("Edit", "Edit", new { id = item.CompanyID }, new { @class = "btn btn-primary"})+ @Html.ActionLink("Eliminate", "Delete", new { id = item.CompanyID }, new { @class = "btn btn-primary" })+"</td>";
-               tabla += "</tr>";
-                    cont++;
-                    </text>
-                }
-                $('#tableee').empty();
-                $('#tableee').append(tabla);
-            }
-
-        });
-    </script>*@

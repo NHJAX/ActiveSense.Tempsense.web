@@ -20,7 +20,7 @@ namespace ActiveSense.Tempsense.web.Areas.User.Controllers
         public ActionResult Index()
         {
             string idUser = User.Identity.GetUserId();
-            //esta variable permite que se pase a un identificador de User a helperchart.
+            //This variable allows that it passes to a userid to helperchart.
             ViewBag.UsK = idUser;
             return View();
         }
@@ -32,27 +32,27 @@ namespace ActiveSense.Tempsense.web.Areas.User.Controllers
             var hor = dateActual.Hour;
             var min = dateActual.Minute;
 
-            var dateAyer = dateActual.Date.AddDays(-1).AddHours(hor).AddMinutes(min);
+            var dateYesterday = dateActual.Date.AddDays(-1).AddHours(hor).AddMinutes(min);
 
-            var dateActualSt = String.Format("{0:yyyy-MM-dd HH:mm:ss}", dateActual);
-            var dateAyerSt = String.Format("{0:yyyy-MM-dd HH:mm:ss}", dateAyer);
+            var dateActualSt =  String.Format("{0:yyyy-MM-dd HH:mm:ss}", dateActual);
+            var dateYesterdaySt =  String.Format("{0:yyyy-MM-dd HH:mm:ss}", dateYesterday);
 
-            List<Measure> listaMeasures = new List<Measure>();
+            List<Measure> ListMeasures = new List<Measure>();
             List<string> HoursList = new List<string>();
             List<decimal> temperatureList = new List<decimal>();
 
-            string chainConexion = ConfigurationManager.ConnectionStrings["TempsenseConnection"].ConnectionString;
+            string ChainConnection = ConfigurationManager.ConnectionStrings["TempsenseConnection"].ConnectionString;
             SqlDataReader reader;
-            using (SqlConnection sqlConnection = new SqlConnection(chainConexion))
+            using (SqlConnection sqlConnection = new SqlConnection(ChainConnection))
             {
                 using (SqlCommand cmdTotal = new SqlCommand())
                 {
                     sqlConnection.Open();
                     cmdTotal.CommandType = CommandType.Text;
                     cmdTotal.Connection = sqlConnection;
-                    cmdTotal.CommandText = "Select DATEPART(dd,DateTime) as dia , DATEPART(hh,DateTime) as hora, " +
-                                          " AVG(Value) as promedio FROM Measures WHERE DeviceID = " + idDevice +
-                                          " AND DateTime>= '" + dateAyerSt + "' and DateTime<= '" + dateActualSt + "'"+
+                    cmdTotal.CommandText = "Select DATEPART(dd,DateTime) as day , DATEPART(hh,DateTime) as time, " +
+                                          " AVG(Value) as average FROM Measures WHERE DeviceID = " + idDevice +
+                                          " AND DateTime>= '" + dateYesterdaySt + "' and DateTime<= '" + dateActualSt + "'"+
                                           " Group by DATEPART(hh,DateTime), DATEPART(dd,DateTime)  order by DATEPART(dd,DateTime) ";
 
                     try
@@ -60,10 +60,10 @@ namespace ActiveSense.Tempsense.web.Areas.User.Controllers
                         reader = cmdTotal.ExecuteReader();
                         while (reader.Read())
                         {
-                            var hora = (int)reader["hora"];
-                            string preHora = hora >= 12 ? " pm" : " am";
-                            HoursList.Add(hora.ToString() + preHora);
-                            temperatureList.Add((decimal)reader["promedio"] );
+                            var time = (int)reader["time"];
+                            string preTime = time >= 12 ? " pm" : " am";
+                            HoursList.Add(time.ToString() + preTime);
+                            temperatureList.Add((decimal)reader["average"] );
                         }
                     }
                     catch (Exception ex) { }
@@ -77,15 +77,15 @@ namespace ActiveSense.Tempsense.web.Areas.User.Controllers
             List<double> UpperToleranceList = new List<double>();
             List<double> LowerToleranceList = new List<double>();
 
-            decimal umbraMax = 0;
-            decimal umbraMin = 0;
+            decimal TempatureMax = 0;
+            decimal TempatureMin = 0;
             decimal toleranceMin = 0;
             decimal toleranceMax = 0;
 
             try
             {
-                umbraMax = dbActiveContext.Threshold.Where(p => p.DeviceID == idDevice).FirstOrDefault().Temperature_max;
-                umbraMin = dbActiveContext.Threshold.Where(p => p.DeviceID == idDevice).FirstOrDefault().Temperature_min;
+                TempatureMax = dbActiveContext.Threshold.Where(p => p.DeviceID == idDevice).FirstOrDefault().Temperature_max;
+                TempatureMin = dbActiveContext.Threshold.Where(p => p.DeviceID == idDevice).FirstOrDefault().Temperature_min;
                 toleranceMin = dbActiveContext.Threshold.Where(p => p.DeviceID == idDevice).FirstOrDefault().Tolerance_min;
                 toleranceMax = dbActiveContext.Threshold.Where(p => p.DeviceID == idDevice).FirstOrDefault().Tolerance_max;
             }
@@ -94,15 +94,15 @@ namespace ActiveSense.Tempsense.web.Areas.User.Controllers
             foreach (string MeasureTemp in HoursList)
             {
 
-                ThresholdInferiorList.Add((double)umbraMin);
-                ThresholduperiorList.Add((double)umbraMax);
+                ThresholdInferiorList.Add((double)TempatureMin);
+                ThresholduperiorList.Add((double)TempatureMax);
                 UpperToleranceList.Add((double)toleranceMax);
                 LowerToleranceList.Add((double)toleranceMin);
 
             }
 
-            var resultado = new JsonResult();
-            resultado.Data = new
+            var result = new JsonResult();
+            result.Data = new
             {
                 HoursList = HoursList.ToArray(),
                 temperatureList = temperatureList.ToArray(),
@@ -111,7 +111,7 @@ namespace ActiveSense.Tempsense.web.Areas.User.Controllers
                 UpperToleranceList = UpperToleranceList.ToArray(),
                 LowerToleranceList = LowerToleranceList.ToArray(),
             };
-            return resultado;
+            return result;
 
         }
 

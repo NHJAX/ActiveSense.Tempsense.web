@@ -29,8 +29,8 @@ namespace ActiveSense.Tempsense.web.Helpers
             [JsonProperty("colorString")]
             private string colorString;
 
-            [JsonProperty("hora")]
-            private string[] hora = new string[60];
+            [JsonProperty("time")]
+            private string[] time = new string[60];
 
             public void SetLineChartData()
             {
@@ -39,13 +39,13 @@ namespace ActiveSense.Tempsense.web.Helpers
                 using (ActiveSenseContext dbActiveContext = new ActiveSenseContext(ConfigurationManager.ConnectionStrings["TempsenseConnection"].ConnectionString))
                 {
 
-                    var lista = (from p in dbActiveContext.Measure
+                    var list = (from p in dbActiveContext.Measure
                                  orderby p.DateTime descending
                                  select p
                                  ).ToList();
 
                     lineChartData = dbActiveContext.Measure.Select(p => p.Value).Cast<int>().ToArray();
-                    hora = dbActiveContext.Measure.Select(p => p.DateTime).Cast<string>().ToArray();
+                    time = dbActiveContext.Measure.Select(p => p.DateTime).Cast<string>().ToArray();
 
                 }
 
@@ -67,7 +67,7 @@ namespace ActiveSense.Tempsense.web.Helpers
             public void TakeLastTemp(string idUser)
             {
 
-                List<DashboardTemperatureResult> lis = new List<DashboardTemperatureResult>();
+                List<DashboardTemperatureResult> list = new List<DashboardTemperatureResult>();
 
                 try
                 {
@@ -78,10 +78,10 @@ namespace ActiveSense.Tempsense.web.Helpers
                         string perfil = userHelper.GetProfile(idUser);
 
                         int idCompany = userHelper.GetAssociatedCompanies(idUser, context);
-                        var result = context.companies.Where(u => u.CompanyID == idCompany).Include("devices.Measures").ToList();
+                        var result = context.companies.Where(u => u.CompanyID == idCompany).Include("device.Measures").ToList();
                         if (PROFILE_Administrator== perfil)
                         {
-                             result = context.companies.Include("devices.Measures").ToList();
+                             result = context.companies.Include("device.Measures").ToList();
                         }
 
                         foreach (var item in result.SelectMany(x => x.device))
@@ -112,7 +112,7 @@ namespace ActiveSense.Tempsense.web.Helpers
                                 }
                                 finally
                                 {
-                                    lis.Add(new DashboardTemperatureResult
+                                    list.Add(new DashboardTemperatureResult
                                     {
                                         DeviceID = item.Measures.OrderBy(y => y.DateTime).LastOrDefault().DeviceID,
                                         Company = item.Measures.OrderBy(y => y.DateTime).LastOrDefault().Device.company.Abrcompany,
@@ -136,7 +136,7 @@ namespace ActiveSense.Tempsense.web.Helpers
                     Debug.WriteLine("ERROR chartBroadcaster.cs");
                     Debug.WriteLine(ex.GetBaseException().ToString());
                 }
-                temp = lis;
+                temp = list;
             }
 
         }
