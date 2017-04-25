@@ -241,3 +241,4 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 /ActiveSense.Tempsense.web/ConnectionStrings.config
+/ActiveSense.Tempsense.web/AppSettingsSecrets.config

@@ -484,6 +484,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="ConnectionStrings.config" />
+    <Content Include="AppSettingsSecrets.config" />
     <None Include="Properties\PublishProfiles\12.pubxml" />
     <None Include="Properties\PublishProfiles\setempsense %2810%29.pubxml" />
     <None Include="Properties\PublishProfiles\setempsense %2811%29.pubxml" />
