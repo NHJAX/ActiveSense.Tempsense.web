@@ -48,7 +48,7 @@
         <div class="col-md-4">
             <div class="media media-middle">
                 <div class="media-left">
-                    <div style="background-color: #FCEF00; width: 34px;height: 34px;">  </div>
+                    <div style="background-color: #efe52a; width: 34px;height: 34px;">  </div>
 
                 </div>
                 <div class="media-body">
@@ -117,7 +117,12 @@
         var WIDTH_CHANGE_TOASTR = "600";
         var Message_without_MeasureS = 'Not found Measures of the past 24 hours.';
         var TITLE_POPPUP = "Device report # Last 24 hours.";
-    //function which is helper callback
+        //Need to pass in timezone offset to get dates corrected for local display
+        //Dates in the database are stored in UTC format
+        var offset = new Date().getTimezoneOffset();
+        //offset = offset * -1;
+
+        //function which is helper callback
         function UpdateTemperature(data) {
 
             messagesWarningTotal  = '';
@@ -156,23 +161,29 @@
             var stylehead = "background: #007D21;";
             var stylebody = "background: #007D21;";
             var newbtnumb = null;
+            var currentdate = new Date();
+            var curr_hour = currentdate.getHours();
+            var curr_min = ('0' + currentdate.getMinutes()).slice(-2);
+            var curr_sec = ('0' + currentdate.getSeconds()).slice(-2);
+            var datetime = "Sync - " + curr_hour + ":" + curr_min + ":" + curr_sec;
+
             var TypeM = null;
             if (tempMin == 0 && tempMax == 0) {
                 btnThreshold = '<a id="btnThreshold" style="background-color: #860a0a;" class="btn btn-danger" data-toggle="tooltip" data-placement="rigth" title="' + MSG_without_threshold + '" onMouseOver="message()" onClick="message()"><i class="lnr lnr-warning"></i></a>';
             } else {
 
                 if (temperature >= tolMax || temperature <= tolMin) {
-                    MessageAlert = (temperature <= tolMin) ? ": in very low temperature" : ": in very high temperature ";
+                    MessageAlert = (temperature <= tolMin) ? ": has very low temperature" : ": has very high temperature ";
                     ShowPopup("error", device, MessageAlert);
-                    StyleWarnigThreshold = 'alerta';
+                    StyleWarnigThreshold = 'alert';
                     stylehead = "background: #E81F00";
                     stylebody = "background: #E81F00";
                 } else {
                     if (temperature >= tempMax || temperature <= tempMin) {
-                        MessageAlert = (temperature <= tempMin) ? ": in low tolerance threshold" : ": in high tolerance threshold ";
+                        MessageAlert = (temperature <= tempMin) ? ": has low tolerance threshold" : ": has high tolerance threshold ";
                         ShowPopup("warning", device, MessageAlert);
-                        stylehead = "background: #FCEF00;";
-                        stylebody = "background: #FCEF00;";
+                        stylehead = "background: #efe52a;";
+                        stylebody = "background: #efe52a;";
                     }
                 }
             }
@@ -182,7 +193,7 @@
                 TypeM = "%H";
             }
 
-            contentBody = $('<div class="col-md-3 col-sm-6 col-xs-12"><div class="panel panel-warning hover-3" style="border: none;"><div class="panel-heading" style="background-color: #373f4c; border-color: #ffffff;"><div class="price-value" style="' + stylehead + '"><p><span>' + temperature + '</span></p></div><div class="price-period" style=""><p id="Letter">' + TypeM + '</p></div></div><div class="panel-body" style="' + stylebody + '"><h3><i id="iconodisp" class="lnr lnr-laptop-phone"></i>' + device + '</h3><ul class="list-unstyled"><li><p class="pull-left" style="color: #ffffff">' + TypeMeasure + '</p></li></ul></div><div class="panel-footer" style="background-color: #373f4c; border-color: #ffffff;"><a id="btnGraphics2" class="btn btn-primary verGraphics" data-id="' + idDevice + '" data-Name="' + device + '" href="#"><i class="lnr lnr-chart-bars"></i></a> <a id="btnGraphics" class="btn btn-primary verGraphics" data-id="' + idDevice + '" data-Name="' + device + '" href="#"><i class="lnr lnr-chart-bars"></i> Graphics</a> ' + btnThreshold + '</div></div></div>');
+            contentBody = $('<div class="col-md-3 col-sm-6 col-xs-12"><div class="panel panel-warning hover-3" style="border: none;"><div class="panel-heading" style="background-color: #373f4c; border-color: #ffffff;"><div class="price-value" style="' + stylehead + '"><p><span>' + temperature + '</span></p></div><div class="price-period" style=""><p id="Letter">' + TypeM + '</p></div></div><div class="panel-body" style="' + stylebody + '"><h3><i id="iconodisp" class="lnr lnr-laptop-phone"></i>' + device + '</h3><ul class="list-unstyled"><li><p class="pull-left" style="color: #ffffff">' + TypeMeasure + '</p></li></ul> <ul class="list-unstyled"><li><p class="pull-left" style="color: #ffffff">' + datetime + ' </p></li></ul></div><div class="panel-footer" style="background-color: #373f4c; border-color: #ffffff;"><a id="btnGraphics2" class="btn btn-primary verGraphics" data-id="' + idDevice + '" data-Name="' + device + '" href="#"><i class="lnr lnr-chart-bars"></i></a> <a id="btnGraphics" class="btn btn-primary verGraphics" data-id="' + idDevice + '" data-Name="' + device + '" href="#"><i class="lnr lnr-chart-bars"></i>Graphics</a> ' + btnThreshold + '</div></div></div>');
             var ContainerSeparador = $('<div class="clearfix" />');
             contentBody.append();
             return contentBody;
@@ -388,7 +399,7 @@
             $.ajax({
                 url: '@Url.Action("GetPastMeasures", "Dashboard" )',
                 type: 'POST',
-                data: JSON.stringify({ idDevice: idDevice }),
+                data: JSON.stringify({ idDevice: idDevice, offset: offset }),
                 datatype: 'application/json',
                 contentType: 'application/json',
                 cache: false,

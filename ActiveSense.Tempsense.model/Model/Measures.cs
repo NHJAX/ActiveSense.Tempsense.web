@@ -242,10 +242,10 @@ namespace ActiveSense.Tempsense.model.Model
                 string row_number = " SELECT(ROW_NUMBER() OVER(ORDER BY T.minute ASC, T.Months ASC)) as consecutive, *";
 
                 if ( FilterTime == FILTER_DAYS) {
-                    postPagination = " ORDER BY day, months ASC";
+                    postPagination = " ORDER BY months,day  ASC";
                     querySearch = "Select (DATEPART(DAY, DateTime)) as day, ";
                     queryGroupSearch = "";
-                    row_number = " SELECT(ROW_NUMBER() OVER(ORDER BY T.day ASC)) as consecutive, *";
+                    row_number = " SELECT(ROW_NUMBER() OVER(ORDER BY t.months,T.day ASC)) as consecutive, *";
                 }
 
                 string  sqlCountMeasures = "SELECT COUNT(Average) FROM ( " +

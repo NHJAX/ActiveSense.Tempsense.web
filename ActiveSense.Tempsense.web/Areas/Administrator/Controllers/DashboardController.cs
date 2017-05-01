@@ -28,10 +28,14 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
             return View();
         }
 
-        public JsonResult GetPastMeasures(int idDevice) {
+        public JsonResult GetPastMeasures(int idDevice, int offset) {
 
 
-            var dateActual = DateTime.Now;
+            DateTime dateActual = new DateTime();
+            dateActual = DateTime.Now.AddMinutes(offset);
+            int backoffset = offset * -1;
+
+            //var dateActual = DateTime.Now;
             var hor = dateActual.Hour;
             var min = dateActual.Minute;
 
@@ -53,11 +57,15 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
                     sqlConnection.Open();
                     cmdTotal.CommandType = CommandType.Text;
                     cmdTotal.Connection = sqlConnection;
-                    cmdTotal.CommandText = "Select DATEPART(dd,DateTime) as day , DATEPART(hh,DateTime) as time, "+
+                    cmdTotal.CommandText = "Select DATEPART(mm,dateadd(minute,-240,DateTime)) as month,DATEPART(dd,dateadd(minute," + backoffset + ",DateTime)) as day , DATEPART(hh,dateadd(minute," + backoffset + ",DateTime)) as time, " +
                                           " AVG(Value) as average FROM Measures WHERE DeviceID = " + idDevice +
                                           " AND DateTime>= '" + dateYesterdaySt + "' and DateTime<= '" + dateActualSt + "'" +
-                                          " Group by DATEPART(hh,DateTime), DATEPART(dd,DateTime)  order by DATEPART(dd,DateTime) ";
-                  
+                                          " Group by DATEPART(mm,dateadd(minute,-240,DateTime)),DATEPART(hh,dateadd(minute," + backoffset + ",DateTime)), DATEPART(dd,dateadd(minute," + backoffset + ",DateTime))  order by DATEPART(mm,dateadd(minute,-240,DateTime)),DATEPART(dd,dateadd(minute," + backoffset + ",DateTime)) ";
+                    //cmdTotal.CommandText = "Select DATEPART(dd,DateTime) as day , DATEPART(hh,DateTime) as time, "+
+                    //                      " AVG(Value) as average FROM Measures WHERE DeviceID = " + idDevice +
+                    //                      " AND DateTime>= '" + dateYesterdaySt + "' and DateTime<= '" + dateActualSt + "'" +
+                    //                      " Group by DATEPART(hh,DateTime), DATEPART(dd,DateTime)  order by DATEPART(dd,DateTime) ";
+
                     try
                     {
                         reader = cmdTotal.ExecuteReader();

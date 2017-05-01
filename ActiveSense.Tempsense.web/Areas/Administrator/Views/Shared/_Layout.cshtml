@@ -59,7 +59,7 @@
         <div class="sidebar-menu">
             <header class="logo">
                 <a href="#" class="sidebar-icon"> <span class="fa fa-bars"></span> </a> <a href="#">
-                    <span id="logo"> <h1>Home</h1></span>
+                    <span id="logo"> <h1>NHJAX</h1></span>
                 </a>
             </header>
             <div style="border-top:1px solid rgba(69, 74, 84, 0.7)"></div>
@@ -67,6 +67,9 @@
             <div class="menu">
                 <ul id="menu">                  
                     <li id="menu-academic">
+                        <a href="@Url.Action("", "Home", new { area = "Administrator" })"><i class="fa fa-home"></i><span style="position: relative;">Home</span></a>
+                    </li>
+                   <li id="menu-academic">
                         <a href="@Url.Action("Index", "Dashboard", new { area = "Administrator" })">
                             <i class="fa fa-tachometer"></i>
                             <span style="position: relative;">DashBoard</span>
@@ -74,19 +77,19 @@
                     </li>
 
                     <li id="menu-academic">
-                        <a href="@Url.Action("Index", "Company", new { area = "Administrator" })"><i class="lnr lnr-apartment"></i><span style="position: relative;">Deparment</span></a>
+                        <a href="@Url.Action("Index", "Company", new { area = "Administrator" })"><i class="lnr lnr-apartment"></i><span style="position: relative;"> Deparment</span></a>
                     </li>
 
                     <li id="menu-academic">
-                        <a href="@Url.Action("Index", "Device", new { area = "Administrator" })"><i class="lnr lnr-smartphone"></i><span style="position: relative;">Device</span></a>
+                        <a href="@Url.Action("Index", "Device", new { area = "Administrator" })"><i class="lnr lnr-smartphone"></i><span style="position: relative;"> Device</span></a>
                     </li>
 
                     <li>
-                        <a href="@Url.Action("Index", "Users", new { area = "Administrator" })"><i class="lnr lnr-user"></i><span style="position: relative;">User</span></a>
+                        <a href="@Url.Action("Index", "Users", new { area = "Administrator" })"><i class="lnr lnr-user"></i><span style="position: relative;"> User</span></a>
                     </li>
 
                     <li id="menu-academic">
-                        <a href="@Url.Action("Index", "Report", new { area = "Administrator" })"><i class="lnr lnr-layers"></i><span style="position: relative;">Report</span></a>
+                        <a href="@Url.Action("Index", "Report", new { area = "Administrator" })"><i class="lnr lnr-layers"></i><span style="position: relative;"> Report</span></a>
                     </li>
 
                     <li id="menu-communication">
@@ -94,7 +97,7 @@
                     </li>
 
                     <li id="menu-communication">
-                        <a href="@Url.Action("Index", "Log",new { area = "Administrator" })"><i class="lnr lnr-history"></i><span style="position: relative;">Blog</span></a>
+                        <a href="@Url.Action("Index", "Log",new { area = "Administrator" })"><i class="lnr lnr-history"></i><span style="position: relative;"> Blog</span></a>
                     </li>
 
                     <li id="menu-communication">
