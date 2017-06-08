@@ -9,14 +9,14 @@
     </center>
     <div id="temperature">
     </div>
-        <div class="modal fade" tabindex="-1" role="dialog">
+        <div  class="modal fade" id="chart" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document" style="position: initial;">
                 <div class="modal-content" >
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title">Device Report</h4>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" id="chartbody">
                         <canvas id="graphicalMeasures" width="600" height="400"></canvas>
                         <div id="ContainerPreloadGraphic">
                             <center> <img src="~/Content/images/8.gif" /> </center>
@@ -24,19 +24,18 @@
                         <center id="ContentMessageGraphics"></center>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-default" id="Close-btn" data-dismiss="modal">Close</button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
     </div>
-<div class="col-sm-11">
-
-    <div class="row">
+<div class="col-lg-push-2 col-md-push-2 col-sm-10 col-xs-12" >
+    <div class="row" >
         <div class="col-md-4">
-            <div class="media media-middle">
+            <div class="media media-middle" align="center">
                 <div class="media-left">
-                    <div style="background-color: #007D21;width: 34px;height: 34px;">  </div>
+                    <div  style="background-color: #007D21;width: 34px;height: 34px;">  </div>
 
                 </div>
                 <div class="media-body">
@@ -46,9 +45,9 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="media media-middle">
+            <div class="media media-middle" align="center">
                 <div class="media-left">
-                    <div style="background-color: #efe52a; width: 34px;height: 34px;">  </div>
+                    <div style="background-color: #dcd221; width: 34px;height: 34px;">  </div>
 
                 </div>
                 <div class="media-body">
@@ -58,7 +57,7 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="media media-middle">
+            <div class="media media-middle" align="center">
                 <div class="media-left">
                     <div style="background-color: #E81F00;width: 34px;height: 34px;">  </div>
 
@@ -109,7 +108,10 @@
                 };
             });
         });
-</script>
+        $('#Close-btn').click(function () {
+            $('#chart').modal('hide');
+        });
+ </script>
 <script type="text/javascript">
 
         var messagesWarningTotal  = '';
@@ -121,7 +123,13 @@
         //Dates in the database are stored in UTC format
         var offset = new Date().getTimezoneOffset();
         //offset = offset * -1;
-        //function which is helper callback
+    //function which is helper callback
+        var ctx = document.getElementById("graphicalMeasures").getContext("2d");
+        var myChart = new Chart(ctx, { type: 'line' });
+
+
+
+
         function UpdateTemperature(data) {
 
             messagesWarningTotal  = '';
@@ -129,8 +137,8 @@
             $.each(data, function (index, value) {
                 $.each(value, function (indextemp, valuetemp) {
                     $('#content').append(BuildContainerDevice(valuetemp.DeviceID, valuetemp.Company, valuetemp.NameDevice, valuetemp.Temperature, valuetemp.Min, valuetemp.Max, valuetemp.MinTolerance, valuetemp.MaxTolerance, valuetemp.TypeMeasure));
-                    $('.verGraphics').click(function () {
-                        GetMeasuresByDevice($(this).data('id'), valuetemp.NameDevice );
+                    $('.verGraphics'+(valuetemp.DeviceID)+'').click(function () {
+                          GetMeasuresByDevice($(this).data('id'), $(this).data('name'), valuetemp.TypeMeasure);
                    });
                 })
             });
@@ -172,17 +180,17 @@
             } else {
 
                 if (temperature >= tolMax || temperature <= tolMin) {
-                    MessageAlert = (temperature <= tolMin) ? ":  has very Low Temperature" : ": has very High Temperature ";
+                    MessageAlert = (temperature <= tolMin) ? ":  has very Low " + TypeMeasure + " " : ": has very High " + TypeMeasure + " ";
                     ShowPopup("error", device, MessageAlert);
                     StyleWarnigThreshold = 'alert';
                     stylehead = "background: #E81F00";
                     stylebody = "background: #E81F00";
                 } else {
                     if (temperature >= tempMax || temperature <= tempMin) {
-                        MessageAlert = (temperature <= tempMin) ? ": has low Tolerance Threshold" : ": has High Tolerance hreshold ";
+                        MessageAlert = (temperature <= tempMin) ? ": is below set Threshold" : ": is above set Threshold ";
                         ShowPopup("warning", device, MessageAlert);
-                        stylehead = "background: #efe52a;";
-                        stylebody = "background: #efe52a;";
+                        stylehead = "background: #dcd221;";
+                        stylebody = "background: #dcd221;";
                     }
                 }
             }
@@ -190,9 +198,11 @@
                 TypeM = "°F";
             } else if (TypeMeasure == "Humidity") {
                 TypeM = "%H";
+            } else if (TypeMeasure == "Wait Time") {
+                TypeM = "Min";
             }
 
-            contentBody = $('<div class="col-md-3 col-sm-6 col-xs-12"><div class="panel panel-warning hover-3" style="border: none;"><div class="panel-heading" style="background-color: #373f4c; border-color: #ffffff;"><div class="price-value" style="' + stylehead + '"><p><span>' + temperature + '</span></p></div><div class="price-period" style=""><p id="Letter">' + TypeM + '</p></div></div><div class="panel-body" style="' + stylebody + '"><h3><i id="iconodisp" class="lnr lnr-laptop-phone"></i>' + device + '</h3><ul class="list-unstyled"><li><p class="pull-left" style="color: #ffffff">' + TypeMeasure + '</p></li></ul> <ul class="list-unstyled"><li><p class="pull-left" style="color: #ffffff">' + datetime + ' </p></li></ul></div><div class="panel-footer" style="background-color: #373f4c; border-color: #ffffff;"><a id="btnGraphics2" class="btn btn-primary verGraphics" data-id="' + idDevice + '" data-Name="' + device + '" href="#"><i class="lnr lnr-chart-bars"></i></a> <a id="btnGraphics" class="btn btn-primary verGraphics" data-id="' + idDevice + '" data-Name="' + device + '" href="#"><i class="lnr lnr-chart-bars"></i>Graphics</a> ' + btnThreshold + '</div></div></div>');
+            contentBody = $('<div class="col-lg-4 col-md-6 col-sm-9 col-xs-12"><div class="panel panel-warning hover-3" style="border: none;"><div class="panel-heading" style="background-color: #373f4c; border-color: #ffffff;"><div class="price-value" style="' + stylehead + '"><p><span>' + temperature + '</span></p></div><div class="price-period" style=""><p id="Letter">' + TypeM + '</p></div></div><div class="panel-body" style="' + stylebody + '"><h3>' + device + '</h3><ul class="list-unstyled"><li><p align=center style="color: #ffffff">' + TypeMeasure + '</p></li></ul> <ul class="list-unstyled"><li><p align=center style="color: #ffffff">' + datetime + ' </p></li></ul></div><div class="panel-footer" style="background-color: #373f4c; border-color: #ffffff;"><a id="btnGraphics2" class="btn btn-primary verGraphics2" data-id="' + idDevice + '" data-Name="' + device + '" href="#"><i class="lnr lnr-chart-bars"></i></a> <a id="btnGraphics" class="btn btn-primary verGraphics' + idDevice + '" data-id="' + idDevice + '" data-Name="' + device + '" href="#"><i class="lnr lnr-chart-bars"></i>24Hr Chart</a> ' + btnThreshold + '</div></div></div>');
             var ContainerSeparador = $('<div class="clearfix" />');
             contentBody.append();
             return contentBody;
@@ -215,22 +225,26 @@
             }
             messagesWarningTotal  += idDevice + ShowMessage + "<br/>";
         }
-
     // feature that allows render graph per hour
         function RenderGraphicsByDevice(HoursList, temperaturesList, UpperThreshold ,
-                                            LowerThreshold, LowerToleranceList, UpperToleranceList) {
+                                            LowerThreshold, LowerToleranceList, UpperToleranceList, TypeMeasure) {
 
-            
-            // show canvas of graph
+             // show canvas of graph
             $("#graphicalMeasures").show();
-   
-            //get object graph
-            var canvas = document.getElementById("graphicalMeasures");
-            var ctx = canvas.getContext("2d");
 
+            //get object graph
+            //var canvas = document.getElementById("graphicalMeasures");
+       //     $('#graphicalMeasures').replaceWith('<canvas id="graphicalMeasures" width="600" height="400"></canvas>'); // this is my <canvas> element
+            //var canvas = document.querySelector('#graphicalMeasures');
+            //var ctx = canvas.getContext("2d");
+       //     $('#graphicalMeasures').remove(); // this is my <canvas> element
+       //     $('#chartbody').append('<canvas id="graphicalMeasures" width="600" height="400"></canvas>');
+       //     canvas = document.querySelector('#graphicalMeasures');
+            var ctx = document.getElementById("graphicalMeasures").getContext("2d");
+ 
             //rendering of lines of Threshold
             var horizonalLinePlugin = {
-                afterDraw: function (chartInstance) {
+                 afterDraw: function (chartInstance) {
                     var yScale = chartInstance.scales["y-axis-0"];
                     var canvas = chartInstance.chart;
                     var ctx = canvas.ctx;
@@ -273,14 +287,13 @@
                     };
                 }
             };
-
             Chart.pluginService.register(horizonalLinePlugin);
             //data by default showing graphics
-            var data = {
+              var data = {
                 labels: HoursList,
                 datasets: [
                             {
-                                label: "Temp",
+                                label: TypeMeasure,
                                 borderColor: "rgba(75,192,192,1)",
                                 data: temperaturesList,
                                 spanGaps: true,
@@ -314,7 +327,7 @@
                                 data: LowerToleranceList,
                             },
                              {
-                                 label: "Temp Max",
+                                 label: TypeMeasure + " Max",
                                  lineTension: 0.1,
                                  borderColor: "#000000",
                                  borderDashOffset: 0.0,
@@ -327,7 +340,7 @@
                                  data: UpperThreshold ,
                              },
                             {
-                                label: "Temp Min",
+                                label: TypeMeasure + " Min",
                                 lineTension: 0.1,
                                 borderColor: "#000000",
                                 borderDashOffset: 0.0,
@@ -345,7 +358,11 @@
             var tolMaximum = UpperToleranceList[0] !== undefined ? UpperToleranceList[0] : 0;
             var tolMinimum = LowerToleranceList[0] !== undefined ? LowerToleranceList[0] : 0;
             //configuration labels
-            var myChart = new Chart(ctx, {
+            if (myChart) {
+                myChart.destroy();
+            }
+
+            myChart = new Chart(ctx, {
                 type: 'line',
                 data: data,
                 options: {
@@ -373,23 +390,27 @@
                         yAxes: [{
                             scaleLabel: {
                                 display: true,
-                                labelString: 'Temperature'
+                                labelString: TypeMeasure
                             }
                         }]
                     }
                 }
             });
-
-        }
+         }
 
     // function to obtain data
-        function GetMeasuresByDevice(idDevice, NameDevice) {
+        function GetMeasuresByDevice(idDevice, NameDevice, TypeMeasure) {
 
             //Show popup preload, change title popup
             $("#ContainerPreloadGraphic").show();
             $('.modal').modal('show');
-            $('.modal-dialog').css('width', '50%');
+            $('.modal-dialog').css('width', '60%');
+            var popup_height = document.getElementById('ContainerPreloadGraphic').offsetHeight;
+            var popup_width = document.getElementById('ContainerPreloadGraphic').offsetWidth;
+            $('.modal-dialog').css('top', (($(window).height() - popup_height) / 6));
+            $('.modal-dialog').css('left', (($(window).width() - popup_width) / 6));
             $('.modal-title').html(TITLE_POPPUP.replace("#", NameDevice));
+
             //hide graphics, hide error message
             $("#graphicalMeasures").hide();
             $('#ContentMessageGraphics').html('');
@@ -407,7 +428,7 @@
                     if (msg.HoursList.length > 0) {
                         RenderGraphicsByDevice(msg.HoursList, msg.temperatureList,
                                                       msg.ThresholduperiorList, msg.ThresholdInferiorList,
-                                                      msg.LowerToleranceList, msg.UpperToleranceList);
+                                                      msg.LowerToleranceList, msg.UpperToleranceList, TypeMeasure);
                     } else {
                         $('#ContentMessageGraphics').html(MessagewithoutMeasureS );
                     }

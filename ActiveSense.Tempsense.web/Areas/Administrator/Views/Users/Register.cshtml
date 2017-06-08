@@ -1,13 +1,13 @@
 ﻿@model ActiveSense.Tempsense.web.Models.RegisterViewModel
 @{
-    ViewBag.Title = "Crear Usuario";
-    Layout = "~/Areas/Administrador/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Create User";
+    Layout = "~/Areas/Administrator/Views/Shared/_Layout.cshtml";
 }
 
 <div class="form-horizontal">
     <h2>
         <font color="#999">
-            CREAR USUARIO
+            Create User
         </font>
     </h2>
     @*@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -62,15 +62,15 @@
 
 
         <div class="form-group">
-            @Html.LabelFor(model => model.EmpresaID, "Empresas", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CompanyID, "Department", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-sm-4">
-                @Html.DropDownList("EmpresaID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.EmpresaID, "", new { @class = "text-danger" })
+                @Html.DropDownList("CompanyID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CompanyID, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.Label("Perfil", new { @class = "col-md-2 control-label" })
+            @Html.Label("Role", new { @class = "col-md-2 control-label" })
             <div class="col-sm-4">
 
                 @Html.DropDownList("UserRoles", (SelectList)ViewBag.Name, " ", htmlAttributes: new { @class = "form-control" })
@@ -79,7 +79,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-sm-10">
-                <input type="submit" class="btn btn-primary active" value="Registrar" />
+                <input type="Submit" class="btn btn-primary active" value="Register" />
 
             </div>
         </div>

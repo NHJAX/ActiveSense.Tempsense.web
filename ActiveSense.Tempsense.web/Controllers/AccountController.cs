@@ -297,8 +297,8 @@ namespace ActiveSense.Tempsense.web.Controllers
             {
                 var user = await UserManager.FindByEmailAsync(model.Email);
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
-                {
-                    ModelState.AddModelError("", "The Email does not exist.");
+                    {
+                        ModelState.AddModelError("", "The Email does not exist.");
                     return View();
                 }
                 
@@ -337,12 +337,11 @@ namespace ActiveSense.Tempsense.web.Controllers
 
         private string WriteBodyEmail(string Url)
         {
-            string Body = "<HR><h1><span style='font - family:arial,helvetica,sans - serif; '><span style='font - size:20px; '><span style='color:#ed4035;'>Solicitud&nbsp;cambio de contrase&ntilde;a</span></span></span></h1>";
-            Body += "<p><span style='font - family:arial,helvetica,sans - serif; '><span style='font - size:14px; '><span style='color:#808080;'>Para iniciar el proceso de restablecimiento de contrase&ntilde;a de tu cuenta, haz clic&nbsp;en el siguiente enlace:</span></span></span></p>";
+            string Body = "<HR><h1><span style='font-family:arial,helvetica,sans-serif; '><span style='font - size:20px; '><span style='color:#ed4035;'>Requested Password Change </span></span></span></h1>";
+            Body += "<p><span style='font-family:arial,helvetica,sans-serif; '><span style='font-size:14px;'><span style='color:#808080;'>To start the process of resetting passwords for your account by clicking the following URL: </span></span></span></p>";
             Body += "<p><a href='{0}'>"+Url.Split('?')[0] +"</a></p>";
-            Body += "<p><span style='font - family:arial,helvetica,sans - serif; '><span style='color:#808080;'><span style='font-size:14px;'><font style='background-color: rgb(255, 255, 255);'>Recuerde que&nbsp;</font><font style='background-color: rgb(255, 255, 255);'>su</font><font style='background-color: rgb(255, 255, 255);'>&nbsp;clave es personal e intransferible</font><font style='background-color: rgb(255, 255, 255);'>&nbsp;y que usted es el &uacute;nico responsable del buen uso que le d&eacute; a la informaci&oacute;n consignada</font><font style='background-color: rgb(255, 255, 255);'>.</font></span></span></span></p>";
-            Body += "<p><span style='font - family:comic sans ms,cursive; '><span style='font - size:11px; '><span style='font - family:arial,helvetica,sans - serif; '><span style='color:#808080;'><span style='background-color: rgb(255, 255, 255);'>Este message es de car&aacute;cter informativo y autom&aacute;tico.&nbsp;</span><br style='color: rgb(52, 52, 52); font-family: wf_segoe-ui_normal, &quot;Segoe UI&quot;, &quot;Segoe WP&quot;, Tahoma, Arial, sans-serif; font-size: 10px; background-color: rgb(255, 255, 255);' />";
-            Body += "<span style='background - color: rgb(255, 255, 255); '>Por favor NO respondas ni env&iacute;es solicitudes dirigidas a este correo.</span>&nbsp;</span></span></span></span></p>";
+            Body += "<p><span style='font-family:arial,helvetica,sans-serif; '><span style='color:#808080;'><span style='font-size:14px;'><font style='background-color:white;'>Remember that </font><font style='background-color:white;'>your</font><font style='background-color:white;'> password is personal and untransferable</font><font style='background-color:white;'> information </font><font style='background-color:white;'>.</font></span></span></span></p>";
+            Body += "<p><span style='background-color:white;'>Please do not reply to this request to this e-mail.</span>>&nbsp;</span></span></span></span></p>";
             return Body;
         }
 

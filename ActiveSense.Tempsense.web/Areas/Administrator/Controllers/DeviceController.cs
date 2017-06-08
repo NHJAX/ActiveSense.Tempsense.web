@@ -54,7 +54,7 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
         public ActionResult Create()
         {
             ViewBag.CompanyID = new SelectList(dbActiveContext.companies, "CompanyID", "Name");
-            ViewBag.TypeMeasureID = new SelectList(dbActiveContext.TypeMeasure, "TypeMeasuresID", "NAME");
+            ViewBag.TypeMeasureID = new SelectList(dbActiveContext.TypeMeasure, "TypeMeasureID", "NAME");
             ViewBag.Measure = new SelectList(Enum.GetValues(typeof(enumMeasures)).Cast<enumMeasures>().Select(v => new SelectListItem
             {
                 Value = ((int)v).ToString(),
@@ -68,7 +68,7 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "DeviceID,Name,KeyDevice,Active,CompanyID,TypeMeasuresID")] devices device)
+        public async Task<ActionResult> Create([Bind(Include = "DeviceID,Name,KeyDevice,Active,CompanyID,TypeMeasureID")] devices device)
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +89,7 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
                 dbActiveContext.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.TypeMeasureID = new SelectList(dbActiveContext.TypeMeasure, "TypeMeasuresID", "Name", device.TypeMeasureID);
+            ViewBag.TypeMeasureID = new SelectList(dbActiveContext.TypeMeasure, "TypeMeasureID", "Name", device.TypeMeasureID);
             //ViewBag.Measure = new SelectList(Enum.GetValues(typeof(enumMeasures)).Cast<enumMeasures>().Select(v => new SelectListItem
             //{
             //    Value = ((int)v).ToString(),
@@ -114,13 +114,13 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
             }
             ViewBag.CompanyID = new SelectList(dbActiveContext.companies, "CompanyID", "Name", device.CompanyID);
 
+            ViewBag.TypeMeasureID = new SelectList(dbActiveContext.TypeMeasure, "TypeMeasureID", "Name", device.TypeMeasureID);
             //ViewBag.Measure = new SelectList(Enum.GetValues(typeof(enumMeasures)).Cast<enumMeasures>().Select(v => new SelectListItem
             //{
             //    Value = ((int)v).ToString(),
             //    Text = v.ToString()
-            //}).ToList(), "Value", "Text", Device.Measure
-
-          //);
+            //}).ToList(), "Value", "Text", device.Measures
+            //);
             return View(device);
         }
 
@@ -136,11 +136,12 @@ namespace ActiveSense.Tempsense.web.Areas.Administrator.Controllers
             }
             ViewBag.CompanyID = new SelectList(dbActiveContext.companies, "CompanyID", "Name", device.CompanyID);
 
+            ViewBag.TypeMeasureID = new SelectList(dbActiveContext.TypeMeasure, "TypeMeasureID", "Name", device.TypeMeasureID);
             //ViewBag.Measure = new SelectList(Enum.GetValues(typeof(enumMeasures)).Cast<enumMeasures>().Select(v => new SelectListItem
             //{
             //    Value = ((int)v).ToString(),
             //    Text = v.ToString()
-            //}).ToList(), "Value", "Text", Device.Measure
+            //}).ToList(), "Value", "Text", device.Measures
             //);
             return View(device);
         }

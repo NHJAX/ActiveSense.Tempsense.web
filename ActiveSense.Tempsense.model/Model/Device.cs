@@ -23,7 +23,7 @@ namespace ActiveSense.Tempsense.model.Model
 
         [Required(ErrorMessage = "The Measure is required")]
         [Display(Name = "Measure")]
-        public int? TypeMeasureID { get; set; }
+        public int TypeMeasureID { get; set; }
 
         public virtual TypeMeasure TypeMeasure { get; set; }
 

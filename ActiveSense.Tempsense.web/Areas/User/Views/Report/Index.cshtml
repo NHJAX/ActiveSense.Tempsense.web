@@ -47,14 +47,14 @@
             <div class="row">
                 <div class="col-xs-4 col-md-4">
                     <label for="DeviceID">Department</label>
-                    <div class="form-group">
+                    <div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Selection will allow choice of the department the needed sensor is located.">
                         @Html.DropDownList("Companies", null, htmlAttributes: new { @class = "form-control" })
                     </div>
                     <div class="clearfix"></div>
                 </div>
                 <div class="col-xs-4 col-md-4" id="contentSelectDisp">
                     <label for="DeviceID"> Sensor</label>
-                    <div class="form-group">
+                    <div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Dropdown allows choice of sensor from the selected Department.">
                         @Html.DropDownList("DeviceID", null, htmlAttributes: new { @class = "form-control" })
                         <img id="prelaodInner" src="~/Content/images/preloadInner.gif" />
                     </div>
@@ -62,7 +62,7 @@
                 </div>
                 <div class="col-xs-3 col-md-3">
                     <label for="FilterTime"> Filter </label>
-                    <div class="form-group">
+                    <div class="form-group" data-toggle="tooltip" data-placement="bottom" title="This Filter dropdown will average records on the amounts selected">
                         @Html.DropDownList("FilterTime", null, htmlAttributes: new { @class = "form-control" })
                     </div>
                     <div class="clearfix"></div>
@@ -98,11 +98,12 @@
         </table>
     </div>
 </div>
+
 @section scripts{
 
     <script type="text/javascript">
 
-        var objTablePaged  = '';
+        var objTablePaged = '';
         var MESSAGE_ERROR_date_MORE = 'Start Date must be less that the end date';
         var MESSAGE_ERROR_date_EMPTY = 'You must enter the two dates';
         var MESSAGE_ERROR_CONNECTION = "Has been an error in the system please try again";
@@ -115,6 +116,8 @@
         offset = offset * -1;
 
         $(document).ready(function () {
+
+            $('[data-toggle="tooltip"]').tooltip();
 
             $('#TableMeasures').hide();
             $("#ContainerPreload").hide();
@@ -207,7 +210,7 @@
             function ValidateFilterDays(dateStart, dateEnd) {
                 var IsValid = true;
                 var filter = $("#FilterTime").val();
-                if ( filter == FILTER_DAYS ) {
+                if (filter == FILTER_DAYS) {
                     if (dateStart == "" || dateEnd == "") {
                         Command: toastr["error"](MESSAGE_ERROR_DATE_FILTER, 'ERROR');
                         IsValid = false;
@@ -231,7 +234,7 @@
             // feature that allows you to validate that you date it from home is greater that the date end
             function validateDates(dateStart, dateEnd) {
                 if (dateStart > dateEnd) {
-                    Command: toastr["error"](MESSAGE_ERROR_date_MORE , 'ERROR');
+                    Command: toastr["error"](MESSAGE_ERROR_date_MORE, 'ERROR');
                     CleanCalendar();
                     return false;
                 }
@@ -247,15 +250,15 @@
             //charge function build the table of Measures receives as parameters
             //device ID, start date, date end
             //also allows you to Register events when the selector is pressed and is page
-                function RenderTable(idDevice, dateStart, dateEnd) {
+            function RenderTable(idDevice, dateStart, dateEnd) {
 
-                    //Show table container
+                //Show table container
                 var objTableMeasuresVisual = $('#TableMeasures');
                 objTableMeasuresVisual.show();
-                    //Get table
+                //Get table
                 var ObjContainerPaginatedTable = $('#Paginatedtable');
-                    //Generate table
-                objTablePaged  = objTableMeasuresVisual.DataTable({
+                //Generate table
+                objTablePaged = objTableMeasuresVisual.DataTable({
                     "processing": true,
                     "serverSide": true,
                     "searching": false,
@@ -316,7 +319,7 @@
                 var objdateStart = $("#dateStartData");
                 var objdateEnd = $("#dateEndData");
 
-                objTablePaged .on('length.dt', function (e, settings, len) {
+                objTablePaged.on('length.dt', function (e, settings, len) {
                     var dateStart = objdateStart.val();
                     var dateEnd = objdateEnd.val();
                     if (ValidateRequest(dateStart, dateEnd)) {
@@ -324,7 +327,7 @@
                     }
                 });
 
-                objTablePaged .on('page.dt', function () {
+                objTablePaged.on('page.dt', function () {
                     var dateStart = objdateStart.val();
                     var dateEnd = objdateEnd.val()
 
@@ -339,14 +342,14 @@
 
             // feature that allows you to build the statistical table receives as parameters
             // an array of dates and an array of temperatures.
-            function RenderGraphicsStatistics(dates, temperatures, UpperThreshold , LowerThreshold , LowerToleranceList, UpperToleranceList) {
+            function RenderGraphicsStatistics(dates, temperatures, UpperThreshold, LowerThreshold, LowerToleranceList, UpperToleranceList) {
                 var canvas = document.getElementById("graphicalMeasures");
                 $('#graphicalMeasures').remove(); // this is my <canvas> element
                 $('#printThis').append('<canvas id="graphicalMeasures"><canvas>');
                 canvas = document.querySelector('#graphicalMeasures');
                 var ctx = canvas.getContext("2d");
 
-                 var horizonalLinePlugin = {
+                var horizonalLinePlugin = {
                     afterDraw: function (chartInstance) {
                         var yScale = chartInstance.scales["y-axis-0"];
                         var canvas = chartInstance.chart;
@@ -396,7 +399,7 @@
                     labels: dates,
                     datasets: [
                                 {
-                                    label: "Temp",
+                                    label: "Value",
                                     borderColor: "rgba(75,192,192,1)",
                                     data: temperatures,
                                     spanGaps: true,
@@ -440,7 +443,7 @@
                                      pointRadius: 0,
                                      pointHitRadius: 0,
                                      backgroundColor: "rgba(0,0,0,0)",
-                                     data: UpperThreshold ,
+                                     data: UpperThreshold,
                                  },
                                    {
                                        label: "Temp Min",
@@ -453,7 +456,7 @@
                                        pointRadius: 0,
                                        pointHitRadius: 0,
                                        backgroundColor: "rgba(0,0,0,0)",
-                                       data: LowerThreshold ,
+                                       data: LowerThreshold,
                                    }
 
                     ]
@@ -504,7 +507,7 @@
             // function that allows you to load data using ajax requests to show graph
             // then it calls function to render the graph statistics
             function SolicitorDataStatistics() {
-                var info = objTablePaged .page.info();
+                var info = objTablePaged.page.info();
                 $("#graphicalMeasures").hide();
                 var ObjTitleGraphic = $("#title_graphic");
                 ObjTitleGraphic.text('');
